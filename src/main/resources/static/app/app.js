@@ -1,7 +1,5 @@
-// Creating angular JWTDemoApp with module name "JWTDemoApp"
-angular.module('JWTDemoApp', ['ui.router'])
-
-
+// Creating angular OnlineStockApp with module name "OnlineStockApp"
+angular.module('OnlineStockApp', ['ui.router'])
 // the following method will run at the time of initializing the module. That
 // means it will run only one time.
     .run(function (AuthService, $rootScope, $state) {
@@ -11,7 +9,6 @@ angular.module('JWTDemoApp', ['ui.router'])
         $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
             // checking the user is logged in or not
             if (!AuthService.user) {
-                // To avoiding the infinite looping of state change we have to add a
                 // if condition.
                 if (toState.name != 'login' && toState.name != 'register') {
                     event.preventDefault();

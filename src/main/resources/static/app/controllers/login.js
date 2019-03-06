@@ -1,11 +1,11 @@
-angular.module('JWTDemoApp')
+angular.module('OnlineStockApp')
 // Creating the Angular Controller
     .controller('LoginController', function ($http, $scope, $state, AuthService, $rootScope) {
         // method for login
         $scope.login = function () {
             // requesting the token by usename and passoword
             $http({
-                url: 'authenticate',
+                url: 'login',
                 method: "POST",
                 params: {
                     username: $scope.username,

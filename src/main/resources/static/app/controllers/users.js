@@ -1,4 +1,4 @@
-angular.module('JWTDemoApp')
+angular.module('OnlineStockApp')
 // Creating the Angular Controller
     .controller('UsersController', function ($http, $scope, AuthService) {
         var edit = false;

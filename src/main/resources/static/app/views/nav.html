@@ -19,19 +19,19 @@
                     class="icon-bar"></span> <span class="icon-bar"></span> <span
                     class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" ui-sref="home">JWT</a>
+            <a class="navbar-brand" ui-sref="home">Online Stock System</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li ng-show="user.username"><a ui-sref="users">Users</a></li>
+                <li ng-show="user.username"><a ui-sref="users">Người dùng</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
 
-                <li ng-show="user.username"><a> <span class="user">Hi,
+                <li ng-show="user.username"><a> <span class="user">Xin chào,
 							{{user.name}}</span> <span ng-click="logout()" href=""
                                                        class="logout">Logout</span>
                 </a></li>
-                <li ng-show="!user.username"><a ui-sref="register">Register</a></li>
+                <li ng-show="!user.username"><a ui-sref="register">Đăng ký</a></li>
             </ul>
         </div>
         <!--/.nav-collapse -->

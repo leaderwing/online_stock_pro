@@ -1,4 +1,4 @@
-angular.module('JWTDemoApp')
+angular.module('OnlineStockApp')
 // Creating the Angular Controller
     .controller('RegisterController', function ($http, $scope, AuthService) {
         $scope.submit = function () {
