@@ -18,17 +18,25 @@ public class TradingService implements ITradingService {
     @Autowired
     private ODMastRepository odMastRepository;
 
-    @Override public TradingRecords getTradingHistory(int fromDate, int toDate, String symbol,
+    @Override
+    public TradingRecords getTradingHistory(String loggedUsername, int fromDate, int toDate,
+            String symbol,
             String execType) {
         TradingRecords tradingRecords = new TradingRecords();
         List<TradingRow> tradingRowList = new ArrayList<>();
-        List<ODMast> odMastList = odMastRepository.findAllByTxdateIsLessThanEqualAndTxdateIsGreaterThanEqual(toDate,fromDate);
-        if(!odMastList.isEmpty()) {
-            if(StringUtils.isNotBlank(symbol)) {
-                odMastList = odMastList.stream().filter(odMast -> symbol.equals(odMast.getCodeid())).collect(Collectors.toList());
+        List<ODMast> odMastList =
+                odMastRepository.findAllByAfacctnoAndTxdateIsLessThanEqualAndTxdateIsGreaterThanEqual(
+                        loggedUsername, toDate, fromDate);
+        if (!odMastList.isEmpty()) {
+            if (StringUtils.isNotBlank(symbol)) {
+                odMastList = odMastList.stream()
+                        .filter(odMast -> symbol.equals(odMast.getCodeid()))
+                        .collect(Collectors.toList());
             }
-            if(StringUtils.isNotBlank(execType)) {
-                odMastList = odMastList.stream().filter(odMast -> execType.equals(odMast.getExectype())).collect(Collectors.toList());
+            if (StringUtils.isNotBlank(execType)) {
+                odMastList = odMastList.stream()
+                        .filter(odMast -> execType.equals(odMast.getExectype()))
+                        .collect(Collectors.toList());
             }
             odMastList.forEach(odMast -> {
                 TradingRow row = new TradingRow();
@@ -38,5 +46,12 @@ public class TradingService implements ITradingService {
         }
         tradingRecords.setRowList(tradingRowList);
         return tradingRecords;
+    }
+
+    @Override
+    public TradingRecords getTradingHistoryHits(String loggedUsername, int fromDate, int toDate,
+            String symbol,
+            String execType) {
+        return null;
     }
 }

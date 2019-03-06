@@ -11,6 +11,8 @@ import lombok.Data;
 public class ODMast {
     @Column(name = "ORDERID")
     private String orderid;
+    @Column(name = "AFACCTNO")
+    private String afacctno;
     @Column(name = "TXDATE")
     private int txdate;
     @Column(name = "CODEID")
