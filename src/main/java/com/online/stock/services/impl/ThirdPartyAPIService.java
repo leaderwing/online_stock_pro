@@ -8,6 +8,7 @@ import com.online.stock.repository.AdminUserRepository;
 import com.online.stock.repository.VtosRepository;
 import com.online.stock.services.IThirdPartyService;
 import com.online.stock.utils.Constant;
+import com.online.stock.utils.FileUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,15 +45,7 @@ public class ThirdPartyAPIService implements IThirdPartyService {
                                 });
                 // get data from vtos table
                 VTOSObject object = vtos_token.getBody();
-                String requestCode = "";
-                for (String challenge : object.getChallenges()) {
-                    int index = object.getChallenges().indexOf(challenge);
-                    String code = vtosRepository.findValue(challenge);
-                    requestCode = requestCode.concat(code);
-                    if (index < object.getChallenges().size() - 1) {
-                        requestCode = requestCode.concat(",");
-                    }
-                }
+                String requestCode = FileUtils.getMatrixCode(object.getChallenges());
                 System.out.println(requestCode);
                 TokenCode tokenCode = new TokenCode(requestCode);
                 HttpEntity<TokenCode> newEntity = new HttpEntity<>(tokenCode, headers);

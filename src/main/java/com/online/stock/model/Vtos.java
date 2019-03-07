@@ -1,13 +1,18 @@
 package com.online.stock.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "vtos")
+@Table(name = "VTOS")
 @Data
 public class Vtos {
+    @Id
+    @GeneratedValue
+    private String id;
     private String A1;
     private String A2;
     private String A3;

@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface VtosRepository extends JpaRepository<Vtos,String> {
-    @Query("select :column from Vtos")
-    public String findValue(@Param("column") String column);
+    //@Query("select :column from Vtos")
+    //String findValue(@Param("column") String column);
 }

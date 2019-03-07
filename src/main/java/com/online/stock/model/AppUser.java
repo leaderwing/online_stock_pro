@@ -23,6 +23,9 @@ import java.util.List;
 @Entity
 @Table(name = "AFMAST")
 public class AppUser implements UserDetails {
+	@Id
+	@GeneratedValue
+	private String id;
 	@Column(name = "CUSTID")
 	private String custId;
 	@Column(name = "ACCTNO", unique = true)

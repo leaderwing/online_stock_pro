@@ -2,6 +2,8 @@ package com.online.stock.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.Data;
 
@@ -9,6 +11,9 @@ import lombok.Data;
 @Table(name = "ODMAST")
 @Data
 public class ODMast {
+    @Id
+    @GeneratedValue
+    private String id;
     @Column(name = "ORDERID")
     private String orderid;
     @Column(name = "AFACCTNO")
