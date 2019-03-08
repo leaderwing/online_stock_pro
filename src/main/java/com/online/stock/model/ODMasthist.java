@@ -2,15 +2,14 @@ package com.online.stock.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "ODMAST")
+@Table(name = "ODMASTHIST")
 @Data
-public class ODMast {
+public class ODMasthist {
     @Id
     @Column(name = "ORDERID")
     private String orderid;

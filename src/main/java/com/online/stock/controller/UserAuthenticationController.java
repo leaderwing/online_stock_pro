@@ -80,7 +80,9 @@ public class UserAuthenticationController {
             // login success, call vndirect api
             thirdPartyService.getAdminAuthen();
             //gen token jwt
-            token = Jwts.builder().setSubject(username).claim("roles", appUser.getRoles()).setIssuedAt(new Date())
+            List<String> roles = Collections.singletonList(
+                    appUser.getIsStaft() == 3 ? "ROLE_ADMIN" : "ROLE_USER");
+            token = Jwts.builder().setSubject(username).claim("roles", roles).setIssuedAt(new Date())
                     .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
             tokenMap.put("token", token);
             tokenMap.put("user", appUser);

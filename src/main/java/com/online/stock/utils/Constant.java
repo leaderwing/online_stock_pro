@@ -10,4 +10,6 @@ public class Constant {
     public static final String API_URL_FLOOR = "https://finfo-api.vndirect.com.vn/v3/trade/effectiveSecinfo?symbols=";
 
     public static final String API_URL_FLOOR_PRICE = "https://price-cmc-02.vndirect.com.vn/priceservice/secinfo/snapshot/q=codes:";
+
+    public static final String API_URL_ORDER = "https://trade-api.vndirect.com.vn/accounts/0001623688/orders/new_order_requests?t=1543452514767";
 }

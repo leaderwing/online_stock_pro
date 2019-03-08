@@ -12,8 +12,6 @@ import lombok.Data;
 @Table(name = "user_admin")
 public class AdminUser {
     @Id
-    @GeneratedValue
-    private String id;
     @Column(name = "ID")
     private String username;
     @Column(name = "PASSWORD")

@@ -3,6 +3,8 @@ package com.online.stock.services.impl;
 import com.online.stock.dto.Token;
 import com.online.stock.dto.TokenCode;
 import com.online.stock.dto.VTOSObject;
+import com.online.stock.dto.request.OrderRequest;
+import com.online.stock.dto.response.OrderTradingResponse;
 import com.online.stock.model.AdminUser;
 import com.online.stock.repository.AdminUserRepository;
 import com.online.stock.repository.VtosRepository;
@@ -12,6 +14,10 @@ import com.online.stock.utils.FileUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -55,10 +61,34 @@ public class ThirdPartyAPIService implements IThirdPartyService {
                                 });
                 System.out.println(adminToken.getBody().getToken());
                 System.setProperty("vtos", adminToken.getBody().getToken());
-            }catch (Exception ex) {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
+    }
+
+    public static OrderTradingResponse sendOderTrading(String token, String orderType, Float price,
+            Integer quantity, String symbol) throws JSONException {
+        OrderTradingResponse response = new OrderTradingResponse();
+        OrderRequest request = new OrderRequest(false,orderType,price,quantity,"NB",symbol,"T");
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("x-auth-token", token);
+        HttpEntity<OrderRequest> entity = new HttpEntity<>(request, headers);
+        ResponseEntity<String> responseOrder =
+                restTemplate.exchange(Constant.API_URL_ORDER, HttpMethod.POST, entity,
+                        new ParameterizedTypeReference<String>() {
+                        });
+        String json = responseOrder.getBody();
+        JSONObject jsonObject = new JSONObject(json);
+        if(StringUtils.isNotBlank(jsonObject.getString("error"))) {
+            response.setError(jsonObject.getString("error"));
+            return  response;
+        }
+        JSONArray jsonArray =  jsonObject.getJSONArray("orders");
+
+
+        return  response;
     }
 
     public static void main(String[] args) {
@@ -78,22 +108,7 @@ public class ThirdPartyAPIService implements IThirdPartyService {
         // get data from vtos table
         VTOSObject object = vtos_token.getBody();
         System.out.println(object.getChallenges());
-        String requestCode = "";
-        for (String challenge : object.getChallenges()) {
-            String code = null;
-            int index = object.getChallenges().indexOf(challenge);
-            if (index == 0) {
-                code = "8";
-            } else if (index == 1) {
-                code = "V";
-            } else {
-                code = "F";
-            }
-            requestCode = requestCode.concat(code);
-            if (index < object.getChallenges().size() - 1) {
-                requestCode = requestCode.concat(",");
-            }
-        }
+        String requestCode = FileUtils.getMatrixCode(object.getChallenges());
         System.out.println(requestCode);
         TokenCode tokenCode = new TokenCode(requestCode);
 
@@ -104,5 +119,7 @@ public class ThirdPartyAPIService implements IThirdPartyService {
                         });
         System.out.println(adminToken.getBody().getToken());
         System.setProperty("token", adminToken.getBody().getToken());
+
+        sendOderTrading(adminToken.getBody().getToken(), "LO", 21f,100,"FPT");
     }
 }

@@ -1,9 +1,11 @@
 package com.online.stock.controller;
 
 import com.online.stock.dto.response.FloorResponse;
+import com.online.stock.dto.response.PriceResponse;
 import com.online.stock.dto.response.TradingRecords;
 import com.online.stock.services.ITradingService;
 import com.online.stock.utils.Constant;
+import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -71,24 +73,18 @@ public class TradingController {
         return  new ResponseEntity<>(response,HttpStatus.OK);
     }
     @RequestMapping(value = "/price/{symbol}",method = RequestMethod.GET)
-    public ResponseEntity<FloorResponse> getFloorPrice(@PathVariable String symbol) {
-        FloorResponse response = new FloorResponse();
+    public ResponseEntity<PriceResponse> getFloorPrice(@PathVariable String symbol) {
+        PriceResponse response = new PriceResponse();
         RestTemplate restTemplate = new RestTemplate();
         String json = restTemplate.getForObject(Constant.API_URL_FLOOR_PRICE.concat(StringUtils.trim(symbol).toUpperCase()),String.class);
-        try {
-            JSONObject jObject = new JSONObject(json);
-            JSONArray jsonArray = jObject.getJSONObject("data").getJSONArray("hits");
-            if(jsonArray.length() == 0) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            JSONObject source = jsonArray.getJSONObject(0).getJSONObject("_source");
-            response.setFloorCode(String.valueOf(source.get("floorCode")));
-            response.setFloor(String.valueOf(source.get("floor")));
-            response.setBasic(String.valueOf(source.get("basic")));
-            response.setCeil(String.valueOf(source.get("ceil")));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        json = json.replace("[","").replace("]","")
+            .replace("\"","");
+        json = json.replace("|", ";");
+        String[] priceList = json.split(";");
+        response.setM1(priceList[23]);
+        response.setKl1(priceList[24]);
+        response.setB1(priceList[29]);
+        response.setKl2(priceList[30]);
         return  new ResponseEntity<>(response,HttpStatus.OK);
     }
 

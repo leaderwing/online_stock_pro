@@ -24,8 +24,6 @@ import java.util.List;
 @Table(name = "AFMAST")
 public class AppUser implements UserDetails {
 	@Id
-	@GeneratedValue
-	private String id;
 	@Column(name = "CUSTID")
 	private String custId;
 	@Column(name = "ACCTNO", unique = true)
@@ -37,8 +35,6 @@ public class AppUser implements UserDetails {
 	private String status;
 	@Column(name = "ISSTAFT")
 	private int isStaft;
-	@ElementCollection
-	private List<String> roles = new ArrayList<>();
 
 	@JsonIgnore
 	@Override
@@ -68,6 +64,12 @@ public class AppUser implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Collection<GrantedAuthority> authorities = new ArrayList<>();
+		List<String> roles = new ArrayList<>();
+		if(isStaft != 3) {
+			roles.add("ROLE_USER");
+		} else {
+			roles.add("ROLE_ADMIN");
+		}
 		for (String role : roles) {
 			authorities.add(new SimpleGrantedAuthority(role));
 		}

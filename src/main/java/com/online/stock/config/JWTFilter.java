@@ -3,6 +3,7 @@ package com.online.stock.config;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureException;
+import java.util.Collections;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -60,7 +61,7 @@ public class JWTFilter extends GenericFilterBean {
 	 */
 	public Authentication getAuthentication(Claims claims) {
 		List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
-		List<String> roles = (List<String>) claims.get(AUTHORITIES_KEY);
+		List<String> roles = Collections.singletonList(String.valueOf(claims.get(AUTHORITIES_KEY)));
 		for (String role : roles) {
 			authorities.add(new SimpleGrantedAuthority(role));
 		}
