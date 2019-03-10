@@ -1,7 +1,7 @@
 package com.online.stock.controller;
 
-import com.online.stock.model.AppUser;
-import com.online.stock.repository.AppUserRepository;
+import com.online.stock.model.Afmast;
+import com.online.stock.repository.AfmastRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ import java.util.List;
 @RequestMapping(value = "/api")
 public class AppUserRestController {
     @Autowired
-    private AppUserRepository appUserRepository;
+    private AfmastRepository afmastRepository;
 
     /**
      * Web service for getting all the appUsers in the application.
@@ -31,8 +31,8 @@ public class AppUserRestController {
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public List<AppUser> users() {
-        return appUserRepository.findAll();
+    public List<Afmast> users() {
+        return afmastRepository.findAll();
     }
 
     /**
@@ -43,12 +43,12 @@ public class AppUserRestController {
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
-    public ResponseEntity<AppUser> userById(@PathVariable Long id) {
-        AppUser appUser = appUserRepository.findOne(id);
+    public ResponseEntity<Afmast> userById(@PathVariable Long id) {
+        Afmast appUser = afmastRepository.findOne(id);
         if (appUser == null) {
-            return new ResponseEntity<AppUser>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<Afmast>(HttpStatus.NO_CONTENT);
         } else {
-            return new ResponseEntity<AppUser>(appUser, HttpStatus.OK);
+            return new ResponseEntity<Afmast>(appUser, HttpStatus.OK);
         }
     }
 
@@ -60,17 +60,17 @@ public class AppUserRestController {
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<AppUser> deleteUser(@PathVariable Long id) {
-        AppUser appUser = appUserRepository.findOne(id);
+    public ResponseEntity<Afmast> deleteUser(@PathVariable Long id) {
+        Afmast appUser = afmastRepository.findOne(id);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String loggedUsername = auth.getName();
         if (appUser == null) {
-            return new ResponseEntity<AppUser>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<Afmast>(HttpStatus.NO_CONTENT);
         } else if (appUser.getUsername().equalsIgnoreCase(loggedUsername)) {
             throw new RuntimeException("You cannot delete your account");
         } else {
-            appUserRepository.delete(appUser);
-            return new ResponseEntity<AppUser>(appUser, HttpStatus.OK);
+            afmastRepository.delete(appUser);
+            return new ResponseEntity<Afmast>(appUser, HttpStatus.OK);
         }
 
     }
@@ -83,11 +83,11 @@ public class AppUserRestController {
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/users", method = RequestMethod.POST)
-    public ResponseEntity<AppUser> createUser(@RequestBody AppUser appUser) {
-        if (appUserRepository.findOneByUsername(appUser.getUsername()) != null) {
+    public ResponseEntity<Afmast> createUser(@RequestBody Afmast appUser) {
+        if (afmastRepository.findOneByUsername(appUser.getUsername()) != null) {
             throw new RuntimeException("Username already exist");
         }
-        return new ResponseEntity<AppUser>(appUserRepository.save(appUser), HttpStatus.CREATED);
+        return new ResponseEntity<Afmast>(afmastRepository.save(appUser), HttpStatus.CREATED);
     }
 
 }

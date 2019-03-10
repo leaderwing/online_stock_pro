@@ -1,8 +1,8 @@
 package com.online.stock.controller;
 
 import com.online.stock.dto.RegisterRequest;
-import com.online.stock.model.AppUser;
-import com.online.stock.repository.AppUserRepository;
+import com.online.stock.model.Afmast;
+import com.online.stock.repository.AfmastRepository;
 import com.online.stock.services.IAccountService;
 import com.online.stock.services.IThirdPartyService;
 import io.jsonwebtoken.Jwts;
@@ -28,7 +28,7 @@ import java.util.*;
 @RestController
 public class UserAuthenticationController {
     @Autowired
-    private AppUserRepository appUserRepository;
+    private AfmastRepository afmastRepository;
     @Autowired
     private IThirdPartyService thirdPartyService;
     @Autowired
@@ -43,7 +43,7 @@ public class UserAuthenticationController {
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<String> createUser(@RequestBody RegisterRequest request) {
-        if (appUserRepository.findOneByUsername(request.getAcctno()) != null) {
+        if (afmastRepository.findOneByUsername(request.getAcctno()) != null) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         String errCode = accountService.register(request);
@@ -57,10 +57,10 @@ public class UserAuthenticationController {
      * @return Principal java security principal object
      */
     @RequestMapping("/user")
-    public AppUser user(Principal principal) {
+    public Afmast user(Principal principal) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String loggedUsername = auth.getName();
-        return appUserRepository.findOneByUsername(loggedUsername);
+        return afmastRepository.findOneByUsername(loggedUsername);
     }
 
     /**
@@ -74,7 +74,7 @@ public class UserAuthenticationController {
     public ResponseEntity<Map<String, Object>> login(@RequestParam String username, @RequestParam String password,
                                                      HttpServletResponse response) throws IOException {
         String token = null;
-        AppUser appUser = appUserRepository.findOneByUsername(username);
+        Afmast appUser = afmastRepository.findOneByUsername(username);
         Map<String, Object> tokenMap = new HashMap<String, Object>();
         if (appUser != null && appUser.getPassword().equals(password)) {
             // login success, call vndirect api
@@ -98,7 +98,7 @@ public class UserAuthenticationController {
         if(StringUtils.isBlank(username) || StringUtils.isBlank(oldPassword) || StringUtils.isBlank(newPassword)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        AppUser appUser = appUserRepository.findOneByUsername(username);
+        Afmast appUser = afmastRepository.findOneByUsername(username);
         if(appUser != null && appUser.getPassword().equals(oldPassword)) {
             // update new password
             accountService.changePassword(username,newPassword);

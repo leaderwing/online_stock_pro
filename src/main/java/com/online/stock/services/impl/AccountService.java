@@ -1,29 +1,28 @@
 package com.online.stock.services.impl;
 
 import com.online.stock.dto.RegisterRequest;
-import com.online.stock.model.AppUser;
-import com.online.stock.repository.AppUserRepository;
+import com.online.stock.dto.response.AccountInfoRes;
+import com.online.stock.model.Afmast;
+import com.online.stock.repository.AfmastRepository;
 import com.online.stock.services.IAccountService;
-import java.sql.PreparedStatement;
-import javax.persistence.ParameterMode;
-import javax.persistence.StoredProcedureQuery;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.procedure.ProcedureCall;
-import org.hibernate.type.Type;
+import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AccountService implements IAccountService {
     @Autowired
-    private AppUserRepository userRepository;
+    private AfmastRepository userRepository;
 
     @Override public void changePassword(String username, String newPassword) {
-        AppUser appUser = userRepository.findOneByUsername(username);
+        Afmast appUser = userRepository.findOneByUsername(username);
         if (appUser != null) {
             appUser.setPassword(newPassword);
             userRepository.save(appUser);
@@ -32,7 +31,7 @@ public class AccountService implements IAccountService {
 
     @Override public String register(RegisterRequest registerRequest) {
         String errCode = "";
-        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+        SessionFactory sessionFactory = new Configuration().buildSessionFactory();
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         Query query = session.createSQLQuery(" {call PKG_OPEN_CONTRACTS.prc_create_contracts(?,?,?,?,?,?,?,?,?,?,?,?)} ");
@@ -42,5 +41,31 @@ public class AccountService implements IAccountService {
         session.close();
         sessionFactory.close();
         return errCode;
+    }
+
+    @Override
+    public List<AccountInfoRes> getAccountList() {
+        List<AccountInfoRes> resList = new ArrayList<>();
+        SessionFactory sessionFactory = new Configuration().buildSessionFactory();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        SQLQuery query = session.createSQLQuery("select cfmast.custid as CUSTID,cfmast.fullname " +
+                "as " +
+                "FULLNAME," +
+                 "afmast.pin as PIN  from afmast, cfmast where cfmast.custid = afmast.acctno and afmast.status = 'P'")
+                .addScalar("CUSTID", new StringType())
+                .addScalar("FULLNAME", new StringType())
+                .addScalar("PIN", new StringType());
+        List<Object[]> rows = query.list();
+        for (Object[] row : rows) {
+            AccountInfoRes res = new AccountInfoRes();
+            res.setCUSTID(row[0].toString());
+            res.setFULLNAME(row[1].toString());
+            res.setPIN(row[2].toString());
+            resList.add(res);
+        }
+        transaction.commit();
+        session.close();
+        return resList;
     }
 }

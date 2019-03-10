@@ -22,7 +22,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "AFMAST")
-public class AppUser implements UserDetails {
+public class Afmast implements UserDetails {
 	@Id
 	@Column(name = "CUSTID")
 	private String custId;

@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@PropertySource(value = { "classpath:application.properties" })
+@PropertySource(value = { "classpath:hibernate.properties" })
 @EnableJpaRepositories(basePackages = "com.online.stock.repository")
 public class HibernateConfiguration {
 
@@ -44,22 +44,18 @@ public class HibernateConfiguration {
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName(environment
-				.getRequiredProperty("spring.datasource.driver-class-name"));
-		dataSource.setUrl(environment.getRequiredProperty("spring.datasource.url"));
+				.getRequiredProperty("hibernate.connection.driver_class"));
+		dataSource.setUrl(environment.getRequiredProperty("hibernate.connection.url"));
 		dataSource.setUsername(environment
-				.getRequiredProperty("spring.datasource.username"));
+				.getRequiredProperty("hibernate.connection.username"));
 		dataSource.setPassword(environment
-				.getRequiredProperty("spring.datasource.password"));
+				.getRequiredProperty("hibernate.connection.password"));
 		return dataSource;
 	}
 	private Properties hibernateProperties() {
 		Properties properties = new Properties();
 		properties.put("hibernate.dialect",
 				environment.getRequiredProperty("spring.jpa.properties.hibernate.dialect"));
-		// properties.put("hibernate.show_sql",
-		// environment.getRequiredProperty("hibernate.show_sql"));
-		// properties.put("hibernate.format_sql",
-		// environment.getRequiredProperty("hibernate.format_sql"));
 		properties.put("hibernate.show_sql", true);
 		properties.put("hibernate.format_sql", false);
 		properties.put("hibernate.connection.useUnicode", true);

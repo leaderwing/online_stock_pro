@@ -52,4 +52,6 @@ public class ODMast {
     private String floor;
     @Column(name = "CLOSEDQTTY")
     private int closedqtty;
+    @Column(name = "REFORDERID")
+    private String refOderId;
 }

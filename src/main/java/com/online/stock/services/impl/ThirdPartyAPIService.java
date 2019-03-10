@@ -67,10 +67,10 @@ public class ThirdPartyAPIService implements IThirdPartyService {
         }
     }
 
-    public static OrderTradingResponse sendOderTrading(String token, String orderType, Float price,
-            Integer quantity, String symbol) throws JSONException {
+    public  OrderTradingResponse sendOderTrading(String token, String orderType, Float price,
+            Integer quantity, String symbol, String side) throws JSONException {
         OrderTradingResponse response = new OrderTradingResponse();
-        OrderRequest request = new OrderRequest(false,orderType,price,quantity,"NB",symbol,"T");
+        OrderRequest request = new OrderRequest(false,orderType,price,quantity,side,symbol.toUpperCase(),"T");
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.set("x-auth-token", token);
@@ -86,7 +86,14 @@ public class ThirdPartyAPIService implements IThirdPartyService {
             return  response;
         }
         JSONArray jsonArray =  jsonObject.getJSONArray("orders");
-
+        String createdTime = jsonArray.getJSONObject(0).getString("createdAt");
+        //todo : get time, hour
+        response.setOrderId(jsonArray.getJSONObject(0).getString("id"));
+        response.setSymbol(jsonArray.getJSONObject(0).getString("symbol"));
+        response.setOrderType(jsonArray.getJSONObject(0).getString("orderType"));
+        response.setQuantity(jsonArray.getJSONObject(0).getInt("quantity"));
+        response.setPrice((Float)jsonArray.getJSONObject(0).get("price"));
+        // set txtime , txdate
 
         return  response;
     }
@@ -120,6 +127,6 @@ public class ThirdPartyAPIService implements IThirdPartyService {
         System.out.println(adminToken.getBody().getToken());
         System.setProperty("token", adminToken.getBody().getToken());
 
-        sendOderTrading(adminToken.getBody().getToken(), "LO", 21f,100,"FPT");
+        //sendOderTrading(adminToken.getBody().getToken(), "LO", 21f,100,"FPT");
     }
 }
