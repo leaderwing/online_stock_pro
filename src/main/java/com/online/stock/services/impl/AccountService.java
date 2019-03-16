@@ -10,14 +10,21 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.online.stock.utils.DateUtils;
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.procedure.ProcedureCall;
 import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.ParameterMode;
+
 @Service
 public class AccountService implements IAccountService {
+    @Autowired
+    private EntityManager entityManager;
     @Autowired
     private AfmastRepository userRepository;
 
@@ -29,17 +36,23 @@ public class AccountService implements IAccountService {
         }
     }
 
-    @Override public String register(RegisterRequest registerRequest) {
+    @Override public String register(RegisterRequest rq) {
         String errCode = "";
-        SessionFactory sessionFactory = new Configuration().buildSessionFactory();
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        Query query = session.createSQLQuery(" {call PKG_OPEN_CONTRACTS.prc_create_contracts(?,?,?,?,?,?,?,?,?,?,?,?)} ");
-        query.setParameter("p_acctno",String.class);
-        query.executeUpdate();
-        transaction.commit();
-        session.close();
-        sessionFactory.close();
+        Session session = entityManager.unwrap(Session.class);
+        ProcedureCall call = session.createStoredProcedureCall("PKG_OPEN_CONTRACTS.prc_create_contracts");
+        call.registerParameter(1, String.class, ParameterMode.IN).bindValue(rq.getAcctno());
+        call.registerParameter(2, String.class, ParameterMode.IN).bindValue(rq.getFullname());
+        call.registerParameter(3, String.class, ParameterMode.IN).bindValue(DateUtils.convertYYYY_MM_DD(rq.getDateofbirth()));
+        call.registerParameter(4, String.class, ParameterMode.IN).bindValue(rq.getSex());
+        call.registerParameter(5, String.class, ParameterMode.IN).bindValue(rq.getIdcode());
+        call.registerParameter(6, String.class, ParameterMode.IN).bindValue(DateUtils.convertYYYY_MM_DD(rq.getIddate()));
+        call.registerParameter(7, String.class, ParameterMode.IN).bindValue(rq.getIdplace());
+        call.registerParameter(8, String.class, ParameterMode.IN).bindValue(rq.getAddress());
+        call.registerParameter(9, String.class, ParameterMode.IN).bindValue(rq.getPhone());
+        call.registerParameter(10, String.class, ParameterMode.IN).bindValue(rq.getBankacctno());
+        call.registerParameter(11, String.class, ParameterMode.IN).bindValue(rq.getBankname());
+        call.registerParameter(12, Integer.class, ParameterMode.OUT);
+        errCode = (String) call.getOutputs().getOutputParameterValue(12);
         return errCode;
     }
 

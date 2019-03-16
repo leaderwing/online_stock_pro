@@ -45,11 +45,32 @@ public class UserAuthenticationController {
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<String> createUser(@RequestBody RegisterRequest request) {
+        String errDetail = "";
         if (afmastRepository.findOneByUsername(request.getAcctno()) != null) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         String errCode = accountService.register(request);
-        return new ResponseEntity<>(errCode, HttpStatus.CREATED);
+        switch (errCode) {
+            case "030001" :
+                errDetail = "Số tài khoản đã tồn tại";
+                break;
+            case "030002":
+                errDetail = "Số tài khoản không hợp lệ";
+                break;
+            case "030005" :
+                errDetail = "Không có thông tin loại hình hợp đồng";
+                break;
+            case "000000" :
+                errDetail = "Đăng ký thành công! Vui lòng đợi phê duyệt";
+                break;
+            case "999999" :
+                errDetail = "Không thể tạo tài khoản! Vui lòng đăng ký lại";
+                break;
+                default:
+                    errDetail = "Không thể tạo tài khoản! Vui lòng đăng ký lại";
+                    break;
+        }
+        return new ResponseEntity<>(errDetail,HttpStatus.CREATED);
     }
 
     /**
