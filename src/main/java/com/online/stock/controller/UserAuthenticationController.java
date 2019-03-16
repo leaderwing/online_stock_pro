@@ -8,6 +8,8 @@ import com.online.stock.services.IThirdPartyService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.commons.lang.StringUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,7 +49,7 @@ public class UserAuthenticationController {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         String errCode = accountService.register(request);
-        return new ResponseEntity<>(errCode,HttpStatus.CREATED);
+        return new ResponseEntity<>(errCode, HttpStatus.CREATED);
     }
 
     /**
@@ -64,16 +66,17 @@ public class UserAuthenticationController {
     }
 
     /**
-     * @param username
-     * @param password
      * @param response
      * @return JSON contains token and user after success authentication.
      * @throws IOException
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> login(@RequestParam String username, @RequestParam String password,
-                                                     HttpServletResponse response) throws IOException {
+    public ResponseEntity<Map<String, Object>> login(@RequestBody String toDo,
+                                                     HttpServletResponse response) throws IOException, JSONException {
         String token = null;
+        JSONObject jsonObject = new JSONObject(toDo);
+        String username = jsonObject.getString("username");
+        String password = jsonObject.getString("password");
         Afmast appUser = afmastRepository.findOneByUsername(username);
         Map<String, Object> tokenMap = new HashMap<String, Object>();
         if (appUser != null && appUser.getPassword().equals(password)) {
@@ -92,16 +95,17 @@ public class UserAuthenticationController {
             return new ResponseEntity<Map<String, Object>>(tokenMap, HttpStatus.UNAUTHORIZED);
         }
     }
+
     @RequestMapping(value = "/doimk", method = RequestMethod.POST)
     public ResponseEntity<Void> changePassword(@RequestParam String username, @RequestParam String oldPassword,
-                                    @RequestParam String newPassword) {
-        if(StringUtils.isBlank(username) || StringUtils.isBlank(oldPassword) || StringUtils.isBlank(newPassword)) {
+                                               @RequestParam String newPassword) {
+        if (StringUtils.isBlank(username) || StringUtils.isBlank(oldPassword) || StringUtils.isBlank(newPassword)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         Afmast appUser = afmastRepository.findOneByUsername(username);
-        if(appUser != null && appUser.getPassword().equals(oldPassword)) {
+        if (appUser != null && appUser.getPassword().equals(oldPassword)) {
             // update new password
-            accountService.changePassword(username,newPassword);
+            accountService.changePassword(username, newPassword);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

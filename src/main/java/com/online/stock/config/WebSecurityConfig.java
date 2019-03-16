@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.firewall.HttpFirewall;
 
 /**
  * Spring Web security configuration class
@@ -24,11 +25,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	// specify that inside this method
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-
 		web.ignoring()
 				// ignoring the "/", "/index.html", "/app/**", "/register",
 				// "/favicon.ico"
-				.antMatchers("/", "/index.html", "/app/**", "/register", "/login", "/favicon.ico",
+				.antMatchers("/", "/assets/**", "/dist/**", "/shared/**", "/components/**", "/lib/**", "/node_modules/**", "/router.js", "/app.js", "/index.html", "/app/**", "/register", "/login", "/favicon.ico",
 						"/swagger-ui.html", "/webjars/**");
 	}
 
