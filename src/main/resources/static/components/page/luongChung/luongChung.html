@@ -1,0 +1,76 @@
+<div class="page-wrapper">
+
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-12 d-flex no-block align-items-center">
+                <h4 class="page-title">Chạy cuối ngày</h4>
+                <div class="ml-auto text-right">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Library</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- End Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Container fluid  -->
+    <!-- ============================================================== -->
+    <div class="container-fluid">
+        <!-- ============================================================== -->
+        <!-- Start Page Content -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="data-history">
+                        <a href="/getdatahuy" class="btn btn-primary" hidden>Lấy thông tin hủy</a>
+                        <a href="/stopdatahuy" class="btn btn-primary" hidden>Ngừng lấy thông tin hủy</a>
+                        <a href="/getdatakhop" class="btn btn-primary" hidden>Lấy thông tin khớp</a>
+                        <a href="/stopdatakhop" class="btn btn-primary" hidden>Ngừng lấy thông tin khớp</a>
+                        <a href="/getdatagia" class="btn btn-primary" hidden>Lấy thông tin giá</a>
+                        <a href="/stopdatagia" class="btn btn-primary" hidden>Ngừng lấy thông tin giá</a>
+                        <a href="/endDate" class="btn btn-primary">Chạy cuối ngày</a>
+                        <!-- </br>Lưu ý:Khi bạn click vào nút lấy dữ liệu hủy hoặc lấy dữ liệu khớp nếu thấy hiện tượng đang
+                        load trang thì
+                        tức là đang thực hiện việc đồng bộ dữ liệu.
+                        </br>Nếu muốn kết thúc quá trình đồng bộ thì bạn hãy ấn nút ngừng lấy dữ liệu hủy hoặc ngừng
+                        lấy dữ liệu khớp -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End PAge Content -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Right sidebar -->
+        <!-- ============================================================== -->
+        <!-- .right-sidebar -->
+        <!-- ============================================================== -->
+        <!-- End Right sidebar -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Container fluid  -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- footer -->
+    <!-- ============================================================== -->
+
+    <script src="./assets/extra-libs/multicheck/datatable-checkbox-init.js"></script>
+    <script src="./assets/extra-libs/multicheck/jquery.multicheck.js"></script>
+
+    <script src="./assets/extra-libs/DataTables/datatables.min.js"></script>
+    <script>
+        /****************************************
+         *       Basic Table                   *
+         ****************************************/
+        $('#zero_config').DataTable();
+    </script>

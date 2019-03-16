@@ -1,0 +1,89 @@
+
+<div class="page-wrapper">
+       
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-12 d-flex no-block align-items-center">
+                <h4 class="page-title">Tham số chung khoan</h4>
+                <div class="ml-auto text-right">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Library</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ============================================================== -->
+    <!-- End Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Container fluid  -->
+    <!-- ============================================================== -->
+   
+        <!-- ============================================================== -->
+        <!-- Start Page Content -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;">Ma CK</th>
+                                <th style="width: 50px;">Ngay</th>
+                                <th style="width: 50px;">Thoi gian</th>
+                                <th style="width: 50px;">BASIC PRICE</th>
+                                <th style="width: 150px;">CEILING PRICE</th>
+                                <th style="width: 150px;">FLOOR PRICE</th>
+                                <th style="width: 150px;">BIDP RICE1</th>
+                                <th style="width: 150px;">BQTTY1</th>
+                                <th style="width: 150px;">ASK PRICE1</th>
+                                <th style="width: 150px;">AQTTY1</th>
+                                <th style="width: 150px;">LQTTY</th>
+                                <th style="width: 200px;">Active</th>
+
+                            </tr>
+                        </thead> 
+                        <tbody id="accordion">
+                            <tr ng-repeat="chungkhoan in vm.chungkhoan">
+                                <td>{{chungkhoan.SYMBOL}}</td>
+                                <td>{{chungkhoan.TXDATE}}</td>
+                                <td>{{chungkhoan.TXTIME}}</td>
+                                <td>{{chungkhoan.BASICPRICE}}</td>
+                                <td>{{chungkhoan.CEILINGPRICE}}</td>
+                                <td>{{chungkhoan.FLOORPRICE}}</td>
+                                <td>{{chungkhoan.BIDPRICE1}}</td>
+                                <td>{{chungkhoan.BQTTY1}}</td>
+                                <td>{{chungkhoan.ASKPRICE1}}</td>
+                                <td>{{chungkhoan.AQTTY1}}</td>
+                                <td>{{chungkhoan.LQTTY}}</td>
+                                <td>
+                                    
+                                        <a href="/historyView/{{thamso.CUSTID}}"><img src="public/images/add-icon.png" alt="them" title="Them"></a>
+                                   
+                                    
+                                        <a href="/historyView/{{thamso.CUSTID}}"><img src="public/images/ic_edit2.png" alt="Sua" title="Sua"></a>
+                                  
+                                        <a href="/historyView/{{thamso.CUSTID}}"><img src="public/images/ic_delete2.png" alt="Xoa" title="Xoa"></a>
+                                   
+                                    
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    
+
+    <script src="./assets/extra-libs/multicheck/datatable-checkbox-init.js"></script>
+    <script src="./assets/extra-libs/multicheck/jquery.multicheck.js"></script>
+
+    <script src="./assets/extra-libs/DataTables/datatables.min.js"></script>
+    <script>
+        $('#zero_config').DataTable();
+    </script>

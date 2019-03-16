@@ -1,0 +1,92 @@
+<div class="page-wrapper">
+
+	<div class="page-breadcrumb">
+		<div class="row">
+			<div class="col-12 d-flex no-block align-items-center">
+				<h4 class="page-title">Nộp tiền</h4>
+				<div class="ml-auto text-right">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="#">Home</a></li>
+							<li class="breadcrumb-item active" aria-current="page">Library</li>
+						</ol>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ============================================================== -->
+	<!-- End Bread crumb and right sidebar toggle -->
+	<!-- ============================================================== -->
+	<!-- ============================================================== -->
+	<!-- Container fluid  -->
+	<!-- ============================================================== -->
+	<!-- <form onSubmit="if(!confirm('Bạn có chắc chắn muốn thực hiện?')){alert('Lệnh đã được hủy');return false;}" action="/deposit" method="post"> -->
+		<div class="container-fluid">
+			<!-- ============================================================== -->
+			<!-- Start Page Content -->
+			<!-- ============================================================== -->
+			<div class="row">
+				<div class="col-12">
+					<div class="card">
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<th rowspan="2">Tài khoản</th>
+									<th rowspan="2">Tên</th>
+									<th rowspan="2">Số tiền</th>
+									<th rowspan="2">Ghi chú</th>
+									<th rowspan="2">Trạng thái</th>
+								</tr>
+							</thead>
+							<tbody id="accordion">
+
+								<tr>
+									<td><input type="text" class="form-control" id="p_acctno" ng-model="formData.account" ng-blur="vm.getHoten()"
+										 placeholder="Account ID" name="p_acctno" required=""></td>
+									<td><input type="text" class="form-control" id="p_fullname" disabled  placeholder="Họ và tên" required="" name="p_fullname"
+										 value="{{vm.fullname.FULLNAME}}"></td>
+									<td><input type="text" class="form-control" id="p_amt" ng-model="formData.amount" ng-click="vm.getHoten()" placeholder="Số tiền" name="p_amt"
+										 required=""></td>
+									<td><textarea type="text" class="form-control" id="p_txdesc" ng-model="formData.txdesc" placeholder="" name="p_txdesc" required=""></textarea></td>
+									<td>
+										<button type="button" ng-click="vm.noptien()" class="btn btn-primary">Nhập</button>
+									</td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!-- ============================================================== -->
+			<!-- End PAge Content -->
+			<!-- ============================================================== -->
+			<!-- ============================================================== -->
+			<!-- Right sidebar -->
+			<!-- ============================================================== -->
+			<!-- .right-sidebar -->
+			<!-- ============================================================== -->
+			<!-- End Right sidebar -->
+			<!-- ============================================================== -->
+		</div>
+	<!-- </form> -->
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	<!-- ============================================================== -->
+	<!-- End Container fluid  -->
+	<!-- ============================================================== -->
+	<!-- ============================================================== -->
+	<!-- footer -->
+	<!-- ============================================================== -->
+
+	<script src="./assets/extra-libs/multicheck/datatable-checkbox-init.js"></script>
+	<script src="./assets/extra-libs/multicheck/jquery.multicheck.js"></script>
+
+	<script src="./assets/extra-libs/DataTables/datatables.min.js"></script>
+	<script>
+		/****************************************
+		 *       Basic Table                   *
+		 ****************************************/
+		$('#zero_config').DataTable();
+	</script>

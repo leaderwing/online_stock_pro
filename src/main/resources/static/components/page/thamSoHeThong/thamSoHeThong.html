@@ -1,0 +1,132 @@
+<div class="page-wrapper">
+
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-6 d-flex no-block align-items-center">
+                <h4 class="page-title">Tham số hệ thống</h4>
+                <!-- <div class="ml-auto text-right">
+                    <h4 class="page-title">Tham số hệ thống</h4>
+                </div> -->
+            </div>
+            <div class="col-6 d-flex no-block align-items-center">
+                <h4 class="page-title">Thêm mã chứng khoán</h4>
+                <!-- <div class="ml-auto text-right">
+                    <h4 class="page-title">Tham số hệ thống</h4>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <div class="row">
+            <div class="col-6">
+    <!-- ============================================================== -->
+    <!-- End Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Container fluid  -->
+    <!-- ============================================================== -->
+    <form onSubmit="if(!confirm('Bạn có chắc chắn muốn thực hiện?')){alert('Lệnh đã được hủy');return false;}" action="/thamsohethong" method="post">
+        <div class="container-fluid">
+            <!-- ============================================================== -->
+            <!-- Start Page Content -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2">Tham số</th>
+                                    <th rowspan="2">Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody id="accordion">
+
+                                <tr>
+                                    <td><input type="text" class="form-control" id="p_giatri"
+                                             placeholder="Tham số" name="p_giatri" required=""></td>
+                                    <td>
+                                        <button type="submit" class="btn btn-primary">Nhập</button>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- End PAge Content -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Right sidebar -->
+            <!-- ============================================================== -->
+            <!-- .right-sidebar -->
+            <!-- ============================================================== -->
+            <!-- End Right sidebar -->
+            <!-- ============================================================== -->
+        </div>
+    </form>
+    </div>
+    <div class="col-6">
+    <form onSubmit="if(!confirm('Bạn có chắc chắn muốn thực hiện?')){alert('Lệnh đã được hủy');return false;}" action="/themchungkhoan" method="post">
+        <div class="container-fluid">
+            <!-- ============================================================== -->
+            <!-- Start Page Content -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2">Mã chứng khoán</th>
+                                    <th rowspan="2">Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody id="accordion">
+
+                                <tr>
+                                    <td><input type="text" class="form-control" id="p_chungkhoan" style="text-transform: uppercase;"
+                                             placeholder="Chứng khoán" name="p_chungkhoan" required=""></td>
+                                    <td>
+                                        <button type="submit" class="btn btn-primary">Nhập</button>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- End PAge Content -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Right sidebar -->
+            <!-- ============================================================== -->
+            <!-- .right-sidebar -->
+            <!-- ============================================================== -->
+            <!-- End Right sidebar -->
+            <!-- ============================================================== -->
+        </div>
+    </form>
+    </div>
+    </div>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <!-- ============================================================== -->
+    <!-- End Container fluid  -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- footer -->
+    <!-- ============================================================== -->
+
+    <script src="./assets/extra-libs/multicheck/datatable-checkbox-init.js"></script>
+    <script src="./assets/extra-libs/multicheck/jquery.multicheck.js"></script>
+
+    <script src="./assets/extra-libs/DataTables/datatables.min.js"></script>
+    <script>
+        /****************************************
+         *       Basic Table                   *
+         ****************************************/
+        $('#zero_config').DataTable();
+    </script>

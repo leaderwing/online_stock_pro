@@ -1,0 +1,341 @@
+<div class="modal fade" id="Modal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-sm-4">
+                    <div class="collapse-right">
+
+
+                        <div class="group-tabs">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
+                                        data-toggle="tab">Tài sản</a></li>
+
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="home">
+                                    <div class="row" ng-repeat="ttchung in vm.ttchung">
+                                        <div class="items col-sm-7 t-blue">Tài sản ròng</div>
+                                        <div class="items col-sm-5 text-right"><b>{{ttchung.TAI_SAN_RONG}}</b></div>
+
+                                        <div class="items col-sm-7 t-blue">Tỷ lệ ký quỹ</div>
+                                        <div class="col-sm-5 text-right"><b>{{ttchung.TY_LE_KY_QUY}}</b></div>
+
+                                        <div class="items col-sm-7">Sức mua</div>
+                                        <div class="col-sm-5 text-right">{{ttchung.SUC_MUA}}</div>
+
+                                        <div class="items col-sm-7">Dư nợ thực tế</div>
+                                        <div class="col-sm-5 text-right">{{ttchung.DU_NO_THUC_TE}}</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="col-sm-2">
+
+                </div>
+                <div class="col-sm-4">
+                    <div class="collapse-right">
+
+
+                        <div class="group-tabs">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
+                                        data-toggle="tab">Danh sách chứng khoán</a></li>
+
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="home">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Mã</th>
+                                                <th>Số dư</th>
+                                                <th>T0</th>
+                                                <th>T1</th>
+                                                <th>T2</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="tttyle in vm.tttyle">
+                                                <td>{{tttyle.CODEID}}</td>
+                                                <td>{{tttyle.SO_DU}}</td>
+                                                <td>{{tttyle.T0}}</td>
+                                                <td>{{tttyle.T1}}</td>
+                                                <td>{{tttyle.T2}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-sm-10 right">
+                    <div class="row" ng-if="vm.floorNamess != null">
+
+                        <div class="col-sm-1">
+                            <div class="items text-blue">{{vm.floorNamess.floor/1000}}</div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="items text-red">{{vm.floorNamess.basic/1000}}</div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="items text-blue">{{vm.floorNamess.ceil/1000}}</div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="items text-red"><span>MT</span>{{vm.priceView.m1}}</div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="items"><span>KLT</span>{{vm.priceView.kl1}}</div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="items text-red"><span>BT</span>{{vm.priceView.b1}}</div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="items"><span>KML</span>{{vm.priceView.kl2}}</div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="dl-header-right" ng-model="formData.floorhhh">
+                                Tỷ lệ vay: Sàn {{vm.floorNamess.floorCode}}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                </br>
+                <div class="col-sm-10 right">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <input type="text" class="form-control" ng-blur="vm.getViewData()" style="text-transform: uppercase;"
+                                    ng-model="formData.symbol" placeholder="Mã">
+                                <!-- <button class="btn_info">Chi tiết</button> -->
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="number" class="form-control" ng-model="formData.quantity" ng-click="vm.getViewData()"
+                                placeholder="KL">
+                        </div>
+                        <div class="col-sm-3">
+                            <select class="form-control" ng-model="formData.orderType">
+                                <option value="">--Mời chọn loại giá--</option>
+                                <option>LO</option>
+                                <option>MP</option>
+                                <option>ATO</option>
+                                <option>ATC</option>
+                                <option>PLO</option>
+                            </select>
+                            <!-- <input type="text" class="form-control" ng-model="formData.orderType" placeholder="Type"> -->
+                        </div>
+                        <div class="col-sm-3" ng-if="formData.orderType == 'LO'">
+                            <input type="text" class="form-control" ng-model="formData.price" placeholder="Giá">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ</button>
+                <button type="button" class="btn btn-danger" ng-click="vm.createTodos()">Mua</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-wrapper">
+
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-12 d-flex no-block align-items-center">
+                <h4 class="page-title">Lịch sử mua bán</h4>
+                <div class="ml-auto text-right">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#"><button type="button" class="btn btn-success"
+                                        data-toggle="modal" data-target="#Modal2">
+                                        Mua
+                                    </button></a></li>
+
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- End Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Container fluid  -->
+    <!-- ============================================================== -->
+    <div class="container-fluid">
+        <!-- ============================================================== -->
+        <!-- Start Page Content -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="search-history">
+                            <form>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="exampleFormControlInput1">Từ ngày</label>
+                                            <input type="date" class="form-control" ng-change="vm.seHistory()" ng-model="THAMSO_NGAY1">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="exampleFormControlInput1">Đến ngày</label>
+                                            <input type="date" class="form-control" ng-change="vm.seHistory()" ng-model="dateString">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="exampleFormControlInput1">Mã CK</label>
+                                            <input type="text" class="form-control" ng-change="vm.seHistory()" ng-model="THAMSO_SYMBOL">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="exampleFormControlSelect1">Loại giao dịch</label>
+                                            <select class="form-control" ng-change="vm.seHistory()" ng-model="THAMSO_EXECTYPE">
+                                                <option>Tất cả</option>
+                                                <option>Mua</option>
+                                                <option>Ban</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Ngày</th>
+                                <th>Mã CK</th>
+                                <th>Lệnh</th>
+                                <th>Loại giá</th>
+                                <th>KL đặt</th>
+                                <th>Giá đặt</th>
+                                <th>KL Khớp</th>
+                                <th>Giá khớp TB</th>
+                                <th>KL hủy</th>
+                                <th>Trạng thái</th>
+                                <th>Phí chốt</th>
+                                <th>Lãi/Lỗ</th>
+                                <th>Thời gian</th>
+                                <th>Active</th>
+                            </tr>
+                        </thead>
+                        <tbody id="accordion">
+                            <tr ng-repeat="historys in vm.history">
+                                <td ng-click="vm.showStockTrading(historys.ORDERID)">{{historys.TXDATE}}</td>
+                                <td>{{historys.CODEID}}</td>
+                                <td>{{historys.EXECTYPE}}</td>
+                                <td>{{historys.PRICETYPE}}</td>
+                                <td>{{historys.ORDERQTTY}}</td>
+                                <td>{{historys.QUOTEPRICE}}</td>
+                                <td>{{historys.EXECQTTY}}</td>
+                                <td>{{historys.OPENPRICE}}</td>
+                                <td>{{historys.CANCELQTTY}}</td>
+                                <td>{{historys.ORSTATUS}}</td>
+                                <td>{{historys.CLOSEPRICE}}</td>
+                                <td>{{historys.PROFIT}}</td>
+                                <td>{{historys.TXTIME}}</td>
+                                <td>
+                                    <div class="ic_active">
+                                        <div ng-if="historys.EXECQTTY === 0 || historys.EXECQTTY < historys.ORDERQTTY">
+                                            <div ng-if="historys.CANCELQTTY === 0">
+                                                <div ng-if="historys.FLOOR === 'HNX' && historys.CODEID != 'ATC' && historys.CODEID != 'PLO'">
+                                                    <div ng-if="vm.hour >= '09:00:00' && vm.hour <= '14:30:00'">
+                                                        <img src="public/images/ic_delete2.png" alt="" ng-click="vm.deleteTodo(historys)">
+                                                    </div>
+                                                </div>
+                                                <div ng-if="historys.FLOOR === 'HNX' && historys.CODEID === 'ATC'">
+                                                    <div ng-if="vm.hour >= '14:30:00' && vm.hour <= '14:45:00'">
+                                                        <img src="public/images/ic_delete2.png" alt="" ng-click="vm.deleteTodo(historys)">
+                                                    </div>
+                                                </div>
+                                                <div ng-if="historys.FLOOR === 'HNX' && historys.CODEID === 'PLO'">
+                                                    <div ng-if="vm.hour >= '14:45:00' && vm.hour <= '15:00:00'">
+                                                        <img src="public/images/ic_delete2.png" alt="" ng-click="vm.deleteTodo(historys)">
+                                                    </div>
+                                                </div>
+                                                <div ng-if="historys.FLOOR === 'HOSE' && historys.CODEID === 'ATO'">
+                                                    <div ng-if="vm.hour >= '09:00:00' && vm.hour <= '09:15:00'">
+                                                        <img src="public/images/ic_delete2.png" alt="" ng-click="vm.deleteTodo(historys)">
+                                                    </div>
+                                                </div>
+                                                <div ng-if="historys.FLOOR === 'HOSE' && historys.CODEID === 'ATC'">
+                                                    <div ng-if="vm.hour >= '14:30:00' && vm.hour <= '14:45:00'">
+                                                        <img src="public/images/ic_delete2.png" alt="" ng-click="vm.deleteTodo(historys)">
+                                                    </div>
+                                                </div>
+                                                <div ng-if="historys.FLOOR === 'HOSE' && historys.CODEID != 'ATC' && historys.CODEID != 'ATO' ">
+                                                    <div ng-if="vm.hour >= '09:15:00' && vm.hour <= '14:30:00'">
+                                                        <img src="public/images/ic_delete2.png" alt="" ng-click="vm.deleteTodo(historys)">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div ng-if="historys.CLEARDAY <= 0 && historys.CLEARDAY != null">
+                                            <img src="public/images/ic_khoa.png" title="xử lý tài khoản" ng-click="vm.createNormalBan(historys)"
+                                                alt="xử lý tài khoản">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End PAge Content -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Right sidebar -->
+        <!-- ============================================================== -->
+        <!-- .right-sidebar -->
+        <!-- ============================================================== -->
+        <!-- End Right sidebar -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Container fluid  -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- footer -->
+    <!-- ============================================================== -->
+
+    <script src="./assets/extra-libs/multicheck/datatable-checkbox-init.js"></script>
+    <script src="./assets/extra-libs/multicheck/jquery.multicheck.js"></script>
+
+    <script src="./assets/extra-libs/DataTables/datatables.min.js"></script>
+    <script>
+        /****************************************
+         *       Basic Table                   *
+         ****************************************/
+        $('#zero_config').DataTable();
+    </script>

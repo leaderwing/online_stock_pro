@@ -1,0 +1,74 @@
+<div class="menu-top" ng-controller="menuCtrl as vm">
+    <nav class="navbar" role="navigation">
+        <div class="navbar-header" style="background-color: black;">
+            <button type="button" class="navbar-toggle" ng-click="isNavCollapsed = !isNavCollapsed">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" uib-collapse="isNavCollapsed">
+            <div>
+                <ul class="nav navbar-nav">
+                    <li ng-if="vm.isstaft === 1 || vm.isstaft === 2 || vm.isstaft === 3 "><a ui-sref="root.stock-trading">
+                            <img src="../../lib/icons/banggia.png">
+                            Lịch sử giao dịch
+                        </a>
+                    </li>
+                    <li ng-if="vm.isstaft === 1 || vm.isstaft === 2 || vm.isstaft === 3 "><a ui-sref="root.xu-ly-tai-khoan">
+                            <img src="../../lib/icons/banggia.png">
+                            Xử lý tài khoản
+                        </a>
+                    </li>
+                    <li ng-if="vm.isstaft === 1 || vm.isstaft === 2 || vm.isstaft === 3 "><a ui-sref="root.luong-chung">
+                            <img src="../../lib/icons/giaodichcophieu.png">
+                            Luồng chung
+                        </a>
+                    </li>
+                    <li ng-if="vm.isstaft === 1 || vm.isstaft === 2 || vm.isstaft === 3 "><a ui-sref="root.cap-tai-khoan">
+                            <img src="../../lib/icons/giaodichtien.png">
+                            Cấp tài khoản
+                        </a>
+                    </li>
+                    <li ng-if="vm.isstaft === 1 || vm.isstaft === 3 "><a ui-sref="root.nop-tien">
+                            <img src="../../lib/icons/user1.png">
+                            Nạp tiền
+                        </a>
+                    </li>
+                    <li ng-if="vm.isstaft === 2 || vm.isstaft === 3 "><a ui-sref="root.duyet-nop">
+                            <img src="../../lib/icons/congcuphantich.png">
+                            Duyệt nạp tiền
+                        </a>
+                    </li>
+                    <li ng-if="vm.isstaft === 1 || vm.isstaft === 3 "><a ui-sref="root.rut-tien">
+                            <img src="../../lib/icons/sanphamdichvu.png">
+                            Rút tiền
+                        </a>
+                    </li>
+                    <li ng-if="vm.isstaft === 2 || vm.isstaft === 3 "><a ui-sref="root.duyet-rut">
+                            <img src="../../lib/icons/sanphamdichvu.png">
+                            Duyệt rút tiền
+                        </a>
+                    </li>
+                    <li ng-if="vm.isstaft === 2 || vm.isstaft === 3 "><a ui-sref="root.tham-so-he-thong">
+                            <img src="../../lib/icons/sanphamdichvu.png">
+                            Tham số hệ thống
+                        </a>
+                    </li>
+                    <li><a ui-sref="">
+                            <img src="../../lib/icons/huongdan.png">
+                            Hướng dẫn
+                        </a>
+                    </li>
+                    <li><a href="/logout">
+                            <img src="../../lib/icons/huongdan.png">
+                            Logout
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>

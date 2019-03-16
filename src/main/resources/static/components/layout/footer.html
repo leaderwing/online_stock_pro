@@ -1,0 +1,295 @@
+<div class="footer" ng-controller="footerCtrl as vm">
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="set-command"><a href="#demo_dl" data-toggle="collapse">Đặt lệnh</a></div>
+        </div>
+        <div class="col-sm-9">
+            <nav class="navbar" role="navigation">
+                <div class="navbar-header" style="background-color: black;">
+                    <button type="button" class="navbar-toggle" ng-click="isNavCollapsed = !isNavCollapsed">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse" uib-collapse="isNavCollapsed">
+                    <div>
+                        <ul class="nav navbar-nav">
+                            <li><a ui-sref="root.promotions">
+                                    <img src="../../lib/icons/banggia_trang.png">
+                                    Bảng giá
+                                </a></li>
+                            <li><a ui-sref="root.gifts"><img src="../../lib/icons/thongbao.png">
+                                    Thông báo
+                                </a></li>
+                            <li><a ui-sref="root.mygifts" ui-sref-active="active">
+                                    <img src="../../lib/icons/taisan.png">
+                                    tài sản
+                                </a></li>
+                            <li><a><img src="../../lib/icons/danhmuc.png">
+                                    Danh mục
+                                </a></li>
+                            <li><a><img src="../../lib/icons/solenh.png">
+                                    Số lệnh
+                                </a></li>
+                            <li><a><img src="../../lib/icons/phanhoi.png">
+                                </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div id="demo_dl" class="collapse collapse-dl" ng-controller="footerCtrl as vm">
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="left">
+                <div class="dl-header">
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <div class="dl-header-left" ng-if="vm.floorName != null">
+                                <div class="items text-blue">{{vm.floorName.floor/1000}}</div>
+                                <div class="items text-red">{{vm.floorName.basic/1000}}</div>
+                                <div class="items text-blue">{{vm.floorName.ceil/1000}}</div>
+                                <div class="items text-red"><span>MT</span>{{vm.priceView.m1}}</div>
+                                <div class="items"><span>KLT</span>{{vm.priceView.kl1}}</div>
+                                <div class="items text-red"><span>BT</span>{{vm.priceView.b1}}</div>
+                                <div class="items"><span>KML</span>{{vm.priceView.kl2}}</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="dl-header-right" ng-model="formData.floorhhh" ng-if="vm.floorName != null">
+                                Tỷ lệ vay: Sàn {{vm.floorName.floorCode}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="dl-sellect">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1"
+                            checked>
+                        <label class="form-check-label" for="exampleRadios1">
+                            Lệnh thường
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1"
+                            checked>
+                        <label class="form-check-label" for="exampleRadios1">
+                            Lệnh 24/7
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1"
+                            checked>
+                        <label class="form-check-label" for="exampleRadios1">
+                            Lệnh GTD
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1"
+                            checked>
+                        <label class="form-check-label" for="exampleRadios1">
+                            Lệnh điều kiện
+                        </label>
+                    </div>
+                </div> -->
+                <div class="dl-buy">
+                    <div class="dl-buy-item">
+                        <div class="row">
+                            <div class="col-sm-1">
+                                <div class="ic_buy">
+                                    <img src="../../lib/icons/ic_buy.png" alt="">
+                                    Mua:
+                                </div>
+                            </div>
+                            <div class="col-sm-10 right">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" ng-blur="vm.getViewData()" style="text-transform: uppercase;"
+                                                ng-model="formData.symbol" placeholder="Mã">
+                                            <!-- <button class="btn_info">Chi tiết</button> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="number" class="form-control" ng-model="formData.quantity" ng-click="vm.getViewData()"
+                                            placeholder="KL">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <select class="form-control" ng-model="formData.orderType">
+                                            <option>LO</option>
+                                            <option>MP</option>
+                                            <option>ATO</option>
+                                            <option>ATC</option>
+                                            <option>PLO</option>
+                                        </select>
+                                        <!-- <input type="text" class="form-control" ng-model="formData.orderType" placeholder="Type"> -->
+                                    </div>
+                                    <div class="col-sm-3" ng-if="formData.orderType == 'LO'">
+                                        <input type="text" class="form-control" ng-model="formData.price" placeholder="Giá">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="active">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="exampleRadios" id="active"
+                                        value="active" checked>
+                                    <label class="form-check-label" for="exampleRadios1">
+                                        Lưu lệnh
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="exampleRadios" id="active"
+                                        value="active2" checked>
+                                    <label class="form-check-label" for="exampleRadios1">
+                                        Xác nhận lệnh
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="button">
+                        <button type="button" class="btn btn-outline-dark">Cancel</button>
+                        <button type="button" ng-click="vm.createTodos()" class="btn btn-success">Mua</button>
+                    </div>
+                </div>
+
+                <div class="dl-sell">
+                    <div class="dl-sell-item">
+                        <div class="row">
+                            <div class="col-sm-1">
+                                <div class="ic_sell">
+                                    <img src="../../lib/icons/ic_sell.png" alt="">
+                                    Bán:
+                                </div>
+                            </div>
+                            <div class="col-sm-10 right">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <input type="text" style="text-transform:uppercase;" class="form-control"
+                                            ng-model="formData.symbolB"  placeholder="Mã">
+                                            <!-- <button class="btn_info">Chi tiết</button> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" ng-model="formData.quantityB" placeholder="KL">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <select class="form-control" ng-model="formData.orderTypeB">
+                                                <option>LO</option>
+                                                <option>MP</option>
+                                                <option>ATO</option>
+                                                <option>ATC</option>
+                                                <option>PLO</option>
+                                        </select>
+                                        <!-- <input type="text" class="form-control" ng-model="formData.orderType" placeholder="Type"> -->
+                                    </div>
+                                    <div class="col-sm-3" ng-if="formData.orderTypeB == 'LO'">
+                                        <input type="text" class="form-control" ng-model="formData.priceB" placeholder="Giá">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="active">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="exampleRadios" id="active"
+                                        value="active" checked>
+                                    <label class="form-check-label" for="exampleRadios1">
+                                        Lưu lệnh
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="exampleRadios" id="active"
+                                        value="active2" checked>
+                                    <label class="form-check-label" for="exampleRadios1">
+                                        Xác nhận lệnh
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="button">
+                        <button type="button" class="btn btn-outline-dark">Cancel</button>
+                        <button type="button" disabled ng-click="createTodosBanUser()" class="btn btn-danger">Bán</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="collapse-right">
+
+
+                <div class="group-tabs">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
+                                data-toggle="tab">Tài sản</a></li>
+                        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Tỷ
+                                lệ</a></li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="home">
+                            <div class="row" ng-repeat="ttchung in vm.ttchung">
+                                <div class="items col-sm-7 t-blue">Tài sản ròng</div>
+                                <div class="items col-sm-5 text-right"><b>{{ttchung.TAI_SAN_RONG}}</b></div>
+
+                                <div class="items col-sm-7 t-blue">Tỷ lệ ký quỹ</div>
+                                <div class="col-sm-5 text-right"><b>{{ttchung.TY_LE_KY_QUY}}</b></div>
+
+                                <div class="items col-sm-7">Sức mua</div>
+                                <div class="col-sm-5 text-right">{{ttchung.SUC_MUA}}</div>
+
+                                <div class="items col-sm-7">Dư nợ thực tế</div>
+                                <div class="col-sm-5 text-right">{{ttchung.DU_NO_THUC_TE}}</div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="profile">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Mã</th>
+                                        <th>Số dư</th>
+                                        <th>T0</th>
+                                        <th>T1</th>
+                                        <th>T2</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="tttyle in vm.tttyle">
+                                        <td>{{tttyle.CODEID}}</td>
+                                        <td>{{tttyle.SO_DU}}</td>
+                                        <td>{{tttyle.T0}}</td>
+                                        <td>{{tttyle.T1}}</td>
+                                        <td>{{tttyle.T2}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

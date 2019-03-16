@@ -1,0 +1,94 @@
+
+<div class="page-wrapper">
+       
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-12 d-flex no-block align-items-center">
+                <h4 class="page-title">Xử lý tài khoản</h4>
+                <div class="ml-auto text-right">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Library</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ============================================================== -->
+    <!-- End Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Container fluid  -->
+    <!-- ============================================================== -->
+    <div class="container-fluid">
+        <!-- ============================================================== -->
+        <!-- Start Page Content -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Số tài khoản</th>
+                                <th rowspan="2">Tỷ lệ</th>
+                                <th rowspan="2">Tài sản dòng</th>
+                                <th rowspan="2">Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody id="accordion">
+                            <tr ng-repeat="luongchungse in vm.luongchungse">
+                                <!-- <th>
+                                    <div class="shl">
+                                        <img src='assets/images/show.png' alt="" data-toggle="collapse" data-target="#collapTr1" aria-expanded="true"
+                                         aria-controls="collapTr1" /> 0214512102312131
+                                    </div>
+                                </th> -->
+                                <td>{{luongchungse.CUSTID}}</td>
+                                <!-- <td>{{luongchungse.FULLNAME}}</td> -->
+                                <td>{{luongchungse.REAL_MARGRATE}}</td>
+                                <td>{{luongchungse.TSR}}</td>
+                                <td>
+                                    <div class="ic_active">
+                                        <!-- <img src="public/images/ic_delete2.png" alt=""> -->
+                                        <a href="/historyView/{{luongchungse.CUSTID}}"><img src="public/images/ic_edit2.png" alt="Chi tiet" title="Chi tiet"></a>
+                                        <!-- <a href="#"><img src="public/images/ic_khoa.png" alt="dong lenh" title="dong lenh"></a> -->
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End PAge Content -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Right sidebar -->
+        <!-- ============================================================== -->
+        <!-- .right-sidebar -->
+        <!-- ============================================================== -->
+        <!-- End Right sidebar -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Container fluid  -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- footer -->
+    <!-- ============================================================== -->
+
+    <script src="./assets/extra-libs/multicheck/datatable-checkbox-init.js"></script>
+    <script src="./assets/extra-libs/multicheck/jquery.multicheck.js"></script>
+
+    <script src="./assets/extra-libs/DataTables/datatables.min.js"></script>
+    <script>
+        /****************************************
+         *       Basic Table                   *
+         ****************************************/
+        $('#zero_config').DataTable();
+    </script>
