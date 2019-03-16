@@ -12,6 +12,15 @@ public class DateUtils {
         int result = Integer.parseInt(sdf.format(date));
         return result;
     }
+    public static String convertYYYY_MM_DD (Date date) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+            return sdf.format(date);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
 
     public static void main(String[] args) {
         Date date = new Date();
