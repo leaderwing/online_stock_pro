@@ -28,6 +28,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		web.ignoring()
 				// ignoring the "/", "/index.html", "/app/**", "/register",
 				// "/favicon.ico"
+				.antMatchers("/*.icon")
+				.antMatchers("/*.css")
+				.antMatchers("/*.js")
 				.antMatchers("/", "/assets/**", "/dist/**", "/shared/**", "/components/**", "/lib/**", "/node_modules/**", "/router.js", "/app.js", "/index.html", "/app/**", "/register", "/login", "/favicon.ico",
 						"/swagger-ui.html", "/webjars/**");
 	}

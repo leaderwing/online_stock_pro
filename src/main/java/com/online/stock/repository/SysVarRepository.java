@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SysVarRepository extends JpaRepository<SysVar, String> {
 
-    SysVar findFirstByGRNAMEAndVARNAME(String grName, String varName);
+    SysVar findFirstByGrnameAndVarname(String grName, String varName);
 
 }

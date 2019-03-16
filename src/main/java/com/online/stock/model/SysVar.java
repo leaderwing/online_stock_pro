@@ -12,14 +12,14 @@ import javax.persistence.Table;
 @Data
 public class SysVar {
     @Column(name = "GRNAME")
-    private String GRNAME;
+    private String grname;
     @Id
     @Column(name = "VARNAME")
-    private String VARNAME;
+    private String varname;
     @Column(name = "VARVALUE")
-    private String VARVALUE;
+    private String varvalue;
     @Column(name = "VARDESC")
-    private String VARDESC;
+    private String vardesc;
     @Column(name = "EN_VARDESC")
-    private String EN_VARDESC;
+    private String en_vardesc;
 }

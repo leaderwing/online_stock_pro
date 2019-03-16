@@ -26,13 +26,13 @@ public class SystemVarService implements ISystemVarService {
     public void addSysVar(SystemVarAddReq req) {
         SysVar sysVar = new SysVar();
         BeanUtils.copyProperties(req, sysVar);
-        sysVar.setGRNAME(req.getGRNAME().name());
+        sysVar.setGrname(req.getGRNAME().name());
         sysVarRepository.save(sysVar);
     }
 
     @Override
     public void updateSysVar(SystemVarAddReq req) {
-        SysVar sysVar = sysVarRepository.findFirstByGRNAMEAndVARNAME(req.getGRNAME().name(),
+        SysVar sysVar = sysVarRepository.findFirstByGrnameAndVarname(req.getGRNAME().name(),
                 req.getVARNAME());
         if (sysVar != null) {
             BeanUtils.copyProperties(req, sysVar);
@@ -42,7 +42,7 @@ public class SystemVarService implements ISystemVarService {
 
     @Override
     public void deleteSysVar(String sysGroup, String varName) {
-        SysVar sysVar = sysVarRepository.findFirstByGRNAMEAndVARNAME(sysGroup,
+        SysVar sysVar = sysVarRepository.findFirstByGrnameAndVarname(sysGroup,
                 varName);
         if (sysVar != null) {
             sysVarRepository.delete(sysVar);

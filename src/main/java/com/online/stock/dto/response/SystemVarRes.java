@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class SystemVarRes {
-    private String GRNAME;
-    private String VARNAME;
-    private String VARVALUE;
-    private String VARDESC;
-    private String EN_VARDESC;
+    private String grname;
+    private String varname;
+    private String varvalue;
+    private String vardesc;
+    private String en_vardesc;
 }
