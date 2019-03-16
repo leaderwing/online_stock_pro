@@ -13,12 +13,14 @@ import org.hibernate.type.FloatType;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class DepositeService implements IDepositService {
     @Autowired
     private EntityManager entityManager;

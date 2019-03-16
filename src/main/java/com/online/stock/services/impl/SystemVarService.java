@@ -8,9 +8,11 @@ import com.online.stock.repository.SysVarRepository;
 import com.online.stock.services.ISystemVarService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class SystemVarService implements ISystemVarService {
     @Autowired
     private SysVarRepository sysVarRepository;

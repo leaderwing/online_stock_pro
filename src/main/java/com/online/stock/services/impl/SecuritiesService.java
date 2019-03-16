@@ -9,9 +9,11 @@ import com.online.stock.services.ISecuritiesService;
 import com.online.stock.services.ISystemVarService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class SecuritiesService implements ISecuritiesService {
     @Autowired
     private SecuritiesPracticeRepository securitiesPracticeRepository;
