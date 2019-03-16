@@ -1,0 +1,83 @@
+
+<div class="page-wrapper">
+       
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-12 d-flex no-block align-items-center">
+                <h4 class="page-title">Cấp tài khoản</h4>
+                <div class="ml-auto text-right">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Library</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ============================================================== -->
+    <!-- End Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Container fluid  -->
+    <!-- ============================================================== -->
+    <div class="container-fluid">
+        <!-- ============================================================== -->
+        <!-- Start Page Content -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Số tài khoản</th>
+                                <th rowspan="2">Tên</th>
+                                <th rowspan="2">Mật khẩu</th>
+                                <th rowspan="2">Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody id="accordion">
+                            <tr ng-repeat="taikhoan in vm.taikhoan">
+                                <td>{{taikhoan.CUSTID}}</td>
+                                <td>{{taikhoan.FULLNAME}}</td>
+                                <td>{{taikhoan.PIN}}</td>
+                                <td>
+                                    <button type="button" ng-click="vm.captk(taikhoan)" class="btn btn-primary">Duyệt</button>
+                                </td>
+                            </tr>
+                        </tbody>    
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End PAge Content -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Right sidebar -->
+        <!-- ============================================================== -->
+        <!-- .right-sidebar -->
+        <!-- ============================================================== -->
+        <!-- End Right sidebar -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Container fluid  -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- footer -->
+    <!-- ============================================================== -->
+
+    <script src="./assets/extra-libs/multicheck/datatable-checkbox-init.js"></script>
+    <script src="./assets/extra-libs/multicheck/jquery.multicheck.js"></script>
+
+    <script src="./assets/extra-libs/DataTables/datatables.min.js"></script>
+    <script>
+        /****************************************
+         *       Basic Table                   *
+         ****************************************/
+        $('#zero_config').DataTable();
+    </script>

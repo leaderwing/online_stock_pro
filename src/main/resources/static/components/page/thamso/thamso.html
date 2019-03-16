@@ -1,0 +1,77 @@
+
+<div class="page-wrapper">
+       
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-12 d-flex no-block align-items-center">
+                <h4 class="page-title">Tham số hệ thống</h4>
+                <div class="ml-auto text-right">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Library</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ============================================================== -->
+    <!-- End Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Container fluid  -->
+    <!-- ============================================================== -->
+    <div class="container-fluid">
+        <!-- ============================================================== -->
+        <!-- Start Page Content -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Nhom ten</th>
+                                <th rowspan="2">Ten</th>
+                                <th rowspan="2">Gia tri</th>
+                                <th rowspan="2">V_Ghi chu</th>
+                                <th rowspan="2">E_Ghi chu</th>
+                                <th rowspan="2">Active</th>
+                            </tr>
+                        </thead>
+                        <tbody id="accordion">
+                            <tr ng-repeat="thamso in vm.thamso">
+                                <td>{{thamso.GRNAME}}</td>
+                                <td>{{thamso.VARNAME}}</td>
+                                <td>{{thamso.VARVALUE}}</td>
+                                <td>{{thamso.VARDESC}}</td>
+                                <td>{{thamso.EN_VARDESC}}</td>
+                                <td>
+                                    <div class="ic_active">
+                                        <a href="//{{thamso.CUSTID}}"><img src="public/images/add-icon.png" alt="them" title="Them"></a>
+                                    </div>
+                                    <div class="ic_active">
+                                        <a href="/historyView/{{thamso.CUSTID}}"><img src="public/images/ic_edit2.png" alt="Sua" title="Sua"></a>
+                                    </div>
+                                    <div class="ic_active">
+                                        <a href="/historyView/{{thamso.CUSTID}}"><img src="public/images/ic_delete2.png" alt="Xoa" title="Xoa"></a>
+                                    </div>
+                                    
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./assets/extra-libs/multicheck/datatable-checkbox-init.js"></script>
+    <script src="./assets/extra-libs/multicheck/jquery.multicheck.js"></script>
+
+    <script src="./assets/extra-libs/DataTables/datatables.min.js"></script>
+    <script>
+        $('#zero_config').DataTable();
+    </script>
