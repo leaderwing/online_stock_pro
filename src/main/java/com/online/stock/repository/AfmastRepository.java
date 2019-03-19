@@ -12,4 +12,5 @@ import java.util.List;
  */
 public interface AfmastRepository extends JpaRepository<Afmast, Long> {
 	public Afmast findOneByUsername(String username);
+	Afmast findOneByEmail(String email);
 }

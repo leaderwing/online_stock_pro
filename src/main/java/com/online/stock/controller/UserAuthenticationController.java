@@ -5,6 +5,7 @@ import com.online.stock.model.Afmast;
 import com.online.stock.repository.AfmastRepository;
 import com.online.stock.services.IAccountService;
 import com.online.stock.services.IThirdPartyService;
+import com.online.stock.utils.FileUtils;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.commons.lang.StringUtils;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -47,9 +49,13 @@ public class UserAuthenticationController {
     public ResponseEntity<String> createUser(@RequestBody RegisterRequest request) {
         String errDetail = "";
         if (afmastRepository.findOneByUsername(request.getAcctno()) != null) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Đã tồn tại tên tài khoản!",HttpStatus.CONFLICT);
         }
-        String errCode = accountService.register(request);
+        if (afmastRepository.findOneByEmail(request.getEmail()) != null) {
+            return new ResponseEntity<>("Đã tồn tại tài khoản email!", HttpStatus.CONFLICT);
+        }
+        String genPassword = FileUtils.genRandomPassword(6);
+        String errCode = accountService.register(request,genPassword);
         switch (errCode) {
             case "030001" :
                 errDetail = "Số tài khoản đã tồn tại";
@@ -104,8 +110,22 @@ public class UserAuthenticationController {
             // login success, call vndirect api
             thirdPartyService.getAdminAuthen();
             //gen token jwt
-            List<String> roles = Collections.singletonList(
-                    appUser.getIsStaft() == 3 ? "ROLE_ADMIN" : "ROLE_USER");
+            String role = null;
+            switch (appUser.getIsStaft()) {
+                case 0 :
+                    role = "ROLE_USER";
+                    break;
+                case 1:
+                    role = "ROLE_ADMIN_1";
+                    break;
+                case 2:
+                    role = "ROLE_ADMIN_2";
+                    break;
+                case 3:
+                    role = "ROLE_SADMIN";
+                    break;
+            }
+            List<String> roles = Collections.singletonList(role);
             token = Jwts.builder().setSubject(username).claim("roles", roles).setIssuedAt(new Date())
                     .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
             tokenMap.put("token", token);
@@ -131,5 +151,15 @@ public class UserAuthenticationController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    public ResponseEntity<String> resetPassword (@RequestParam String email) {
+        Afmast afmast = afmastRepository.findOneByEmail(email);
+        if (afmast == null) {
+            return new ResponseEntity<>("Không tìm thấy tài khoản email!",HttpStatus.NOT_FOUND);
+        }
+        //gen new password
+        String newPass = FileUtils.genRandomPassword(6);
+        return new ResponseEntity<>("Gửi email thay đổi mật khẩu thành công!", HttpStatus.OK);
     }
 }

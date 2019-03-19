@@ -36,7 +36,7 @@ public class AccountService implements IAccountService {
         }
     }
 
-    @Override public String register(RegisterRequest rq) {
+    @Override public String register(RegisterRequest rq, String password) {
         String errCode = "";
         Session session = entityManager.unwrap(Session.class);
         ProcedureCall call = session.createStoredProcedureCall("PKG_OPEN_CONTRACTS.prc_create_contracts");
@@ -51,8 +51,10 @@ public class AccountService implements IAccountService {
         call.registerParameter(9, String.class, ParameterMode.IN).bindValue(rq.getPhone());
         call.registerParameter(10, String.class, ParameterMode.IN).bindValue(rq.getBankacctno());
         call.registerParameter(11, String.class, ParameterMode.IN).bindValue(rq.getBankname());
-        call.registerParameter(12, Integer.class, ParameterMode.OUT);
-        errCode = (String) call.getOutputs().getOutputParameterValue(12);
+        call.registerParameter(12, String.class, ParameterMode.IN).bindValue(rq.getAccType());
+        call.registerParameter(13, String.class, ParameterMode.IN).bindValue(password);
+        call.registerParameter(14, Integer.class, ParameterMode.OUT);
+        errCode = (String) call.getOutputs().getOutputParameterValue(14);
         return errCode;
     }
 

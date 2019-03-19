@@ -1,5 +1,9 @@
 package com.online.stock.services;
 
+import com.online.stock.dto.response.RateInfoRes;
+
+import java.util.List;
+
 public interface IOrderTradingService {
     int checkOrder(String accTno, int quantity, float price, String symbol, String orderType);
 
@@ -7,4 +11,6 @@ public interface IOrderTradingService {
 
     int saveOrder(String orderId, String symbol, String accTno, String action, String orderType,
                   float price, int quantity, String txTime, int txDate, String floor);
+
+    List<RateInfoRes> getRateInfo (String custId);
 }

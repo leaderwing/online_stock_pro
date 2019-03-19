@@ -35,6 +35,8 @@ public class Afmast implements UserDetails {
 	private String status;
 	@Column(name = "ISSTAFT")
 	private int isStaft;
+	@Column(name = "EMAIL")
+	private String email;
 
 	@JsonIgnore
 	@Override
@@ -65,10 +67,14 @@ public class Afmast implements UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Collection<GrantedAuthority> authorities = new ArrayList<>();
 		List<String> roles = new ArrayList<>();
-		if(isStaft != 3) {
+		if(isStaft == 0) {
 			roles.add("ROLE_USER");
-		} else {
-			roles.add("ROLE_ADMIN");
+		} else if (isStaft == 1) {
+			roles.add("ROLE_ADMIN_1");
+		} else if (isStaft == 2) {
+			roles.add("ROLE_ADMIN_2");
+		} else if (isStaft == 3) {
+			roles.add("ROLE_SADMIN");
 		}
 		for (String role : roles) {
 			authorities.add(new SimpleGrantedAuthority(role));

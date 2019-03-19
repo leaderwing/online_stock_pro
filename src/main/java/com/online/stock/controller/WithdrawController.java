@@ -28,6 +28,7 @@ public class WithdrawController {
     @Autowired
     private AfmastRepository afmastRepository;
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN_1','ROLE_SADMIN')")
     @RequestMapping(value = "/withdrawal", method = RequestMethod.POST)
     public ResponseEntity<String> sendWithdraw(HttpServletRequest httpRequest,
                                                @RequestBody TransferMoneyRequest request) {
@@ -54,7 +55,7 @@ public class WithdrawController {
             return new ResponseEntity<>("Có lỗi xảy ra!", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN_2','ROLE_SADMIN')")
     @RequestMapping(value = "/duyetrut", method = RequestMethod.GET)
     public ResponseEntity<List<ApproveDepositRes>> getApproveWithdraw() {
         List<ApproveDepositRes> resList = new ArrayList<>();
@@ -62,7 +63,7 @@ public class WithdrawController {
         return new ResponseEntity<>(resList,HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN_2','ROLE_SADMIN')")
     @RequestMapping(value = "/withdrawalap",method = RequestMethod.PUT)
     public ResponseEntity<String> approveWithdraw (ApproveDepositRes req) {
         int output = depositService.approveDeposit(req, TLTX);

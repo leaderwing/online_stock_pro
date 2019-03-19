@@ -1,9 +1,13 @@
 package com.online.stock.controller;
 
 import com.online.stock.dto.request.SellStockRequest;
+import com.online.stock.dto.response.CommonInfoRes;
 import com.online.stock.dto.response.OrderTradingResponse;
+import com.online.stock.dto.response.RateInfoRes;
 import com.online.stock.model.MapOrder;
+import com.online.stock.model.VGeneralInfo;
 import com.online.stock.repository.MapOrderRepository;
+import com.online.stock.repository.VGeneralInfoRepository;
 import com.online.stock.services.IOrderTradingService;
 import com.online.stock.services.IThirdPartyService;
 import org.apache.commons.lang.StringUtils;
@@ -15,6 +19,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 public class OrderTradingController {
 
@@ -24,6 +31,8 @@ public class OrderTradingController {
     private IThirdPartyService thirdPartyService;
     @Autowired
     private MapOrderRepository mapOrderRepository;
+    @Autowired
+    private VGeneralInfoRepository vGeneralInfoRepository;
 
     @RequestMapping(value = "/buyNomarl", method = RequestMethod.GET)
     public ResponseEntity<String> buyStock(@RequestParam String floor, @RequestParam int quantity,
@@ -138,4 +147,38 @@ public class OrderTradingController {
             return new ResponseEntity<>("Invalid Order Checking!", HttpStatus.BAD_REQUEST);
         }
     }
+    @RequestMapping(value = "/ttchung", method = RequestMethod.GET)
+    public  ResponseEntity<List<CommonInfoRes>> getCommonInfo () {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String loggedUsername = auth.getName();
+        if (StringUtils.isBlank(loggedUsername)) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        List<CommonInfoRes> commonInfoRes = new ArrayList<>();
+
+        List<VGeneralInfo> vGeneralInfos = vGeneralInfoRepository.findByCustId(loggedUsername);
+        if (vGeneralInfos.size() > 0) {
+            vGeneralInfos.forEach(vGeneralInfo -> {
+                CommonInfoRes commonInfoRes1 = new CommonInfoRes();
+                commonInfoRes1.setTai_san_rong(vGeneralInfo.getTsr());
+                commonInfoRes1.setSuc_mua(vGeneralInfo.getBitMax());
+                commonInfoRes1.setTy_le_ky_quy(vGeneralInfo.getRealMargrate());
+                commonInfoRes1.setDu_no_thuc_te(vGeneralInfo.getTotalLoad());
+                commonInfoRes.add(commonInfoRes1);
+            });
+        }
+        return new ResponseEntity<>(commonInfoRes,HttpStatus.OK);
+    }
+    @RequestMapping(value = "/tttyle", method = RequestMethod.GET)
+    public ResponseEntity<List<RateInfoRes>> getRateInfo () {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String loggedUsername = auth.getName();
+        if (StringUtils.isBlank(loggedUsername)) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        List<RateInfoRes> rateInfoRes = new ArrayList<>();
+        rateInfoRes = orderTradingService.getRateInfo(loggedUsername);
+        return new ResponseEntity<>(rateInfoRes, HttpStatus.OK);
+    }
+
 }

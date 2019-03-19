@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IAccountService {
     void changePassword(String username, String newPassword);
-    String register(RegisterRequest registerRequest);
+    String register(RegisterRequest registerRequest, String password);
 
     List<AccountInfoRes> getAccountList();
 }

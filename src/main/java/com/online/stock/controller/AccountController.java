@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,13 +24,14 @@ public class AccountController {
     private IAccountService accountService;
     @Autowired
     private AfmastRepository afmastRepository;
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN_1','ROLE_ADMIN_2', 'ROLE_SADMIN')")
     @RequestMapping(value = "/gettk", method = RequestMethod.GET)
     public ResponseEntity<List<AccountInfoRes>> getAccounts() {
         List<AccountInfoRes> resList = new ArrayList<>();
         resList = accountService.getAccountList();
         return new ResponseEntity<>(resList, HttpStatus.OK);
     }
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN_1','ROLE_ADMIN_2', 'ROLE_SADMIN')")
     @RequestMapping(value = "/captaikhoan", method = RequestMethod.POST)
     public ResponseEntity<Void> capTaikhoan(@RequestBody String custId) {
         String userName = "";

@@ -70,4 +70,7 @@ public class HibernateConfiguration {
 				.getObject());
 		return transactionManager;
 	}
+
+
+
 }

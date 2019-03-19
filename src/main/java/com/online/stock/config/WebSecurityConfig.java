@@ -1,6 +1,7 @@
 package com.online.stock.config;
 
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,7 +24,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	// This method is for overriding some configuration of the WebSecurity
 	// If you want to ignore some request or request patterns then you can
 	// specify that inside this method
-	@Override
+
+    @Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring()
 				// ignoring the "/", "/index.html", "/app/**", "/register",

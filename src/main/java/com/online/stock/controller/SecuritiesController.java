@@ -18,25 +18,25 @@ public class SecuritiesController {
     @Autowired
     private ISecuritiesService securitiesService;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN_2','ROLE_SADMIN')")
     @RequestMapping(value = "/getSecurity",method = RequestMethod.GET)
     public ResponseEntity<List<SecuritiesPractice>> getSecuritiesList() {
         List<SecuritiesPractice> sysVarList = securitiesService.getListSecurities();
         return new ResponseEntity<>(sysVarList, HttpStatus.OK);
     }
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN_2','ROLE_SADMIN')")
     @RequestMapping(value = "/addSecurity", method = RequestMethod.POST)
     public ResponseEntity<Void> addSecurity (@RequestBody SecuritiesPractice req) {
         securitiesService.addSecurity(req);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN_2','ROLE_SADMIN')")
     @RequestMapping(value = "/updateSecurity", method = RequestMethod.PUT)
     public ResponseEntity<Void> updateSecurity (@RequestBody SecuritiesPractice req) {
         securitiesService.updateSecurity(req);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN_2','ROLE_SADMIN')")
     @RequestMapping(value = "/deleteSecurity", method = RequestMethod.PUT)
     public ResponseEntity<Void> deleteSecurity (@RequestParam String symbol) {
         securitiesService.deleteSecurity(symbol);
