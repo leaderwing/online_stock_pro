@@ -97,7 +97,7 @@ angular.module('app', ['ui.router', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', '
         $urlRouterProvider.otherwise('/stock-trading')
 
     }).controller('appCtrl', ['$scope','$http', function ($scope, $http) {
-                  var user = document.cookie;
+                  var user = document.cookie.split("$")[0];
                   if (user && user != '' && user != 'undefined') {
                   $http.defaults.headers.common['Authorization'] = 'Bearer ' + user;
                   }

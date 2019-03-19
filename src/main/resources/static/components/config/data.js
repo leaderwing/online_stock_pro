@@ -33,11 +33,11 @@ angular.module('app').factory('data', ['config', 'request',
             return request.post(url);
         }
 
-        //-----------hien thi account---------------------
-        methods.getAcctno = function () {
-            var url = config.HOST + '/buyNomarl';
-            return request.get(url);
-        }
+        // //-----------hien thi account---------------------
+        // methods.getAcctno = function () {
+        //     var url = config.HOST + '/buyNomarl';
+        //     return request.get(url);
+        // }
         //-----------hien thi role------------------------------------
         methods.getIsstaft = function () {
             var url = config.HOST + '/getIss';

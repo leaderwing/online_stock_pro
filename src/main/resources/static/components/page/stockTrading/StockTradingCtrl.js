@@ -18,11 +18,11 @@ angular.module('app').controller('stockTradingCtrl',
 
             data.history(todo).then(function (result) {
                 vm.history = result.rowList
-               data.floorName(result.CODEID).then(function (resultfloor) {
-                   // console.log(resultfloor)
-                   vm.floorName = resultfloor;
-
-               });
+               // data.floorName(result.CODEID).then(function (resultfloor) {
+               //     // console.log(resultfloor)
+               //     vm.floorName = resultfloor;
+               //
+               // });
 
             }, function (err) {
                 alert(err);
@@ -64,7 +64,7 @@ angular.module('app').controller('stockTradingCtrl',
 
                 })
                 data.priceView(todo.symbol).then(function (result) {
-                    console.log("deeeer",result);
+
                     vm.priceView = result;
                     todos.m1 = result.m1;
 
