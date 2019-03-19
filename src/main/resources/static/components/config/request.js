@@ -51,6 +51,28 @@ angular.module('app').factory('request',
                 });
                 return defer.promise;
             }
+            function get(url,params) {
+                            var defer = $q.defer();
+                            var config = {
+                                url: url,
+                                method: 'GET',
+                                timeout: 20000,
+                                params: params
+                            }
+                            $http(config).then(function (data) {
+                                console.log(data)
+                                defer.resolve(data.data)
+                                // if (data.data.error == 0) {
+                                //     defer.resolve(data.data);
+                                // } else {
+                                // }
+
+                            }, function (err) {
+                                console.log(err)
+                                $window.location.href = '/';
+                            });
+                            return defer.promise;
+                        }
             function deletes(url) {
                 var defer = $q.defer();
                 var config = {

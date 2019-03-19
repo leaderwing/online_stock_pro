@@ -19,7 +19,7 @@ angular.module('app')
                                                        $http.defaults.headers.common['Authorization'] = 'Bearer ' + res.token;
                                                        // setting the user in AuthService
                                                        AuthService.setUser(res.user);
-                                                       document.cookie = res.user["username"];
+                                                       document.cookie = res.token + "$" + res.user.isStaft;
                                                        $rootScope.$broadcast('LoginSuccessful');
                                                        // going to the home page
                                                        $state.go('root.stock-trading');

@@ -48,7 +48,7 @@ public class OrderTradingController {
         if (StringUtils.isBlank(floor) || price == 0.0 || StringUtils.isBlank(symbol)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        result = orderTradingService.checkOrder(loggedUsername, quantity, price, symbol, orderType);
+        result = orderTradingService.checkOrder(loggedUsername, quantity, price, symbol.toUpperCase(), orderType);
         if (result == 0) {
             // can order
             String vtos_token = System.getProperty("vtos");
