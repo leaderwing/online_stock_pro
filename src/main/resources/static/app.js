@@ -1,7 +1,8 @@
 var sessionVal = "";
 angular.module('app', ['ui.router', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'angularMoment', 'infinite-scroll', 'infinite-scroll'])
     .config(function ($stateProvider, $urlRouterProvider) {
-        $stateProvider.state('root', {
+        $stateProvider
+        .state('root', {
             abstract: true,
             templateUrl: "components/root/rootView.html",
             controller: 'rootCtrl as vm'
@@ -9,28 +10,8 @@ angular.module('app', ['ui.router', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', '
                       url: '/login',
                       templateUrl: "components/page/login/login.html",
                       controller: 'LoginController as vm',
-                  }).state('users', {
-                  parent: 'nav',
-                  url: '/users',
-                  data: {
-                      role: 'ADMIN'
-                  },
-                  views: {
-                      'content@': {
-                          templateUrl: 'components/page/users/users.html',
-                          controller: 'UsersController',
-                      }
-                  }
-              }).state('home', {
-                  parent: 'nav',
-                  url: '/',
-                  views: {
-                      'content@': {
-                          templateUrl: 'components/page/home/home.html',
-                          controller: 'HomeController'
-                      }
-                  }
-              }).state('page-not-found', {
+                  })
+        .state('page-not-found', {
                   parent: 'nav',
                   url: '/page-not-found',
                   views: {
@@ -39,7 +20,8 @@ angular.module('app', ['ui.router', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', '
                           controller: 'PageNotFoundController'
                       }
                   }
-              }).state('access-denied', {
+              })
+        .state('access-denied', {
                   parent: 'nav',
                   url: '/access-denied',
                   views: {
@@ -48,7 +30,8 @@ angular.module('app', ['ui.router', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', '
                           controller: 'AccessDeniedController'
                       }
                   }
-              }).state('register', {
+              })
+        .state('register', {
                   parent: 'nav',
                   url: '/register',
                   views: {
@@ -57,7 +40,8 @@ angular.module('app', ['ui.router', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', '
                           controller: 'RegisterController'
                       }
                   }
-              }).state('root.price-list', {
+              })
+        .state('root.price-list', {
             url: '/price-list',
             templateUrl: "components/page/priceList/priceList.html",
             controller: 'priceListCtrl as vm',
@@ -110,9 +94,15 @@ angular.module('app', ['ui.router', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', '
             templateUrl: "components/page/thamSoHeThong/thamSoHeThong.html",
             controller: 'thamSoHeThong as vm'
         })
-        $urlRouterProvider.otherwise('/xu-ly-tai-khoan')
+        $urlRouterProvider.otherwise('/stock-trading')
 
-    }).run(function (AuthService, $rootScope, $state) {
+    }).controller('appCtrl', ['$scope','$http', function ($scope, $http) {
+                  var user = document.cookie.split("$")[0];
+                  if (user && user != '' && user != 'undefined') {
+                  $http.defaults.headers.common['Authorization'] = 'Bearer ' + user;
+                  }
+                }])
+    .run(function (AuthService, $rootScope, $state) {
               // For implementing the authentication with ui-router we need to listen the
               // state change. For every state change the ui-router module will broadcast
               // the '$stateChangeStart'.
@@ -127,6 +117,7 @@ angular.module('app', ['ui.router', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', '
                                             $state.go('login');
                                         }
                                     } else {
+                                        //$http.defaults.headers.common['Authorization'] = 'Bearer ' + user;
                                         // checking the user is authorized to view the states
                                         if (toState.data && toState.data.role) {
                                             var hasAccess = false;
@@ -140,11 +131,9 @@ angular.module('app', ['ui.router', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', '
                                             if (!hasAccess) {
                                                 event.preventDefault();
                                                 $state.go('access-denied');
-                                            }
+                                                                                         }
 
                                         }
                                     }
                                 });
           })
-    .controller('appCtrl', ['$scope', function ($scope) {
-          }])

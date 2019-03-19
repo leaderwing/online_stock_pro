@@ -32,12 +32,12 @@ public class OrderTradingService implements IOrderTradingService {
 
     @Override
     public int checkOrder(String accTno, int quantity, float price, String symbol, String order) {
-        return checkOrder(accTno, "mua", quantity, price, symbol);
+        return checkOrder(accTno, "Mua", quantity, price, symbol);
     }
 
     @Override
     public int checkSellOrder(String accTno, int quantity, float price, String symbol, String orderType) {
-        return checkOrder(accTno, "ban", quantity, price, symbol);
+        return checkOrder(accTno, "Ban", quantity, price, symbol);
     }
 
     @Override
