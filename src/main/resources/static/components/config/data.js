@@ -2,19 +2,20 @@ angular.module('app').factory('data', ['config', 'request',
     function (config, request) {
         var methods = {}
         //-----------hien thi history----------------------
-        methods.history = function () {
+        methods.history = function (data) {
             var url = config.HOST + '/history';
-            return request.get(url);
+
+            return request.get(url,data);
         }
 
-        methods.historyhits = function () {
+        methods.historyhits = function (data) {
             var url = config.HOST + '/historyhits';
-            return request.get(url);
+            return request.get(url,data);
         }
         //---------------tim kiem history-----------------historyhits
         methods.sehistory = function (todoData) {
             var url = config.HOST + '/history';
-            return request.post(url, todoData);
+            return request.get(url, todoData);
         }
 
         methods.sehistoryhits = function (todoData) {
@@ -50,7 +51,7 @@ angular.module('app').factory('data', ['config', 'request',
         //-----------Dat lenh mua------------------------------
         methods.createNormal = function (todoData) {
             var url = config.HOST + '/buyNomarl';
-            return request.post(url, todoData);
+            return request.get(url, todoData);
         }
         //-----------Dat lenh ban------------------------------
         methods.createNormalBan = function (todoData) {
