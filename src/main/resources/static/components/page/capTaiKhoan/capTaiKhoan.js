@@ -1,18 +1,14 @@
 angular.module('app').controller('capTaiKhoanCtrl',
-    ['data', 'modal', '$window', '$rootScope', 'socket', '$state', '$scope', 'dateFilter',
-        function (data, modal, $window, $rootScope, socket, $state, $scope, dateFilter, ) {
+    ['data', 'modal', '$window', '$rootScope', '$state', '$scope', 'dateFilter',
+        function (data, modal, $window, $rootScope, $state, $scope, dateFilter ) {
             var vm = this;
 
             //get thong tin tai khoan--------------------------
             data.getTK().then(function (response) {
+
                 vm.taikhoan = response;
                 
-                socket.on('change', function(response) {
-                    
-                    vm.taikhoan = response;
-                   console.log(vm.taikhoan)
-                    $scope.$apply();
-                });
+
             }, function (err) {
                 console.log(err);
             });
@@ -22,7 +18,8 @@ angular.module('app').controller('capTaiKhoanCtrl',
                 var t = confirm('Bạn có chắc chắn muốn thực hiện');
                 if (t === true){
                 data.captksm(todo).then(function (response) {
-                    alert(response);
+
+                    alert("thanh cong");
                     data.getTK().then(function (response1) {
                         vm.taikhoan = response1;
                     }, function (err) {

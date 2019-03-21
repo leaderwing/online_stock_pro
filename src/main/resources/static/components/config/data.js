@@ -115,7 +115,7 @@ angular.module('app').factory('data', ['config', 'request',
         }
 
         methods.thamso = function () {
-            var url = config.HOST + '/getsys';
+            var url = config.HOST + '/getSysVar';
             return request.get(url);
         }
         
@@ -144,6 +144,12 @@ angular.module('app').factory('data', ['config', 'request',
             var url = config.HOST + '/huy/' + id;
             return request.deletes(url);
         }
+
+        methods.hisxulytaikhoan = function (id) {
+            var url = config.HOST + '/historyView/' + id;
+            return request.get(url);
+        }
+
         //-------hien thi ten san-------------------------
         methods.floorName = function (symbol) {
             var url = config.HOST + '/floorname/' + symbol;

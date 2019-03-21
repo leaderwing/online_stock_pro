@@ -81,7 +81,7 @@ public class TradingController {
             JSONObject jObject = new JSONObject(json);
             JSONArray jsonArray = jObject.getJSONObject("data").getJSONArray("hits");
             if(jsonArray.length() == 0) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.OK);
             }
             JSONObject source = jsonArray.getJSONObject(0).getJSONObject("_source");
             response.setFloorCode(String.valueOf(source.get("floorCode")));
@@ -97,15 +97,19 @@ public class TradingController {
     public ResponseEntity<PriceResponse> getFloorPrice(@PathVariable String symbol) {
         PriceResponse response = new PriceResponse();
         RestTemplate restTemplate = new RestTemplate();
-        String json = restTemplate.getForObject(Constant.API_URL_FLOOR_PRICE.concat(StringUtils.trim(symbol).toUpperCase()),String.class);
-        json = json.replace("[","").replace("]","")
-            .replace("\"","");
-        json = json.replace("|", ";");
-        String[] priceList = json.split(";");
-        response.setM1(priceList[23]);
-        response.setKl1(priceList[24]);
-        response.setB1(priceList[29]);
-        response.setKl2(priceList[30]);
+        try {
+            String json = restTemplate.getForObject(Constant.API_URL_FLOOR_PRICE.concat(StringUtils.trim(symbol).toUpperCase()), String.class);
+            json = json.replace("[", "").replace("]", "")
+                    .replace("\"", "");
+            json = json.replace("|", ";");
+            String[] priceList = json.split(";");
+            response.setM1(priceList[23]);
+            response.setKl1(priceList[24]);
+            response.setB1(priceList[29]);
+            response.setKl2(priceList[30]);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
         return  new ResponseEntity<>(response,HttpStatus.OK);
     }
     @RequestMapping(value = "/huy/{id}", method = RequestMethod.DELETE)

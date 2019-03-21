@@ -24,6 +24,9 @@
     <!-- Container fluid  -->
     <!-- ============================================================== -->
     <div class="container-fluid">
+        <p class="text-center" ng-show="loading">
+            <span class="fa fa-spinner fa-spin fa-3x"></span>
+        </p>
         <!-- ============================================================== -->
         <!-- Start Page Content -->
         <!-- ============================================================== -->
@@ -43,20 +46,25 @@
                         </thead>
                         <tbody id="accordion">
                             <tr ng-repeat="thamso in vm.thamso">
-                                <td>{{thamso.GRNAME}}</td>
-                                <td>{{thamso.VARNAME}}</td>
-                                <td>{{thamso.VARVALUE}}</td>
-                                <td>{{thamso.VARDESC}}</td>
-                                <td>{{thamso.EN_VARDESC}}</td>
+                                <td><input type="text" class="form-control"  ng-disabled="isDisabled"   required=""
+                                           value="{{thamso.grname}}"></td>
+                                <td><input type="text" class="form-control"  ng-disabled="isDisabled"   required=""
+                                           value="{{thamso.varname}}"></td>
+                                <td><input type="text" class="form-control"  ng-disabled="isDisabled"   required=""
+                                           value="{{thamso.varvalue}}"></td>
+                                <td><input type="text" class="form-control"  ng-disabled="isDisabled"   required=""
+                                           value="{{thamso.vardesc}}"></td>
+                                <td><input type="text" class="form-control"  ng-disabled="isDisabled"   required=""
+                                           value="{{thamso.en_vardesc}}"></td>
                                 <td>
                                     <div class="ic_active">
-                                        <a href="//{{thamso.CUSTID}}"><img src="public/images/add-icon.png" alt="them" title="Them"></a>
+                                        <a href="" ng-click=""><img src="public/images/add-icon.png" alt="them" title="Them"></a>
                                     </div>
                                     <div class="ic_active">
-                                        <a href="/historyView/{{thamso.CUSTID}}"><img src="public/images/ic_edit2.png" alt="Sua" title="Sua"></a>
+                                        <a href="/historyView/{{thamso.custid}}"><img src="public/images/ic_edit2.png" alt="Sua" title="Sua"></a>
                                     </div>
                                     <div class="ic_active">
-                                        <a href="/historyView/{{thamso.CUSTID}}"><img src="public/images/ic_delete2.png" alt="Xoa" title="Xoa"></a>
+                                        <a href="/historyView/{{thamso.custid}}"><img src="public/images/ic_delete2.png" alt="Xoa" title="Xoa"></a>
                                     </div>
                                     
                                 </td>

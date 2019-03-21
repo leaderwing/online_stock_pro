@@ -1,19 +1,25 @@
 angular.module('app').controller('xuLyTaiKhoanCtrl',
-['data', 'modal', '$window', '$rootScope', '$state', '$scope', 'dateFilter',
-function (data, modal, $window, $rootScope, $state, $scope, dateFilter, ) {
+    ['data', 'modal', '$window', '$rootScope', '$state', '$scope', 'dateFilter',
+        function (data, modal, $window, $rootScope, $state, $scope, dateFilter) {
             var vm = this;
-        
-//            data.luongchungse().then(function (result) {
-//                vm.luongchungse = result;
-//                socket.on('change1', function(response) {
-//
-//                    vm.luongchungse = response;
-//                   //console.log(vm.taikhoan)
-//                    $scope.$apply();
-//                });
-//            }, function (err) {
-//                console.log(err);
-//            });
+
+            data.luongchungse().then(function (result) {
+
+                vm.luongchungse = result;
+            }, function (err) {
+                console.log(err);
+            });
+
+            vm.hisxulytaikhoan = function (id) {
+                $state.go("/trading/{id}",id);
+                data.hisxulytaikhoan(id).then(function (result) {
+
+                }, function (err) {
+                    alert(err);
+                });
+
+            }
+
             return;
         }
     ])

@@ -45,6 +45,10 @@ angular.module('app', ['ui.router', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', '
             url: '/price-list',
             templateUrl: "components/page/priceList/priceList.html",
             controller: 'priceListCtrl as vm',
+        }).state('root.his-xy-ly-tai-khoan', {
+            url: '/his-xy-ly-tai-khoan',
+            templateUrl: "components/page/hisXuLyTaiKhoan/hisXuLyTaiKhoan.html",
+            controller: 'hisXuLyTaiKhoan as vm',
         }).state('root.stock-trading', {
             url: '/stock-trading',
             templateUrl: "components/page/stockTrading/StockTradingView.html",
