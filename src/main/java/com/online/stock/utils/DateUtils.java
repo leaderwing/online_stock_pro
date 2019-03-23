@@ -37,7 +37,7 @@ public class DateUtils {
     public static String getHHMMSS(String iso_date)  {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-            Date date = sdf.parse(iso_date);
+            Date date = sdf.parse(iso_date.replaceAll("Z$","+0700"));
             sdf = new SimpleDateFormat("HH:mm:ss");
             return  sdf.format(date);
         }catch (Exception e) {
