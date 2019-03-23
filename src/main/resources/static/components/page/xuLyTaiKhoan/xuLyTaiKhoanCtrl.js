@@ -11,12 +11,9 @@ angular.module('app').controller('xuLyTaiKhoanCtrl',
             });
 
             vm.hisxulytaikhoan = function (id) {
-                $state.go("/trading/{id}",id);
-                data.hisxulytaikhoan(id).then(function (result) {
+                $window.localStorage.setItem('idcusid', id);
+                $state.go("root.his-xy-ly-tai-khoan");
 
-                }, function (err) {
-                    alert(err);
-                });
 
             }
 

@@ -182,7 +182,7 @@ angular.module('app').controller('stockTradingCtrl',
             vm.deleteTodo = function (todo) {
                 var t = confirm('Bạn có chắc chắn muốn thực hiện');
                 if (t === true) {
-                    data.deletes(todo.ORDERID).then(function (result) {
+                    data.deletes(todo.orderid).then(function (result) {
                         alert('Bạn đã hủy thành công');
                         data.history().then(function (result) {
 
@@ -201,12 +201,12 @@ angular.module('app').controller('stockTradingCtrl',
                 var t = confirm('Bạn có chắc chắn muốn thực hiện');
                 if (t === true) {
                     var todo = {
-                        execqtty: todo.EXECQTTY,
-                        closedqtty: todo.CLOSEDQTTY,
-                        oderid: todo.ORDERID,
+                        execqtty: todo.execqtty,
+                        closedqtty: todo.closedqtty,
+                        oderid: todo.orderid,
                         price: 0,
-                        symbol: todo.CODEID,
-                        orderType: todo.PRICETYPE
+                        symbol: todo.codeid,
+                        orderType: todo.pricetype
                     }
                     console.log(todo)
                     data.createNormalBan(todo).then(function (result) {

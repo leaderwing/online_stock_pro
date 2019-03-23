@@ -2,51 +2,50 @@ var sessionVal = "";
 angular.module('app', ['ui.router', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'angularMoment', 'infinite-scroll', 'infinite-scroll'])
     .config(function ($stateProvider, $urlRouterProvider) {
         $stateProvider
-        .state('root', {
-            abstract: true,
-            templateUrl: "components/root/rootView.html",
-            controller: 'rootCtrl as vm'
-        }).state('login', {
-                      url: '/login',
-                      templateUrl: "components/page/login/login.html",
-                      controller: 'LoginController as vm',
-                  })
-        .state('page-not-found', {
-                  parent: 'nav',
-                  url: '/page-not-found',
-                  views: {
-                      'content@': {
-                          templateUrl: 'components/page/page-not-found/page-not-found.html',
-                          controller: 'PageNotFoundController'
-                      }
-                  }
-              })
-        .state('access-denied', {
-                  parent: 'nav',
-                  url: '/access-denied',
-                  views: {
-                      'content@': {
-                          templateUrl: 'components/page/access-denied/access-denied.html',
-                          controller: 'AccessDeniedController'
-                      }
-                  }
-              })
-        .state('register', {
-                  parent: 'nav',
-                  url: '/register',
-                  views: {
-                      'content@': {
-                          templateUrl: 'components/page/register/register.html',
-                          controller: 'RegisterController'
-                      }
-                  }
-              })
-        .state('root.price-list', {
-            url: '/price-list',
-            templateUrl: "components/page/priceList/priceList.html",
-            controller: 'priceListCtrl as vm',
-        }).state('root.his-xy-ly-tai-khoan', {
+            .state('root', {
+                abstract: true,
+                templateUrl: "components/root/rootView.html",
+                controller: 'rootCtrl as vm'
+            }).state('login', {
+            url: '/login',
+            templateUrl: "components/page/login/login.html",
+            controller: 'LoginController as vm',
+        })
+            .state('page-not-found', {
+                parent: 'nav',
+                url: '/page-not-found',
+                views: {
+                    'content@': {
+                        templateUrl: 'components/page/page-not-found/page-not-found.html',
+                        controller: 'PageNotFoundController'
+                    }
+                }
+            })
+            .state('access-denied', {
+                parent: 'nav',
+                url: '/access-denied',
+                views: {
+                    'content@': {
+                        templateUrl: 'components/page/access-denied/access-denied.html',
+                        controller: 'AccessDeniedController'
+                    }
+                }
+            })
+            .state('register', {
+                url: '/register',
+                templateUrl: 'components/page/register/register.html',
+                controller: 'RegisterController'
+            })
+            .state('root.price-list', {
+                url: '/price-list',
+                templateUrl: "components/page/priceList/priceList.html",
+                controller: 'priceListCtrl as vm',
+            }).state('root.his-xy-ly-tai-khoan', {
             url: '/his-xy-ly-tai-khoan',
+            data: {
+                customData1: 44,
+                customData2: "red"
+            },
             templateUrl: "components/page/hisXuLyTaiKhoan/hisXuLyTaiKhoan.html",
             controller: 'hisXuLyTaiKhoan as vm',
         }).state('root.stock-trading', {
@@ -100,44 +99,44 @@ angular.module('app', ['ui.router', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', '
         })
         $urlRouterProvider.otherwise('/stock-trading')
 
-    }).controller('appCtrl', ['$scope','$http', function ($scope, $http) {
-                  var user = document.cookie.split("$")[0];
-                  if (user && user != '' && user != 'undefined') {
-                  $http.defaults.headers.common['Authorization'] = 'Bearer ' + user;
-                  }
-                }])
+    }).controller('appCtrl', ['$scope', '$http', function ($scope, $http) {
+    var user = document.cookie.split("$")[0];
+    if (user && user != '' && user != 'undefined') {
+        $http.defaults.headers.common['Authorization'] = 'Bearer ' + user;
+    }
+}])
     .run(function (AuthService, $rootScope, $state) {
-              // For implementing the authentication with ui-router we need to listen the
-              // state change. For every state change the ui-router module will broadcast
-              // the '$stateChangeStart'.
+        // For implementing the authentication with ui-router we need to listen the
+        // state change. For every state change the ui-router module will broadcast
+        // the '$stateChangeStart'.
         $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-                                    // checking the user is logged in or not
-                                    //var user = $cookies.user;
-                                    var user = document.cookie;
-                                    if (!user || user == '' || user == 'undefined') {
-                                        // if condition.
-                                        if (toState.name != 'login' && toState.name != 'register') {
-                                            event.preventDefault();
-                                            $state.go('login');
-                                        }
-                                    } else {
-                                        //$http.defaults.headers.common['Authorization'] = 'Bearer ' + user;
-                                        // checking the user is authorized to view the states
-                                        if (toState.data && toState.data.role) {
-                                            var hasAccess = false;
-                                            for (var i = 0; i < AuthService.user.roles.length; i++) {
-                                                var role = AuthService.user.roles[i];
-                                                if (toState.data.role == role) {
-                                                    hasAccess = true;
-                                                    break;
-                                                }
-                                            }
-                                            if (!hasAccess) {
-                                                event.preventDefault();
-                                                $state.go('access-denied');
-                                                                                         }
+            // checking the user is logged in or not
+            //var user = $cookies.user;
+            var user = document.cookie;
+            if (!user || user == '' || user == 'undefined') {
+                // if condition.
+                if (toState.name != 'login' && toState.name != 'register') {
+                    event.preventDefault();
+                    $state.go('login');
+                }
+            } else {
+                //$http.defaults.headers.common['Authorization'] = 'Bearer ' + user;
+                // checking the user is authorized to view the states
+                if (toState.data && toState.data.role) {
+                    var hasAccess = false;
+                    for (var i = 0; i < AuthService.user.roles.length; i++) {
+                        var role = AuthService.user.roles[i];
+                        if (toState.data.role == role) {
+                            hasAccess = true;
+                            break;
+                        }
+                    }
+                    if (!hasAccess) {
+                        event.preventDefault();
+                        $state.go('access-denied');
+                    }
 
-                                        }
-                                    }
-                                });
-          })
+                }
+            }
+        });
+    })

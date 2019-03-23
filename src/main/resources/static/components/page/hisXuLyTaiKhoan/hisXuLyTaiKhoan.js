@@ -1,19 +1,19 @@
 angular.module('app').controller('hisXuLyTaiKhoan',
     ['data', 'modal', '$window', '$rootScope', '$state', '$scope', 'dateFilter',
-        function (data, modal, $window, $rootScope, $state, $scope, dateFilter, ) {
+        function (data, modal, $window, $rootScope, $state, $scope, dateFilter) {
+            var todos = {};
             var vm = this;
-            // console.log('showStockTrading')
-            //------hien thi chi tiet lich su--------
-            vm.showStockTrading = function () {
-                console.log('modal')
-                modal.showStockTrading();
-            }
+            var fromDate = moment($scope.THAMSO_NGAY1).format("YYYYMMDD");
+            var toDate = moment($scope.THAMSO_NGAY2).format("YYYYMMDD");
 
-            //-------hien thi lich su---------
-            // data.history().then(function (result) {
-            //     // console.log(result)
-            //     vm.history = result
-            // })
+
+            var todo = {
+                ngay1: fromDate,
+                ngay2: toDate,
+                exectype: ($scope.THAMSO_EXECTYPE) ? $scope.THAMSO_EXECTYPE : "",
+                symbol: ($scope.THAMSO_SYMBOL) ? $scope.THAMSO_SYMBOL : ""
+
+            }
             //-------Closed lenh-------------------
             vm.createNormalBan = function (todo) {
                 var t = confirm('Bạn có chắc chắn muốn thực hiện');
@@ -29,9 +29,9 @@ angular.module('app').controller('hisXuLyTaiKhoan',
                     console.log(todo)
                     data.createNormalBan(todo).then(function (result) {
                         alert(result);
-                        data.historyAdmin().then(function (result) {
-                            // console.log(result)
-                            vm.history = result
+                        data.hisxulytaikhoan($window.localStorage.getItem('idcusid')).then(function (result) {
+                            console.log("ddds", result)
+                            vm.history = result.rowList
                         })
                     }, function (err) {
                         console.log(err);
@@ -42,10 +42,12 @@ angular.module('app').controller('hisXuLyTaiKhoan',
             }
 
             //---------------------------
-            data.historyAdmin().then(function (result) {
-                // console.log(result)
-                vm.history = result
+            data.hisxulytaikhoan($window.localStorage.getItem('idcusid')).then(function (result) {
+                 console.log("ddds", result)
+                vm.history = result.rowList
             })
+
+
             //------hien thi account--------------
             // data.getAcctno().then(function (result) {
             //     // console.log(result);
@@ -55,32 +57,23 @@ angular.module('app').controller('hisXuLyTaiKhoan',
             // });
             //----tim kiem--------------------------
             vm.seHistory = function () {
-                $scope.date1 = new Date($scope.dateString);
-                var THAMSO_NGAY2
-                if (($scope.date1.getDate().toString()).length === 1) {
-                    THAMSO_NGAY2 = "0" + $scope.date1.getDate().toString();
-                } else {
-                    THAMSO_NGAY2 = $scope.date1.getDate().toString();
-                }
-                var todo = {
-                    ngay1: $scope.THAMSO_NGAY1,
-                    ngay2: $scope.date1.getFullYear().toString() + ($scope.date1.getMonth() + 1).toString() + THAMSO_NGAY2,
-                    exectype: $scope.THAMSO_EXECTYPE,
-                    symbol: $scope.THAMSO_SYMBOL,
+                var todoo = {
+                    ngay1: moment($scope.THAMSO_NGAY1).format("YYYYMMDD"),
+                    ngay2: moment($scope.dateString).format("YYYYMMDD"),
+                    exectype: ($scope.THAMSO_EXECTYPE) ? $scope.THAMSO_EXECTYPE : "",
+                    symbol: ($scope.THAMSO_SYMBOL) ? $scope.THAMSO_SYMBOL : ""
 
                 }
-                console.log(todo.ngay2)
-                data.sehistory(todo).then(function (result) {
-                    console.log(result)
-                    vm.history = result
+                data.hisxulytaikhoan($window.localStorage.getItem('idcusid')).then(function (result) {
+                    console.log("ddds", result)
+                    vm.history = result.rowList
                 })
-            };
+            }
             $scope.date = new Date();
             $scope.$watch('date', function (date) {
 
-                // console.log(dateFilter(date, 'yyyy/MM/dd'))
-                // console.log(dateFilter(date, 'yyyy/MM/dd').substr(0, 4)+dateFilter(date, 'yyyy/MM/dd').substr(5, 2)+dateFilter(date, 'yyyy/MM/dd').substr(8, 2));
-                $scope.THAMSO_NGAY1 = new Date(dateFilter("12/01/2018", 'yyyy/MM/dd'));
+
+                $scope.THAMSO_NGAY1 = new Date(dateFilter(moment(new Date(moment().toDate())).format('MM/DD/YYYY'), 'yyyy/MM/dd'));
                 $scope.dateString = new Date(dateFilter(date, 'yyyy/MM/dd'));
             });
             return;
