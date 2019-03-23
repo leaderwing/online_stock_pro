@@ -26,14 +26,14 @@ public class SystemVarService implements ISystemVarService {
     public void addSysVar(SystemVarAddReq req) {
         SysVar sysVar = new SysVar();
         BeanUtils.copyProperties(req, sysVar);
-        sysVar.setGrname(req.getGRNAME().name());
+        sysVar.setGrname(req.getGrname().name());
         sysVarRepository.save(sysVar);
     }
 
     @Override
     public void updateSysVar(SystemVarAddReq req) {
-        SysVar sysVar = sysVarRepository.findFirstByGrnameAndVarname(req.getGRNAME().name(),
-                req.getVARNAME());
+        SysVar sysVar = sysVarRepository.findFirstByGrnameAndVarname(req.getGrname().name(),
+                req.getVarname());
         if (sysVar != null) {
             BeanUtils.copyProperties(req, sysVar);
             sysVarRepository.save(sysVar);

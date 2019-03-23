@@ -93,6 +93,23 @@ angular.module('app').factory('data', ['config', 'request',
             var url = config.HOST + '/gettk';
             return request.get(url);
         }
+
+        methods.addSysVar = function (todo) {
+            var url = config.HOST + '/addSysVar';
+            return request.post(url, todo);
+        }
+
+        methods.saveUpdateSysVar = function (todo) {
+            var url = config.HOST + '/updateSysVar';
+            return request.put(url, todo);
+        }
+
+        methods.deleteSysVar = function (todo) {
+            var url = config.HOST + '/deleteSysVar';
+            console.log("ddsdsdsa",todo)
+            return request.deletes(url, todo);
+        }
+
         //hien thi trang duyet rut-------------------
         methods.getDuyetRut = function () {
             var url = config.HOST + '/duyetrut';
@@ -124,7 +141,7 @@ angular.module('app').factory('data', ['config', 'request',
             var url = config.HOST + '/getSysVar';
             return request.get(url);
         }
-        
+
         methods.chungkhoan = function () {
             var url = config.HOST + '/getthamsock';
             return request.get(url);

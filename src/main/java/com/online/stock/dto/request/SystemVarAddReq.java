@@ -8,10 +8,10 @@ import org.hibernate.validator.constraints.NotBlank;
 @Data
 public class SystemVarAddReq {
     @NonNull
-    private SysGroup GRNAME;
+    private SysGroup grname;
     @NotBlank
-    private String VARNAME;
-    private String VARVALUE;
-    private String VARDESC;
-    private String EN_VARDESC;
+    private String varname;
+    private String varvalue;
+    private String vardesc;
+    private String en_vardesc;
 }

@@ -1,22 +1,86 @@
+<div class="modal fade" id="Modal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-sm-8 left">
+                    <h4>Thêm tham số</h4>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-sm-12 right">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <select class="form-control" ng-model="formData.gname">
+                                <option value="">Nhóm tên</option>
+                                <option>SYSTEM</option>
+                                <option>DEFINED</option>
+                            </select>
+                            <!-- <input type="text" class="form-control" ng-model="formData.orderType" placeholder="Type"> -->
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <input type="text" class="form-control"
+                                       ng-model="formData.name" placeholder="Tên">
+                                <!-- <button class="btn_info">Chi tiết</button> -->
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" ng-model="formData.value"
+                                   placeholder="Giá trị">
+                        </div>
 
+                        <div class="col-sm-4">
+                            <textarea class="form-control" ng-model="formData.v_note" placeholder="V_Ghi chú"> </textarea>
+                        </div>
+                        <div class="col-sm-4">
+                            <textarea type="text" class="form-control" ng-model="formData.e_note" placeholder="E_Ghi chú"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ</button>
+                <button type="button" class="btn btn-danger" ng-click="vm.addSysVar()">Thêm</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="page-wrapper">
-       
+
     <div class="page-breadcrumb">
         <div class="row">
             <div class="col-12 d-flex no-block align-items-center">
-                <h4 class="page-title">Tham số hệ thống</h4>
+                <div class="col-3">
+                    <h4 class="page-title">Tham số hệ thống</h4>
+                </div>
+                <div class="col-1">
+                    Search
+                </div>
+                <div class="col-5">
+                    <div class="col-lg-8 col-md-12">
+                        <input type="text" class="form-control is-valid">
+
+                    </div>
+                </div>
                 <div class="ml-auto text-right">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Library</li>
+
+                            <button type="button" data-toggle="modal" data-target="#Modal2" class="btn btn btn-danger"><i class="fas fa-plus"></i></button>
+                            <p style="width: 5px"> </p>
+                            <button type="button" ng-click="vm.updateSysVar()" class="btn btn-primary"><i class="fas fa-pencil-alt"></i></button>
+
+
                         </ol>
                     </nav>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <!-- ============================================================== -->
     <!-- End Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
@@ -35,40 +99,38 @@
                 <div class="card">
                     <table class="table">
                         <thead>
-                            <tr>
-                                <th rowspan="2">Nhom ten</th>
-                                <th rowspan="2">Ten</th>
-                                <th rowspan="2">Gia tri</th>
-                                <th rowspan="2">V_Ghi chu</th>
-                                <th rowspan="2">E_Ghi chu</th>
-                                <th rowspan="2">Active</th>
-                            </tr>
+                        <tr>
+                            <th rowspan="2">Nhom ten</th>
+                            <th rowspan="2">Ten</th>
+                            <th rowspan="2">Gia tri</th>
+                            <th rowspan="2">V_Ghi chu</th>
+                            <th rowspan="2">E_Ghi chu</th>
+                            <th rowspan="2">Active</th>
+                        </tr>
                         </thead>
                         <tbody id="accordion">
-                            <tr ng-repeat="thamso in vm.thamso">
-                                <td><input type="text" class="form-control"  ng-disabled="isDisabled"   required=""
-                                           value="{{thamso.grname}}"></td>
-                                <td><input type="text" class="form-control"  ng-disabled="isDisabled"   required=""
-                                           value="{{thamso.varname}}"></td>
-                                <td><input type="text" class="form-control"  ng-disabled="isDisabled"   required=""
-                                           value="{{thamso.varvalue}}"></td>
-                                <td><input type="text" class="form-control"  ng-disabled="isDisabled"   required=""
-                                           value="{{thamso.vardesc}}"></td>
-                                <td><input type="text" class="form-control"  ng-disabled="isDisabled"   required=""
-                                           value="{{thamso.en_vardesc}}"></td>
-                                <td>
-                                    <div class="ic_active">
-                                        <a href="" ng-click=""><img src="public/images/add-icon.png" alt="them" title="Them"></a>
-                                    </div>
-                                    <div class="ic_active">
-                                        <a href="/historyView/{{thamso.custid}}"><img src="public/images/ic_edit2.png" alt="Sua" title="Sua"></a>
-                                    </div>
-                                    <div class="ic_active">
-                                        <a href="/historyView/{{thamso.custid}}"><img src="public/images/ic_delete2.png" alt="Xoa" title="Xoa"></a>
-                                    </div>
-                                    
-                                </td>
-                            </tr>
+                        <tr ng-repeat="thamso in vm.thamso track by $index">
+                            <td><input type="text" class="form-control" ng-change="markAsChanged(thamso)" ng-model="thamso.grname" ng-disabled="isDisabled" required=""
+                                       ng-value="thamso.grname"></td>
+                            <td><input type="text" class="form-control" ng-change="markAsChanged(thamso)" ng-model="thamso.varname" ng-disabled="isDisabled" required=""
+                                       ng-value="thamso.varname"></td>
+                            <td><input type="text" class="form-control" ng-change="markAsChanged(thamso)" ng-model="thamso.varvalue" ng-disabled="isDisabled" required=""
+                                       ng-value="thamso.varvalue"></td>
+                            <td><input type="text" class="form-control" ng-change="markAsChanged(thamso)" ng-model="thamso.vardesc" ng-disabled="isDisabled" required=""
+                                       ng-value="thamso.vardesc"></td>
+                            <td><input type="text" class="form-control" ng-change="markAsChanged(thamso)" ng-model="thamso.en_vardesc" ng-disabled="isDisabled" required=""
+                                       ng-value="thamso.en_vardesc"></td>
+                            <td>
+                                <div class="ic_active">
+                                    <a href="" ng-click="vm.saveUpdateSysVar()" ng-hide="hidden"><i class="fas fa-save"></i></a>
+                                </div>
+                                <div class="ic_active">
+                                    <a href="" ng-click="vm.deleteSysVar(thamso)"><i class="fas fa-trash-alt"></i></a>
+                                </div>
+
+                            </td>
+
+                        </tr>
                         </tbody>
                     </table>
                 </div>
