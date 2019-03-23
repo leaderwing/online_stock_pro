@@ -5,6 +5,7 @@ angular.module('app').factory('request',
             var methods = {
                 get: get,
                 post: post,
+                put: put,
                 deletes: deletes
             };
             function post(url, data, header) {
@@ -30,6 +31,54 @@ angular.module('app').factory('request',
                 });
                 return _defer.promise;
             }
+
+            function deletes(url,params) {
+                var defer = $q.defer();
+                var config = {
+                    url: url,
+                    method: 'DELETE',
+                    timeout: 20000,
+                    params: params
+                }
+                $http(config).then(function (data) {
+                    console.log(data)
+                    defer.resolve(data.data)
+                    // if (data.data.error == 0) {
+                    //     defer.resolve(data.data);
+                    // } else {
+                    // }
+
+                }, function (err) {
+                    console.log(err)
+                    $window.location.href = '/';
+                });
+                return defer.promise;
+            }
+
+            function put(url, data, header) {
+                var _defer = $q.defer();
+                var req = {
+                    method: 'PUT',
+                    url: url,
+                    headers: {
+                    },
+                    data: data,
+                    timeout: 30000
+                };
+                if (header != null) {
+                    req.headers.Accept = 'application/json';
+                }
+                $http(req).then(function (data) {
+
+                    _defer.resolve(data.data);
+                }, function (err) {
+                    _defer.resolve({
+                        msg: err
+                    });
+                });
+                return _defer.promise;
+            }
+
             function get(url) {
                 var defer = $q.defer();
                 var config = {

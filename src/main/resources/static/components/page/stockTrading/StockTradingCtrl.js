@@ -66,7 +66,7 @@ angular.module('app').controller('stockTradingCtrl',
 
                     vm.floorNamess = result;
 
-                }).catch(function(err){
+                }).catch(function (err) {
                     console.log(err);
                     alert(err);
                 })
