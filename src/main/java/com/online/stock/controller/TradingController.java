@@ -25,6 +25,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,6 +50,7 @@ public class TradingController {
 
     public static final String DEFAULT_START_DATE = "20181201";
 
+
     @RequestMapping(value = "/history",method = RequestMethod.GET)
     public ResponseEntity<TradingRecords> getTradingHistory(@RequestParam String ngay1,
             @RequestParam String ngay2,
@@ -60,6 +63,21 @@ public class TradingController {
                 tradingService.getTradingHistory(loggedUsername,fromDate, toDate, symbol, exectype);
         return new  ResponseEntity<>(tradingRecords,HttpStatus.OK);
     }
+    @MessageMapping("/db")
+    @SendTo("/topic/trading")
+    public ResponseEntity<TradingRecords> eventListenHistory(@RequestParam String ngay1,
+                                                            @RequestParam String ngay2,
+                                                            @RequestParam String symbol,
+                                                             @RequestParam String exectype) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String loggedUsername = auth.getName();
+        int fromDate = Integer.parseInt(ngay1);
+        int toDate = Integer.parseInt(ngay2);
+        TradingRecords tradingRecords =
+                tradingService.getTradingHistory(loggedUsername,fromDate, toDate, symbol, exectype);
+        return new  ResponseEntity<>(tradingRecords,HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/historyhits",method = RequestMethod.GET)
     public ResponseEntity<TradingRecords> getTradingHistoryHits(@RequestParam String ngay1,
             @RequestParam String ngay2,
