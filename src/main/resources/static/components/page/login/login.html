@@ -1,24 +1,62 @@
-<div class=" col-md-4 col-md-offset-4">
-    <div class="panel panel-default">
-        <div class="panel-heading">Login</div>
-        <div class="panel-body">
-            <div class="col-md-12">
-                <form ng-submit="vm.login()">
-                    <div class="form-group">
-                        <label for="username">Username:</label> <input type="txt"
-                                                                       class="form-control" ng-model="username"
-                                                                       id="username">
-                    </div>
-                    <div class="form-group">
-                        <label for="pwd">Password:</label> <input type="password"
-                                                                  class="form-control" id="pwd" ng-model="password">
-                    </div>
-                    <button type="submit" class="btn btn-default">Submit</button>
-                    <button class="btn btn-default" ui-sref="register">Register</button>
+<div class="main-wrapper">
 
-                    <div class="alert alert-info margin-top-5" ng-show="message">{{message}}</div>
+    <div class="preloader" style="display: none;">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>
+
+    <div class="auth-wrapper d-flex no-block justify-content-center align-items-center bg-dark">
+        <div class="auth-box bg-dark border-top border-secondary">
+            <div id="loginform">
+
+                <!--<div class="text-center p-t-20 p-b-20">-->
+
+                    <!--<span class="db"><img src="./assets/images/logo.png" alt="logo"></span>-->
+                <!--</div>-->
+
+                <form class="form-horizontal m-t-20" ng-submit="vm.login()">
+                    <div class="row p-b-30">
+                        <div class="col-12">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-success text-white" id="basic-addon1"><i class="ti-user"></i></span>
+                                </div>
+                                <input type="text" class="form-control form-control-lg" ng-model="username" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" required="">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-warning text-white" id="basic-addon2"><i class="ti-password"></i></span>
+                                </div>
+                                <input type="password" class="form-control form-control-lg" ng-model="password" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" required="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row border-top border-secondary">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <div class="p-t-20">
+                                    <a ui-sref="register" class="btn btn-info">Đăng ký thông tin</a>
+                                    <a href="/doimk" class="btn btn-danger">Đổi mật khẩu</a>
+                                    <button class="btn btn-success float-right" type="submit">Login</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
+
 </div>
+<!-- ============================================================== -->
+<!-- All Required js -->
+<!-- ============================================================== -->
+<script src="./assets/libs/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap tether Core JavaScript -->
+<script src="./assets/libs/popper.js/dist/umd/popper.min.js"></script>
+<script src="./assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- ============================================================== -->
+<!-- This page plugin js -->
+<!-- ============================================================== -->

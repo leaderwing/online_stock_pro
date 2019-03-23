@@ -23,11 +23,11 @@ angular.module('app').controller('duyetNopCtrl',
             };
 
             //------------get thong tin duyet nop---------------
-            data.getDuyetNop().then(function (response) {
-                vm.duyetnop = response;
-            }, function (err) {
-                console.log(err);
-            });
+            // data.getDuyetNop().then(function (response) {
+            //     vm.duyetnop = response;
+            // }, function (err) {
+            //     console.log(err);
+            // });
             return;
         }
     ])

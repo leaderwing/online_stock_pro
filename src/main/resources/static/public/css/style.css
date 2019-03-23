@@ -1,0 +1,233 @@
+body{
+    max-width: 1360px;
+}
+.header{
+    background-color: #030535;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    padding: 10px 40px;
+}
+.header .right{
+    position: absolute;
+    right: 2rem;
+    display: flex;
+    align-items: center;
+}
+.header .right .ph
+{
+    padding-right: 20px
+}
+.header .right .ph img{
+    width: 15px;
+}
+.header .right .account
+{
+    padding-right: 20px
+}
+.header .right .account img{
+    width: 15px;
+
+}
+.header .right .lang
+{
+    padding-right: 20px
+}
+.header .right .lang img{
+    width: 15px;
+
+}
+
+.header .logo img{
+    width: 222px;
+    height: 35px;
+
+}
+.header .datetime{
+    font-size: 14px;
+}
+.header .search {
+    padding: 0 40px;
+    position: relative;
+}
+.header .search .form-control-feedback{
+    position: absolute;
+    right: 50px;
+    top: 10px;
+}
+.header .search .form-control-feedback img{
+    width: 15px;
+    height: 8px;
+}
+.header .search form{
+    margin-bottom: 0;
+}
+
+.menu .navbar{
+    padding: 0 1rem;
+    border-bottom: 1px solid ;
+}
+.menu .navbar-light .navbar-nav .nav-link{
+    color: #030535;
+}
+.menu .nav-link img{
+    width: 15px;
+}
+
+
+.content{
+    height: 90vh;
+    padding: 2rem;
+}
+.content .data_history table thead{
+    text-align: center;
+    background-color: #00daff;
+    color: #fff;
+}
+.content .data_history table tbody .shl{
+    display: flex;
+}
+.content .data_history table tbody tr .ic_active{
+    display: flex;
+    align-items: center;
+}
+.content .data_history table tbody tr .ic_active img{
+    margin: 0 5px;
+}
+.content .data_history table tbody .shl img{
+    width: 15px;
+    height: 15px;
+    margin-right: 3px;
+}
+
+/* ------------------------------------------------------------------ */
+/* footer */
+.footer{
+    background-color: #030535;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+.footer .left {
+    padding: 15px 40px;
+    background-color: #00daff;
+    font-weight: 600;
+}
+.footer .left a{
+    color: #fff;
+}
+.footer .right{
+    position: absolute;
+    right: 0;
+}
+
+.footer .right img{
+    width: 15px;
+}
+.footer .nav-link{
+    color: #fff;
+}
+
+.table td, .table th{
+    padding: .2rem .75rem;
+}
+
+.collapse_dl{
+    position: fixed;
+    bottom: 4rem;
+    left: 2rem;
+    background-color: #fff;
+    width: 900px;
+    box-shadow: 6px 3px 20px 0px #5555558f;
+}
+.collapse_dl .dl-header{
+    background-color: #00daff;
+    display:flex;
+    align-items: center;
+    color: #000;
+    padding: 0 20px;
+}
+.collapse_dl .dl-header .dl-header-left{
+    margin-right: 50px;
+}
+.collapse_dl .dl-header .dl-header-right{
+    color: #fff;
+}
+.collapse_dl .dl-header .dl-header-left .info{
+    background-color: #fff;
+    padding: 10px;
+    margin: 15px;
+}
+
+.collapse_dl .dl-sellect{
+    display: flex;
+    padding: 30px;
+    align-items: center;
+}
+.collapse_dl .dl-sellect .form-check{
+    padding-right: 1rem;
+    font-weight: 600;
+}
+.collapse_dl .dl-buy{
+    padding: 0 30px 25px 30px;
+}
+.collapse_dl .dl-buy .dl-buy-item,
+.collapse_dl .dl-buy .active
+{
+    display: flex;
+    align-items: center;
+
+}
+.collapse_dl .dl-buy .active{
+    padding-left: 100px;
+}
+.collapse_dl .dl-buy .active .form-check{
+    padding-right: 50px;
+}
+.collapse_dl .dl-buy .ic_sell img{
+    width: 20px;
+    height: 17px;
+}
+.collapse_dl .dl-buy .ic_sell {
+    width: 100px;
+    padding-bottom: 15px;
+}
+.collapse_dl .form-control{
+    border-radius: 5px;
+}
+.collapse_dl  .btn_info{
+    background-color: #00daff;
+    border: none;
+    color: #fff;
+    border-bottom-right-radius: 5px;
+    border-bottom-right-left: 5px;
+}
+.collapse_dl .button{
+    padding-top: 5px;
+    text-align: right;
+}
+.collapse_dl .button button{
+    padding: .1rem .5rem;
+}
+
+
+.collapse_right{
+    position: absolute;
+    right: 45px;
+    color: #000;
+    width: 25%;
+    bottom: 5rem;
+    box-shadow: 6px 3px 20px 0px #5555558f;
+    padding: 35px 30px;
+    background-color: white;
+}
+.collapse_right div {
+    padding-top: 15px;
+}
+
+.t-blue{
+    color: #00daff;
+    font-weight: 600;
+}

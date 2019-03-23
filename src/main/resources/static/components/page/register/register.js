@@ -1,14 +1,12 @@
 angular.module('app')
 // Creating the Angular Controller
-    .controller('RegisterController', function ($http, $scope, AuthService) {
-        $scope.submit = function () {
-            $http.post('register', $scope.appUser).success(function (res) {
-                $scope.appUser = null;
-                $scope.confirmPassword = null;
-                $scope.register.$setPristine();
-                $scope.message = "Registration successfull !";
-            }).error(function (error) {
-                $scope.message = error.message;
-            });
-        };
+    .controller('RegisterController', function ($http, data, $scope, AuthService) {
+        data.randomAccount().then(function (response) {
+            data = response.data;
+            $scope.account = data;
+            console.log(data)
+
+        }, function (err) {
+            console.log(err);
+        });
     });

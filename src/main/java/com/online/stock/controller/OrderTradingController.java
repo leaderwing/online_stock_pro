@@ -36,7 +36,7 @@ public class OrderTradingController {
 
     @RequestMapping(value = "/buyNomarl", method = RequestMethod.GET)
     public ResponseEntity<String> buyStock(@RequestParam String floor, @RequestParam int quantity,
-                                           @RequestParam float price, @RequestParam String symbol,
+                                           @RequestParam double price, @RequestParam String symbol,
                                            @RequestParam String orderType) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String loggedUsername = auth.getName();

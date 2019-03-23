@@ -1,0 +1,80 @@
+.register{
+    background-image: url('../images/login.png');
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    position: relative;
+}
+.register .header {
+    text-align: center;
+    background-color: #030535;
+    padding: 10px 0;
+}
+.register .header  img{
+    width: 200px;
+}
+.register .form-register{
+    position: absolute;
+    width: 70%;
+    top: 5rem;
+    left: 15rem;
+    background-color: #fff;
+}
+.register .form-register form{
+    padding: 20px 20px 0 20px;
+}
+hr{
+    margin-top: 0rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 3px solid #00d9ff;
+    width: 50px;
+}
+.register .active{
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.register .active .form-check{
+    padding-left: 50px;
+}
+.register .active .forget-pass{
+    position: absolute;
+    right: 0;
+}
+.register .active .forget-pass a{
+    color: #000;
+}
+.register .button-register{
+    background-color: #00d9ff;
+    border-color: #00d9ff;
+    font-weight: 600;
+    border: none;
+    padding: 5px 10px;
+    margin-top: 10px;
+    float: right;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    color: white;
+}
+.register .title{
+    color: #030535;
+    font-weight: 600;
+    text-align: center;
+}
+.register .col-form-label{
+    font-size: 15px;
+    padding-top: 0;
+}
+.register .form-control{
+    height: 27px;;
+}
+.register .form-group{
+    margin-bottom: 0.5rem;
+}
+.register h5,
+.register p{
+    color: #030535;
+}

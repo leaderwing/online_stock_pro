@@ -11,7 +11,7 @@ public class OrderTradingResponse {
     private String orderType;
     private int quantity;
     private String txTime;
-    private float price;
+    private double price;
     private int txDate;
     private String error;
     private String oderIDM;

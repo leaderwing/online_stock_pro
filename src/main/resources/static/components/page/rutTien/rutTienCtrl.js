@@ -4,17 +4,17 @@ angular.module('app').controller('nop1TienCtrl',
             var vm = this;
             var todos = {};
             //get ho va ten
-            vm.getHoten = function () {
-                var todo = {
-                    account: $scope.formData.account,
-                }
-                console.log(todo)
-                data.getHoten(todo.account).then(function (response) {
-                    vm.fullname = response;
-                }, function (err) {
-                    console.log(err);
-                })
-            }
+            // vm.getHoten = function () {
+            //     var todo = {
+            //         account: $scope.formData.account,
+            //     }
+            //     console.log(todo)
+            //     data.getHoten(todo.account).then(function (response) {
+            //         vm.fullname = response;
+            //     }, function (err) {
+            //         console.log(err);
+            //     })
+            // }
             vm.ruttien = function () {
                
                 todos.account = $scope.formData.account;

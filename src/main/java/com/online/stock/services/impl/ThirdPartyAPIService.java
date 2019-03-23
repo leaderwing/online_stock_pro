@@ -10,6 +10,7 @@ import com.online.stock.repository.AdminUserRepository;
 import com.online.stock.repository.VtosRepository;
 import com.online.stock.services.IThirdPartyService;
 import com.online.stock.utils.Constant;
+import com.online.stock.utils.DateUtils;
 import com.online.stock.utils.FileUtils;
 import java.util.HashMap;
 import java.util.List;
@@ -67,7 +68,7 @@ public class ThirdPartyAPIService implements IThirdPartyService {
         }
     }
 
-    public  OrderTradingResponse sendOderTrading(String token, String orderType, Float price,
+    public  OrderTradingResponse sendOderTrading(String token, String orderType, Double price,
             Integer quantity, String symbol, String side) throws JSONException {
         OrderTradingResponse response = new OrderTradingResponse();
         OrderRequest request = new OrderRequest(false,orderType,price,quantity,side,symbol.toUpperCase(),"T");
@@ -81,7 +82,7 @@ public class ThirdPartyAPIService implements IThirdPartyService {
                         });
         String json = responseOrder.getBody();
         JSONObject jsonObject = new JSONObject(json);
-        if(StringUtils.isNotBlank(jsonObject.getString("error"))) {
+        if(jsonObject.has("error")) {
             response.setError(jsonObject.getString("error"));
             return  response;
         }
@@ -92,9 +93,10 @@ public class ThirdPartyAPIService implements IThirdPartyService {
         response.setSymbol(jsonArray.getJSONObject(0).getString("symbol"));
         response.setOrderType(jsonArray.getJSONObject(0).getString("orderType"));
         response.setQuantity(jsonArray.getJSONObject(0).getInt("quantity"));
-        response.setPrice((Float)jsonArray.getJSONObject(0).get("price"));
+        response.setPrice((Double)jsonArray.getJSONObject(0).get("price"));
         // set txtime , txdate
-
+        response.setTxDate(DateUtils.getDateYYYYMMDD(createdTime));
+        response.setTxTime(DateUtils.getHHMMSS(createdTime));
         return  response;
     }
 

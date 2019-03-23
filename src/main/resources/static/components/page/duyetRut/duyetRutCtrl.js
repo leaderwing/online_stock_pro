@@ -23,11 +23,11 @@ angular.module('app').controller('duyetRutCtrl',
             };
 
             //get thong tin duyet rut---------------------------
-            data.getDuyetRut().then(function (response) {
-                vm.duyetrut = response;
-            }, function (err) {
-                console.log(err);
-            });
+            // data.getDuyetRut().then(function (response) {
+            //     vm.duyetrut = response;
+            // }, function (err) {
+            //     console.log(err);
+            // });
             return;
         }
     ])

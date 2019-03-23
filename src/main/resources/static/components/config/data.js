@@ -108,6 +108,12 @@ angular.module('app').factory('data', ['config', 'request',
             var url = config.HOST + '/withdrawal';
             return request.post(url, todoData);
         }
+
+        methods.cuoingay = function () {
+            var url = config.HOST + '/endDate';
+            return request.post(url);
+        }
+
         //--hien thi trang xu ly tai khoan-----
         methods.luongchungse = function () {
             var url = config.HOST + '/luongchungse';
@@ -115,7 +121,7 @@ angular.module('app').factory('data', ['config', 'request',
         }
 
         methods.thamso = function () {
-            var url = config.HOST + '/getsys';
+            var url = config.HOST + '/getSysVar';
             return request.get(url);
         }
         
@@ -134,6 +140,17 @@ angular.module('app').factory('data', ['config', 'request',
             var url = config.HOST + '/ttchung';
             return request.get(url);
         }
+
+        methods.historyAdmin = function () {
+            var url = config.HOST + '/historyadmin';
+            return request.get(url);
+        }
+
+        methods.randomAccount = function () {
+            var url = config.HOST + '/custid';
+            return request.get(url);
+        }
+
         //----------------------ty le-------------------------
         methods.tttyle = function () {
             var url = config.HOST + '/tttyle';
@@ -144,6 +161,12 @@ angular.module('app').factory('data', ['config', 'request',
             var url = config.HOST + '/huy/' + id;
             return request.deletes(url);
         }
+
+        methods.hisxulytaikhoan = function (id) {
+            var url = config.HOST + '/historyView/' + id;
+            return request.get(url);
+        }
+
         //-------hien thi ten san-------------------------
         methods.floorName = function (symbol) {
             var url = config.HOST + '/floorname/' + symbol;

@@ -37,7 +37,7 @@ public class AccountController {
         String userName = "";
         try {
             JSONObject jsonObject = new JSONObject(custId);
-            userName = jsonObject.getString("CUSTID");
+            userName = jsonObject.getString("custid");
         } catch (JSONException e) {
             e.printStackTrace();
         }
