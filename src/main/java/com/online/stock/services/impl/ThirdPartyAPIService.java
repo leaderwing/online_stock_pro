@@ -26,7 +26,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import sun.net.www.http.HttpClient;
 
 @Service
 public class ThirdPartyAPIService implements IThirdPartyService {
@@ -74,13 +77,20 @@ public class ThirdPartyAPIService implements IThirdPartyService {
         OrderRequest request = new OrderRequest(false,orderType,price,quantity,side,symbol.toUpperCase(),"T");
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
+        String json = null;
         headers.set("x-auth-token", token);
         HttpEntity<OrderRequest> entity = new HttpEntity<>(request, headers);
-        ResponseEntity<String> responseOrder =
-                restTemplate.exchange(Constant.API_URL_ORDER, HttpMethod.POST, entity,
-                        new ParameterizedTypeReference<String>() {
-                        });
-        String json = responseOrder.getBody();
+        try {
+            ResponseEntity<String> responseOrder =
+                    restTemplate.exchange(Constant.API_URL_ORDER, HttpMethod.POST, entity,
+                            new ParameterizedTypeReference<String>() {
+                            });
+            json = responseOrder.getBody();
+        } catch (HttpClientErrorException ex) {
+            ex.printStackTrace();
+            response.setError("Dữ liệu truyền vào không hợp lệ!");
+            return  response;
+        }
         JSONObject jsonObject = new JSONObject(json);
         if(jsonObject.has("error")) {
             response.setError(jsonObject.getString("error"));

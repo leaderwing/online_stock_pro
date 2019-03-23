@@ -1,8 +1,10 @@
 package com.online.stock.dto.response;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode
 public class OrderTradingResponse {
     private String floor;
     private String acctno;

@@ -19,6 +19,8 @@ import org.hibernate.result.ResultSetOutput;
 import org.hibernate.type.DoubleType;
 import org.hibernate.type.FloatType;
 import org.hibernate.type.StringType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,7 @@ import java.util.List;
 
 @Service
 public class OrderTradingService implements IOrderTradingService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(OrderTradingService.class);
     @Autowired
     private EntityManager entityManager;
 
@@ -42,6 +45,7 @@ public class OrderTradingService implements IOrderTradingService {
 
     @Override
     public int saveOrder(String orderId, String symbol, String accTno, String action, String orderType, double price, int quantity, String txTime, int txDate, String floor) {
+        LOGGER.debug("start save order!");
         int p_out = 0;
         Session session = entityManager.unwrap(Session.class);
         ProcedureCall call = session.createStoredProcedureCall("PKG_ORDER_TRADING.PRC_CREATE_ORDER");
@@ -58,6 +62,7 @@ public class OrderTradingService implements IOrderTradingService {
         call.registerParameter(11, Integer.class, ParameterMode.OUT);
 
         p_out = (Integer) call.getOutputs().getOutputParameterValue(11);
+        LOGGER.debug("result save order :" + p_out);
         return p_out;
     }
 

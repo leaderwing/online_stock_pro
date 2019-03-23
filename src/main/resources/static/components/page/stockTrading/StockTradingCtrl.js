@@ -11,7 +11,7 @@ angular.module('app').controller('stockTradingCtrl',
                 exectype: ($scope.THAMSO_EXECTYPE) ? $scope.THAMSO_EXECTYPE : "",
                 symbol: ($scope.THAMSO_SYMBOL) ? $scope.THAMSO_SYMBOL : ""
 
-            }
+            };
             // listen stomp api
             var socket = new SockJS('/gs-guide-websocket');
             var stompClient = Stomp.over(socket);
@@ -26,14 +26,14 @@ angular.module('app').controller('stockTradingCtrl',
                 if (stompClient !== null) {
                     stompClient.disconnect();
                 }
-            }
+            });
 
             data.history(todo).then(function (result) {
                 vm.history = result.rowList
 
             }, function (err) {
                 alert(err);
-            })
+            });
 
             vm.seHistory = function () {
                 var todoo = {
@@ -108,9 +108,9 @@ angular.module('app').controller('stockTradingCtrl',
                         todos.expiredDate = $scope.formData.expiredDate
 
 
-                    if (todos.price === undefined) {
+                    if ($scope.formData.price === undefined) {
                         if (todos.orderType === 'PLO') {
-                            todos.price = todos.m1;
+                            todos.price = todos.m1 * 1000;
                             data.createNormal(todos).then(function (result) {
 
                                 if (result === 'Dat lenh thanh cong') {
@@ -135,7 +135,7 @@ angular.module('app').controller('stockTradingCtrl',
                                 console.log(err);
                             })
                         } else {
-                            todos.price = todos.ceM;
+                            todos.price = todos.ceM * 1000;
                             data.createNormal(todos).then(function (result) {
 
                                 if (result === 'Dat lenh thanh cong') {
@@ -212,7 +212,7 @@ angular.module('app').controller('stockTradingCtrl',
             vm.createNormalBan = function (todo) {
                 var t = confirm('Bạn có chắc chắn muốn thực hiện');
                 if (t === true) {
-                    var todo = {
+                    var request = {
                         execqtty: todo.execqtty,
                         closedqtty: todo.closedqtty,
                         oderid: todo.orderid,
@@ -220,16 +220,18 @@ angular.module('app').controller('stockTradingCtrl',
                         symbol: todo.codeid,
                         orderType: todo.pricetype
                     }
-                    console.log(todo)
-                    data.createNormalBan(todo).then(function (result) {
-                        alert(result);
+                    console.log(request)
+                    data.createNormalBan(request).then(function (result) {
                         data.history().then(function (result) {
                             // console.log(result)
                             vm.history = result
                         })
                     }, function (err) {
-                        alert(err);
-                    });
+                        console.log(err)
+                    }).catch( function (callback) {
+                            console.log(callback);
+                            alert(callback);
+                    })
                 } else {
                     alert('Lệnh đã được hủy');
                 }
@@ -242,7 +244,6 @@ angular.module('app').controller('stockTradingCtrl',
                 $scope.THAMSO_NGAY1 = new Date(dateFilter(moment(new Date(moment().toDate())).format('MM/DD/YYYY'), 'yyyy/MM/dd'));
                 $scope.dateString = new Date(dateFilter(date, 'yyyy/MM/dd'));
             });
-            return;
         }
     ])
 

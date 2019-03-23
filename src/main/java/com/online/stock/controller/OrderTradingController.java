@@ -10,8 +10,11 @@ import com.online.stock.repository.MapOrderRepository;
 import com.online.stock.repository.VGeneralInfoRepository;
 import com.online.stock.services.IOrderTradingService;
 import com.online.stock.services.IThirdPartyService;
+import com.online.stock.services.impl.OrderTradingService;
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +27,7 @@ import java.util.List;
 
 @RestController
 public class OrderTradingController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(OrderTradingController.class);
 
     @Autowired
     private IOrderTradingService orderTradingService;
@@ -64,18 +68,19 @@ public class OrderTradingController {
             try {
 
                  tradingResponse = thirdPartyService.sendOderTrading(vtos_token, orderType, price
-                         , quantity, symbol,"NB");
+                         , quantity, symbol.toUpperCase(),"NB");
                 if(StringUtils.isNotBlank(tradingResponse.getError())) {
                     return new ResponseEntity<>(tradingResponse.getError(), HttpStatus.BAD_REQUEST);
                 }
                 tradingResponse.setFloor(floor);
                 tradingResponse.setAcctno(loggedUsername);
+                LOGGER.debug(tradingResponse.toString());
             }catch (JSONException ex) {
                 ex.printStackTrace();
             }
             //save order
-            int saveResponse = orderTradingService.saveOrder(tradingResponse.getOrderId(), symbol,
-                    loggedUsername,"mua",tradingResponse.getOrderType(),
+            int saveResponse = orderTradingService.saveOrder(tradingResponse.getOrderId(), symbol.toUpperCase(),
+                    loggedUsername,"Mua",tradingResponse.getOrderType(),
                     tradingResponse.getPrice(),tradingResponse.getQuantity(),
                     tradingResponse.getTxTime(), tradingResponse.getTxDate(),floor);
             if(saveResponse == 1) {
@@ -97,8 +102,7 @@ public class OrderTradingController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         int quantity = sellStockRequest.getExecqtty() - sellStockRequest.getClosedqtty();
-        if (sellStockRequest.getPrice() == 0.0
-                || StringUtils.isBlank(sellStockRequest.getSymbol())
+        if (StringUtils.isBlank(sellStockRequest.getSymbol())
                 || StringUtils.isBlank(sellStockRequest.getOrderType())
                 || quantity < 0) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -113,12 +117,12 @@ public class OrderTradingController {
             }
         }
         int result = orderTradingService.checkSellOrder(loggedUsername, quantity, sellStockRequest.getPrice(),
-                sellStockRequest.getSymbol(), sellStockRequest.getOrderType());
+                sellStockRequest.getSymbol().toUpperCase(), sellStockRequest.getOrderType());
         if (result == 0) {
             OrderTradingResponse tradingResponse  = new OrderTradingResponse();
             try {
                 tradingResponse = thirdPartyService.sendOderTrading(vtos_token, sellStockRequest.getOrderType()
-                        , sellStockRequest.getPrice(), quantity, sellStockRequest.getSymbol(),
+                        , sellStockRequest.getPrice(), quantity, sellStockRequest.getSymbol().toUpperCase(),
                         "NS");
                 if(StringUtils.isNotBlank(tradingResponse.getError())) {
                     return new ResponseEntity<>(tradingResponse.getError(), HttpStatus.BAD_REQUEST);
@@ -129,8 +133,8 @@ public class OrderTradingController {
             }
             // save sell order
             int saveResponse = orderTradingService.saveOrder(tradingResponse.getOrderId(),
-                    sellStockRequest.getSymbol(),
-                    loggedUsername,"ban",tradingResponse.getOrderType(),
+                    sellStockRequest.getSymbol().toUpperCase(),
+                    loggedUsername,"Ban",tradingResponse.getOrderType(),
                     tradingResponse.getPrice(),tradingResponse.getQuantity(),
                     tradingResponse.getTxTime(), tradingResponse.getTxDate(),sellStockRequest.getFloor());
             if(saveResponse == 1) {

@@ -219,9 +219,9 @@
                                         <div class="form-group">
                                             <label for="exampleFormControlSelect1">Loại giao dịch</label>
                                             <select class="form-control" ng-change="vm.seHistory()" ng-model="THAMSO_EXECTYPE">
-                                                <option>Tất cả</option>
-                                                <option>Mua</option>
-                                                <option>Ban</option>
+                                                <option value="">Tất cả</option>
+                                                <option value="Mua">GD Mua</option>
+                                                <option value="Ban">GD Bán</option>
                                             </select>
                                         </div>
                                     </div>
@@ -265,42 +265,42 @@
                                 <td>{{historys.txtime}}</td>
                                 <td>
                                     <div class="ic_active">
-                                        <div ng-if="historys.EXECQTTY === 0 || historys.EXECQTTY < historys.ORDERQTTY">
-                                            <div ng-if="historys.CANCELQTTY === 0">
-                                                <div ng-if="historys.FLOOR === 'HNX' && historys.CODEID != 'ATC' && historys.CODEID != 'PLO'">
+                                        <div ng-if="historys.execqtty === 0 || historys.execqtty < historys.orderqtty">
+                                            <div ng-if="historys.cancelqtty === 0">
+                                                <div ng-if="historys.floor === 'HNX' && historys.codeid != 'ATC' && historys.codeid != 'PLO'">
                                                     <div ng-if="vm.hour >= '09:00:00' && vm.hour <= '14:30:00'">
-                                                        <img src="public/images/ic_delete2.png" alt="" ng-click="vm.deleteTodo(historys)">
+                                                        <img src="../../../public/images/ic_delete2.png" alt="" ng-click="vm.deleteTodo(historys)">
                                                     </div>
                                                 </div>
-                                                <div ng-if="historys.FLOOR === 'HNX' && historys.CODEID === 'ATC'">
+                                                <div ng-if="historys.floor === 'HNX' && historys.codeid === 'ATC'">
                                                     <div ng-if="vm.hour >= '14:30:00' && vm.hour <= '14:45:00'">
-                                                        <img src="public/images/ic_delete2.png" alt="" ng-click="vm.deleteTodo(historys)">
+                                                        <img src="../../../public/images/ic_delete2.png" alt="" ng-click="vm.deleteTodo(historys)">
                                                     </div>
                                                 </div>
-                                                <div ng-if="historys.FLOOR === 'HNX' && historys.CODEID === 'PLO'">
+                                                <div ng-if="historys.floor === 'HNX' && historys.codeid === 'PLO'">
                                                     <div ng-if="vm.hour >= '14:45:00' && vm.hour <= '15:00:00'">
-                                                        <img src="public/images/ic_delete2.png" alt="" ng-click="vm.deleteTodo(historys)">
+                                                        <img src="../../../public/images/ic_delete2.png" alt="" ng-click="vm.deleteTodo(historys)">
                                                     </div>
                                                 </div>
-                                                <div ng-if="historys.FLOOR === 'HOSE' && historys.CODEID === 'ATO'">
+                                                <div ng-if="historys.floor === 'HOSE' && historys.codeid === 'ATO'">
                                                     <div ng-if="vm.hour >= '09:00:00' && vm.hour <= '09:15:00'">
-                                                        <img src="public/images/ic_delete2.png" alt="" ng-click="vm.deleteTodo(historys)">
+                                                        <img src="../../../public/images/ic_delete2.png" alt="" ng-click="vm.deleteTodo(historys)">
                                                     </div>
                                                 </div>
-                                                <div ng-if="historys.FLOOR === 'HOSE' && historys.CODEID === 'ATC'">
+                                                <div ng-if="historys.floor === 'HOSE' && historys.codeid === 'ATC'">
                                                     <div ng-if="vm.hour >= '14:30:00' && vm.hour <= '14:45:00'">
-                                                        <img src="public/images/ic_delete2.png" alt="" ng-click="vm.deleteTodo(historys)">
+                                                        <img src="../../../public/images/ic_delete2.png" alt="" ng-click="vm.deleteTodo(historys)">
                                                     </div>
                                                 </div>
-                                                <div ng-if="historys.FLOOR === 'HOSE' && historys.CODEID != 'ATC' && historys.CODEID != 'ATO' ">
+                                                <div ng-if="historys.floor === 'HOSE' && historys.codeid != 'ATC' && historys.codeid != 'ATO' ">
                                                     <div ng-if="vm.hour >= '09:15:00' && vm.hour <= '14:30:00'">
-                                                        <img src="public/images/ic_delete2.png" alt="" ng-click="vm.deleteTodo(historys)">
+                                                        <img src="../../../public/images/ic_delete2.png" alt="" ng-click="vm.deleteTodo(historys)">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div ng-if="historys.CLEARDAY <= 0 && historys.CLEARDAY != null">
-                                            <img src="public/images/ic_khoa.png" title="xử lý tài khoản" ng-click="vm.createNormalBan(historys)"
+                                        <div >
+                                            <img src="../../../public/images/ic_khoa.png" title="xử lý tài khoản" href="" ng-click="vm.createNormalBan(historys)"
                                                 alt="xử lý tài khoản">
                                         </div>
                                     </div>

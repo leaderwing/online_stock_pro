@@ -1,7 +1,11 @@
 package com.online.stock.controller;
 
+import com.online.stock.dto.RegisterRequest;
 import com.online.stock.model.Afmast;
+import com.online.stock.model.Cfmast;
 import com.online.stock.repository.AfmastRepository;
+import com.online.stock.repository.CfMastRepository;
+import com.online.stock.services.IAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +23,13 @@ import java.util.List;
  * @author Hendi Santika
  */
 @RestController
-@RequestMapping(value = "/api")
 public class AppUserRestController {
     @Autowired
     private AfmastRepository afmastRepository;
+    @Autowired
+    private CfMastRepository cfMastRepository;
+    @Autowired
+    private IAccountService accountService;
 
     /**
      * Web service for getting all the appUsers in the application.
@@ -38,56 +45,53 @@ public class AppUserRestController {
     /**
      * Web service for getting a user by his ID
      *
-     * @param id appUser ID
      * @return appUser
      */
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Afmast> userById(@PathVariable Long id) {
-        Afmast appUser = afmastRepository.findOne(id);
+    @RequestMapping(value = "/users/name", method = RequestMethod.GET)
+    public ResponseEntity<String> getAccName(@RequestParam String custId) {
+        Cfmast appUser = cfMastRepository.findByCustid(custId);
         if (appUser == null) {
-            return new ResponseEntity<Afmast>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            return new ResponseEntity<Afmast>(appUser, HttpStatus.OK);
+            return new ResponseEntity<>(appUser.getFullname(), HttpStatus.OK);
         }
     }
 
     /**
-     * Method for deleting a user by his ID
+     * get user information
      *
-     * @param id
      * @return
      */
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Afmast> deleteUser(@PathVariable Long id) {
-        Afmast appUser = afmastRepository.findOne(id);
+    @RequestMapping(value = "/users/info", method = RequestMethod.GET)
+    public ResponseEntity<RegisterRequest> getUser() {
+        RegisterRequest info = null;
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String loggedUsername = auth.getName();
-        if (appUser == null) {
-            return new ResponseEntity<Afmast>(HttpStatus.NO_CONTENT);
-        } else if (appUser.getUsername().equalsIgnoreCase(loggedUsername)) {
-            throw new RuntimeException("You cannot delete your account");
+        if (loggedUsername == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            afmastRepository.delete(appUser);
-            return new ResponseEntity<Afmast>(appUser, HttpStatus.OK);
+           info = accountService.getUserInfo(loggedUsername);
         }
-
+        return new ResponseEntity<>(info, HttpStatus.OK);
     }
 
     /**
      * Method for adding a appUser
      *
-     * @param appUser
+     * @param request
      * @return
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(value = "/users", method = RequestMethod.POST)
-    public ResponseEntity<Afmast> createUser(@RequestBody Afmast appUser) {
-        if (afmastRepository.findOneByUsername(appUser.getUsername()) != null) {
-            throw new RuntimeException("Username already exist");
+    @RequestMapping(value = "/users/update", method = RequestMethod.POST)
+    public ResponseEntity<Void> createUser(@RequestBody RegisterRequest  request) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String loggedUsername = auth.getName();
+        if (!loggedUsername.equals(request.getAcctno())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<Afmast>(afmastRepository.save(appUser), HttpStatus.CREATED);
+        String result = accountService.updateUserInfo(request);
+        System.out.print(result);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

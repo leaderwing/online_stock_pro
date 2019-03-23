@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/*.css")
 				.antMatchers("/*.js")
 				.antMatchers("/", "/assets/**", "/dist/**", "/public/**", "/shared/**", "/components/**", "/lib/**", "/node_modules/**", "/router.js", "/app.js", "/index.html", "/app/**", "/register", "/login", "/favicon.ico",
-						"/swagger-ui.html", "/webjars/**", "/db");
+						"/swagger-ui.html", "/webjars/**", "/db", "/getTypeNames","/resetmk","/gs-guide-websocket/info");
 	}
 
 	// This method is used for override HttpSecurity of the web Application.

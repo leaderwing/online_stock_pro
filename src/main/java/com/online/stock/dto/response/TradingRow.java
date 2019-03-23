@@ -7,22 +7,44 @@ import org.springframework.beans.BeanUtils;
 @Data
 public class TradingRow {
     private String orderid;
-    private String txdate;
+
+    private String afacctno;
+
+    private int txdate;
+
     private String codeid;
+
     private String exectype;
+
     private String pricetype;
-    private String orderqtty;
-    private String quoteprice;
-    private String execqtty;
-    private String openprice;
+
+    private int orderqtty;
+
+    private int quoteprice;
+
+    private int execqtty;
+
+    private int openprice;
+
     private String orstatus;
-    private String cancelqtty;
+
+    private int cancelqtty;
+
     private String feeamt;
+
     private String txtime;
-    private String feeacr;
-    private String closeprice;
-    private String profit;
-    private String clearday;
+
+    private int feeacr;
+
+    private int closeprice;
+
+    private int profit;
+
+    private int clearday;
+
     private String floor;
-    private String closedqtty;
+
+    private int closedqtty;
+
+    private String refOderId;
 }

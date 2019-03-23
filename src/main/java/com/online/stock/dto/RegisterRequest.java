@@ -12,11 +12,11 @@ public class RegisterRequest {
     private String acctno;
     @NotBlank
     private String fullname;
-    private Date dateofbirth;
+    private String dateofbirth;
     private String sex;
     @NotBlank
     private String idcode;
-    private Date iddate;
+    private String iddate;
     private String idplace;
     private String address;
     @NotBlank
@@ -26,4 +26,5 @@ public class RegisterRequest {
     private String accType;
     @NotBlank
     private String email;
+    private String pin;
 }

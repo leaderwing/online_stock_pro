@@ -10,4 +10,8 @@ public interface IAccountService {
     String register(RegisterRequest registerRequest, String password);
 
     List<AccountInfoRes> getAccountList();
+
+    RegisterRequest getUserInfo (String custId);
+
+    String updateUserInfo (RegisterRequest request);
 }
