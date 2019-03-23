@@ -5,8 +5,6 @@ angular.module('app').controller('stockTradingCtrl',
             var vm = this;
             var fromDate = moment($scope.THAMSO_NGAY1).format("YYYYMMDD");
             var toDate = moment($scope.THAMSO_NGAY2).format("YYYYMMDD");
-
-
             var todo = {
                 ngay1: fromDate,
                 ngay2: toDate,
@@ -14,7 +12,21 @@ angular.module('app').controller('stockTradingCtrl',
                 symbol: ($scope.THAMSO_SYMBOL) ? $scope.THAMSO_SYMBOL : ""
 
             }
+            // listen stomp api
+            var socket = new SockJS('/gs-guide-websocket');
+            var stompClient = Stomp.over(socket);
+            stompClient.connect({}, function (frame) {
+                console.log('Connected: ' + frame);
+                stompClient.subscribe('/topic/trading', function (result) {
+                    vm.history = result.rowList
+                });
+            });
 
+            $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+                if (stompClient !== null) {
+                    stompClient.disconnect();
+                }
+            }
 
             data.history(todo).then(function (result) {
                 vm.history = result.rowList
