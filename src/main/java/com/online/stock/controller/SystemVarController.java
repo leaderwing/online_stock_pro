@@ -36,7 +36,7 @@ public class SystemVarController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @PreAuthorize("hasAnyRole('ROLE_ADMIN_2','ROLE_SADMIN')")
-    @RequestMapping(value = "/deleteSysVar", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/deleteSysVar", method = RequestMethod.GET)
     public ResponseEntity<Void> deleteSysVar (@RequestParam String grname,
                                               @RequestParam String varname) {
         systemVarService.deleteSysVar(grname, varname);

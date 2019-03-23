@@ -18,23 +18,23 @@ public class SecuritiesPractice {
     @NotBlank
     private String symbol;
     @Column(name = "txdate")
-    private int txdate;
+    private String txdate;
     @Column(name = "txtime")
     private String txtime;
     @Column(name = "basicprice")
-    private int basicprice;
+    private String basicprice;
     @Column(name = "ceilingprice")
-    private int ceilingprice;
+    private String ceilingprice;
     @Column(name = "floorprice")
-    private int floorprice;
+    private String floorprice;
     @Column(name = "bidprice1")
-    private int bidprice1;
+    private String bidprice1;
     @Column(name = "bqtty1")
-    private int bqtty1;
+    private String bqtty1;
     @Column(name = "askprice1")
-    private int askprice1;
+    private String askprice1;
     @Column(name = "aqtty1")
-    private int aqtty1;
+    private String aqtty1;
     @Column(name = "lqtty")
-    private int lqtty;
+    private String lqtty;
 }

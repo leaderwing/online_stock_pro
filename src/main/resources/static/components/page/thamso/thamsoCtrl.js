@@ -75,6 +75,14 @@ angular.module('app').controller('thamsoCtrl',
                 // todo.en_vardesc =  vm.thamso[a].en_vardesc;
                 data.saveUpdateSysVar(updatedItems[updatedItems.length-1]).then(function (res) {
                     alert("Cập nhật thành công!")
+                    data.thamso().then(function (result) {
+                        $scope.loading = false;
+
+                        vm.thamso = result;
+                        console.log(result);
+                    }, function (err) {
+                        console.log(err);
+                    });
                 }, function (err) {
                     alert(err);
                 });
@@ -88,6 +96,14 @@ angular.module('app').controller('thamsoCtrl',
                     varname : thamso.varname
                 }
                 data.deleteSysVar(delVal).then(function (res) {
+                    data.thamso().then(function (result) {
+                        $scope.loading = false;
+
+                        vm.thamso = result;
+                        console.log(result);
+                    }, function (err) {
+                        console.log(err);
+                    });
                     alert("ok");
                 }, function (err) {
                     alert("không")

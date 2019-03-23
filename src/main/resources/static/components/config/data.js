@@ -106,8 +106,8 @@ angular.module('app').factory('data', ['config', 'request',
 
         methods.deleteSysVar = function (todo) {
             var url = config.HOST + '/deleteSysVar';
-            console.log("ddsdsdsa",todo)
-            return request.deletes(url, todo);
+
+            return request.get(url, todo);
         }
 
         //hien thi trang duyet rut-------------------
@@ -143,8 +143,23 @@ angular.module('app').factory('data', ['config', 'request',
         }
 
         methods.chungkhoan = function () {
-            var url = config.HOST + '/getthamsock';
+            var url = config.HOST + '/getSecurity';
             return request.get(url);
+        }
+
+        methods.addSecurity = function (data) {
+            var url = config.HOST + '/addSecurity';
+            return request.post(url, data);
+        }
+
+        methods.saveUpdateSecurity = function (data) {
+            var url = config.HOST + '/updateSecurity';
+            return request.put(url, data);
+        }
+
+        methods.deleteSecurity = function (data) {
+            var url = config.HOST + '/deleteSecurity';
+            return request.get(url, data);
         }
 
         //--hien thi ho ten---------------------
