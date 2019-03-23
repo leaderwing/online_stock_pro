@@ -25,6 +25,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,6 +50,7 @@ public class TradingController {
 
     public static final String DEFAULT_START_DATE = "20181201";
 
+
     @RequestMapping(value = "/history",method = RequestMethod.GET)
     public ResponseEntity<TradingRecords> getTradingHistory(@RequestParam String ngay1,
             @RequestParam String ngay2,
@@ -60,6 +63,21 @@ public class TradingController {
                 tradingService.getTradingHistory(loggedUsername,fromDate, toDate, symbol, exectype);
         return new  ResponseEntity<>(tradingRecords,HttpStatus.OK);
     }
+    @MessageMapping("/db")
+    @SendTo("/topic/trading")
+    public ResponseEntity<TradingRecords> eventListenHistory(@RequestParam String ngay1,
+                                                            @RequestParam String ngay2,
+                                                            @RequestParam String symbol,
+                                                             @RequestParam String exectype) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String loggedUsername = auth.getName();
+        int fromDate = Integer.parseInt(ngay1);
+        int toDate = Integer.parseInt(ngay2);
+        TradingRecords tradingRecords =
+                tradingService.getTradingHistory(loggedUsername,fromDate, toDate, symbol, exectype);
+        return new  ResponseEntity<>(tradingRecords,HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/historyhits",method = RequestMethod.GET)
     public ResponseEntity<TradingRecords> getTradingHistoryHits(@RequestParam String ngay1,
             @RequestParam String ngay2,
@@ -81,7 +99,7 @@ public class TradingController {
             JSONObject jObject = new JSONObject(json);
             JSONArray jsonArray = jObject.getJSONObject("data").getJSONArray("hits");
             if(jsonArray.length() == 0) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.OK);
             }
             JSONObject source = jsonArray.getJSONObject(0).getJSONObject("_source");
             response.setFloorCode(String.valueOf(source.get("floorCode")));
@@ -97,15 +115,19 @@ public class TradingController {
     public ResponseEntity<PriceResponse> getFloorPrice(@PathVariable String symbol) {
         PriceResponse response = new PriceResponse();
         RestTemplate restTemplate = new RestTemplate();
-        String json = restTemplate.getForObject(Constant.API_URL_FLOOR_PRICE.concat(StringUtils.trim(symbol).toUpperCase()),String.class);
-        json = json.replace("[","").replace("]","")
-            .replace("\"","");
-        json = json.replace("|", ";");
-        String[] priceList = json.split(";");
-        response.setM1(priceList[23]);
-        response.setKl1(priceList[24]);
-        response.setB1(priceList[29]);
-        response.setKl2(priceList[30]);
+        try {
+            String json = restTemplate.getForObject(Constant.API_URL_FLOOR_PRICE.concat(StringUtils.trim(symbol).toUpperCase()), String.class);
+            json = json.replace("[", "").replace("]", "")
+                    .replace("\"", "");
+            json = json.replace("|", ";");
+            String[] priceList = json.split(";");
+            response.setM1(priceList[23]);
+            response.setKl1(priceList[24]);
+            response.setB1(priceList[29]);
+            response.setKl2(priceList[30]);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
         return  new ResponseEntity<>(response,HttpStatus.OK);
     }
     @RequestMapping(value = "/huy/{id}", method = RequestMethod.DELETE)

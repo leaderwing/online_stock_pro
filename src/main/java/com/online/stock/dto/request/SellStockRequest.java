@@ -11,7 +11,7 @@ public class SellStockRequest {
     private int closedqtty;
     @NotBlank
     private String oderid;
-    private float price;
+    private double price;
     @NotBlank
     private String symbol;
     @NotBlank

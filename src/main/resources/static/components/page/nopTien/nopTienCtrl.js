@@ -1,20 +1,20 @@
 angular.module('app').controller('nopTienCtrl',
     ['data', 'modal', '$window', '$rootScope', '$state', '$scope', 'dateFilter',
-        function (data, modal, $window, $rootScope, $state, $scope, dateFilter, ) {
+        function (data, modal, $window, $rootScope, $state, $scope, dateFilter) {
             var vm = this;
             var todos = {};
             //get ho va ten
-            vm.getHoten = function () {
-                var todo = {
-                    account: $scope.formData.account,
-                }
-                console.log(todo)
-                data.getHoten(todo.account).then(function (response) {
-                    vm.fullname = response;
-                }, function (err) {
-                    console.log(err);
-                })
-            }
+            // vm.getHoten = function () {
+            //     var todo = {
+            //         account: $scope.formData.account,
+            //     }
+            //     console.log(todo)
+            //     data.getHoten(todo.account).then(function (response) {
+            //         vm.fullname = response;
+            //     }, function (err) {
+            //         console.log(err);
+            //     })
+            // }
             vm.noptien = function () {
                
                 todos.account = $scope.formData.account;

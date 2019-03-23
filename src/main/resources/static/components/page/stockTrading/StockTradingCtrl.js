@@ -5,8 +5,6 @@ angular.module('app').controller('stockTradingCtrl',
             var vm = this;
             var fromDate = moment($scope.THAMSO_NGAY1).format("YYYYMMDD");
             var toDate = moment($scope.THAMSO_NGAY2).format("YYYYMMDD");
-
-
             var todo = {
                 ngay1: fromDate,
                 ngay2: toDate,
@@ -14,15 +12,24 @@ angular.module('app').controller('stockTradingCtrl',
                 symbol: ($scope.THAMSO_SYMBOL) ? $scope.THAMSO_SYMBOL : ""
 
             }
+            // listen stomp api
+            var socket = new SockJS('/gs-guide-websocket');
+            var stompClient = Stomp.over(socket);
+            stompClient.connect({}, function (frame) {
+                console.log('Connected: ' + frame);
+                stompClient.subscribe('/topic/trading', function (result) {
+                    vm.history = result.rowList
+                });
+            });
 
+            $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+                if (stompClient !== null) {
+                    stompClient.disconnect();
+                }
+            }
 
             data.history(todo).then(function (result) {
                 vm.history = result.rowList
-               // data.floorName(result.CODEID).then(function (resultfloor) {
-               //     // console.log(resultfloor)
-               //     vm.floorName = resultfloor;
-               //
-               // });
 
             }, function (err) {
                 alert(err);
@@ -38,10 +45,7 @@ angular.module('app').controller('stockTradingCtrl',
                 }
                 data.history(todoo).then(function (result) {
                     vm.history = result.rowList
-                                   // data.floorName(result.CODEID).then(function (resultfloor) {
-                                   //     // console.log(resultfloor)
-                                   //     vm.floorName = resultfloor;
-                                   // });
+
                 }, function (err) {
                     alert(err);
                 })
@@ -59,9 +63,12 @@ angular.module('app').controller('stockTradingCtrl',
 
                     todos.floor = result.floorCode;
                     todos.ceM = result.ceil / 1000;
-                    console.log("eeee",result);
+
                     vm.floorNamess = result;
 
+                }).catch(function(err){
+                    console.log(err);
+                    alert(err);
                 })
                 data.priceView(todo.symbol).then(function (result) {
 
@@ -72,19 +79,20 @@ angular.module('app').controller('stockTradingCtrl',
             };
 
             //----------------get thong tin chung-----------------
-            // data.ttchung().then(function (result) {
-            //     vm.ttchung = result;
-            //
-            // }, function (err) {
-            //     console.log(err);
-            // });
+            data.ttchung().then(function (result) {
+
+                vm.ttchung = result;
+
+            }, function (err) {
+                console.log(err);
+            });
             //----------------get thong tin ty le-----------------
-            // data.tttyle().then(function (result) {
-            //     vm.tttyle = result;
-            //
-            // }, function (err) {
-            //     console.log(err);
-            // });
+            data.tttyle().then(function (result) {
+                vm.tttyle = result;
+
+            }, function (err) {
+                console.log(err);
+            });
 
             //----------------dat lenh mua-----------------------
             vm.createTodos = function () {
@@ -95,7 +103,7 @@ angular.module('app').controller('stockTradingCtrl',
                     todos.command = $scope.formData.command,
                         todos.symbol = $scope.formData.symbol,
                         todos.quantity = $scope.formData.quantity,
-                        todos.price = $scope.formData.price,
+                        todos.price = $scope.formData.price * 1000,
                         todos.orderType = $scope.formData.orderType,
                         todos.expiredDate = $scope.formData.expiredDate
 
@@ -104,7 +112,7 @@ angular.module('app').controller('stockTradingCtrl',
                         if (todos.orderType === 'PLO') {
                             todos.price = todos.m1;
                             data.createNormal(todos).then(function (result) {
-    alert("fffffff",todos)
+
                                 if (result === 'Dat lenh thanh cong') {
                                     alert(result);
                                     $scope.formData.command = "";
@@ -129,7 +137,7 @@ angular.module('app').controller('stockTradingCtrl',
                         } else {
                             todos.price = todos.ceM;
                             data.createNormal(todos).then(function (result) {
-                                alert("fffffff",todos)
+
                                 if (result === 'Dat lenh thanh cong') {
                                     alert(result);
                                     $scope.formData.command = "";
@@ -155,7 +163,7 @@ angular.module('app').controller('stockTradingCtrl',
                     } else {
                         alert(todos.symbol)
                         data.createNormal(todos).then(function (result) {
-                            alert("fffffff",todos)
+
                             if (result === 'Dat lenh thanh cong') {
                                 alert(result);
                                 $scope.formData.command = "";
@@ -182,6 +190,50 @@ angular.module('app').controller('stockTradingCtrl',
                     alert('Lệnh đã được hủy');
                 }
             };
+
+            vm.deleteTodo = function (todo) {
+                var t = confirm('Bạn có chắc chắn muốn thực hiện');
+                if (t === true) {
+                    data.deletes(todo.orderid).then(function (result) {
+                        alert('Bạn đã hủy thành công');
+                        data.history().then(function (result) {
+
+                            vm.history = result
+                        })
+                    }, function (err) {
+                        console.log(err);
+                    });
+                } else {
+                    alert('Lệnh đã được hủy');
+                }
+            }
+
+            //-------Closed lenh-------------------
+            vm.createNormalBan = function (todo) {
+                var t = confirm('Bạn có chắc chắn muốn thực hiện');
+                if (t === true) {
+                    var todo = {
+                        execqtty: todo.execqtty,
+                        closedqtty: todo.closedqtty,
+                        oderid: todo.orderid,
+                        price: 0,
+                        symbol: todo.codeid,
+                        orderType: todo.pricetype
+                    }
+                    console.log(todo)
+                    data.createNormalBan(todo).then(function (result) {
+                        alert(result);
+                        data.history().then(function (result) {
+                            // console.log(result)
+                            vm.history = result
+                        })
+                    }, function (err) {
+                        alert(err);
+                    });
+                } else {
+                    alert('Lệnh đã được hủy');
+                }
+            }
 
             $scope.date = new Date();
             $scope.$watch('date', function (date) {

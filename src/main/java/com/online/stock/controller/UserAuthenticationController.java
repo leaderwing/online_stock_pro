@@ -5,6 +5,7 @@ import com.online.stock.model.Afmast;
 import com.online.stock.repository.AfmastRepository;
 import com.online.stock.services.IAccountService;
 import com.online.stock.services.IThirdPartyService;
+import com.online.stock.utils.Constant;
 import com.online.stock.utils.FileUtils;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -14,11 +15,17 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.Principal;
@@ -37,6 +44,8 @@ public class UserAuthenticationController {
     private IThirdPartyService thirdPartyService;
     @Autowired
     private IAccountService accountService;
+    @Autowired
+    public  JavaMailSender emailSender;
 
     /**
      * This method is used for user registration. Note: user registration is not
@@ -76,6 +85,28 @@ public class UserAuthenticationController {
                     errDetail = "Không thể tạo tài khoản! Vui lòng đăng ký lại";
                     break;
         }
+        //send mail
+        MimeMessage message = emailSender.createMimeMessage();
+
+        boolean multipart = true;
+
+        MimeMessageHelper helper = null;
+        try {
+            helper = new MimeMessageHelper(message, multipart, "utf-8");
+            StringBuilder htmlMsg = new StringBuilder("<html> <head><meta charset='UTF-8'></head>");
+            htmlMsg.append("<body>");
+            htmlMsg.append("<h3>Thông tin đăng nhập tài khoản của bạn là </h3>"
+                    +"<p><b> Username: </b>" + "<i>"+request.getAcctno()+"</i> </p>"
+                    + "<p><b> Password: </b>" + "<i>"+genPassword+"</i> </p>");
+            htmlMsg.append("<p> Try cập địa chỉ sau để đăng nhập vào hệ thống: http://stock88.com.vn</p>");
+            htmlMsg.append("</body> </html>");
+            message.setContent(htmlMsg.toString(), "text/html; charset=\"UTF-8\"");
+            helper.setTo(request.getEmail());
+            helper.setSubject("Thông tin đăng nhập tài khoản Stock88.com.vn");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+        emailSender.send(message);
         return new ResponseEntity<>(errDetail,HttpStatus.CREATED);
     }
 
@@ -152,7 +183,7 @@ public class UserAuthenticationController {
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
+    @RequestMapping(value = "/resetmk")
     public ResponseEntity<String> resetPassword (@RequestParam String email) {
         Afmast afmast = afmastRepository.findOneByEmail(email);
         if (afmast == null) {
@@ -160,6 +191,65 @@ public class UserAuthenticationController {
         }
         //gen new password
         String newPass = FileUtils.genRandomPassword(6);
+        afmast.setPassword(newPass);
+        afmastRepository.save(afmast);
+        // send mail
+        MimeMessage message = emailSender.createMimeMessage();
+        boolean multipart = true;
+
+        MimeMessageHelper helper = null;
+        try {
+            helper = new MimeMessageHelper(message, multipart, "utf-8");
+            StringBuilder htmlMsg = new StringBuilder("<html> <head><meta charset='UTF-8'></head>");
+            htmlMsg.append("<body>");
+            htmlMsg.append("<h3>Thông tin đăng nhập của bạn đã được reset lại như sau: </h3>"
+                    +"<p><b> Username: </b>" + "<i>"+afmast.getUsername()+"</i> </p>"
+                    + "<p><b> Password: </b>" + "<i>"+newPass+"</i> </p>");
+            htmlMsg.append("<p> Try cập địa chỉ sau để đăng nhập vào hệ thống: http://stock88.com.vn</p>");
+            htmlMsg.append("</body> </html>");
+            message.setContent(htmlMsg.toString(), "text/html; charset=\"UTF-8\"");
+            helper.setTo(email);
+            helper.setSubject("Thông tin đăng nhập tài khoản Stock88.com.vn");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+        emailSender.send(message);
         return new ResponseEntity<>("Gửi email thay đổi mật khẩu thành công!", HttpStatus.OK);
+    }
+
+    public static void main(String[] args) {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+
+        mailSender.setUsername(Constant.MAIL_ADDRESS);
+        mailSender.setPassword(Constant.MAIL_PASSWORD);
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.debug", "true");
+        MimeMessage message = mailSender.createMimeMessage();
+        boolean multipart = true;
+
+        MimeMessageHelper helper = null;
+        try {
+            helper = new MimeMessageHelper(message, multipart, "utf-8");
+            StringBuilder htmlMsg = new StringBuilder("<html> <head><meta charset='UTF-8'></head>");
+            htmlMsg.append("<body>");
+            htmlMsg.append("<h3>Thông tin đăng nhập tài khoản của bạn là </h3>"
+                    +"<p><b> Username: </b>" + "<i>abcd</i> </p>"
+                    + "<p><b> Password: </b>" + "<i>123456</i> </p>");
+            htmlMsg.append("<p> Try cập địa chỉ sau để đăng nhập vào hệ thống: http://stock88.com.vn</p>");
+            htmlMsg.append("</body> </html>");
+            message.setContent(htmlMsg.toString(), "text/html; charset=\"UTF-8\"");
+            helper.setTo("quyict.hut@gmail.com");
+            helper.setSubject("Thông tin đăng nhập tài khoản Stock88.com.vn");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+
+        mailSender.send(message);
     }
 }
