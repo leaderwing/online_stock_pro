@@ -169,8 +169,12 @@ public class UserAuthenticationController {
     }
 
     @RequestMapping(value = "/doimk", method = RequestMethod.PUT)
-    public ResponseEntity<Void> changePassword(@RequestParam String username, @RequestParam String oldPassword,
-                                               @RequestParam String newPassword) {
+    public ResponseEntity<Void> changePassword(@RequestBody String changeReq) throws JSONException {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        JSONObject jsonObject = new JSONObject(changeReq);
+        String oldPassword = jsonObject.getString("oldPassword");
+        String newPassword = jsonObject.getString("newPassword");
         if (StringUtils.isBlank(username) || StringUtils.isBlank(oldPassword) || StringUtils.isBlank(newPassword)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -183,11 +187,13 @@ public class UserAuthenticationController {
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    @RequestMapping(value = "/resetmk")
-    public ResponseEntity<String> resetPassword (@RequestParam String email) {
+    @RequestMapping(value = "/resetmk", method = RequestMethod.GET)
+    public ResponseEntity<String> resetPassword (@RequestParam String email) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
         Afmast afmast = afmastRepository.findOneByEmail(email);
         if (afmast == null) {
-            return new ResponseEntity<>("Không tìm thấy tài khoản email!",HttpStatus.NOT_FOUND);
+            jsonObject.put("result","Không tìm thấy tài khoản email!");
+            return new ResponseEntity<>(jsonObject.toString(),HttpStatus.NOT_FOUND);
         }
         //gen new password
         String newPass = FileUtils.genRandomPassword(6);
@@ -214,7 +220,8 @@ public class UserAuthenticationController {
             e.printStackTrace();
         }
         emailSender.send(message);
-        return new ResponseEntity<>("Gửi email thay đổi mật khẩu thành công!", HttpStatus.OK);
+        jsonObject.put("result","Gửi email thay đổi mật khẩu thành công!");
+        return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
     }
 
     public static void main(String[] args) {
