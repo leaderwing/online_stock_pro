@@ -108,6 +108,10 @@ angular.module('app', ['ui.router', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', '
             url: '/tham-so-he-thong',
             templateUrl: "components/page/thamSoHeThong/thamSoHeThong.html",
             controller: 'thamSoHeThong as vm'
+        }).state('root.export-report', {
+            url: '/export',
+            templateUrl: "components/page/baocao/exportView.html",
+            controller: 'exportCtl as vm'
         })
         $urlRouterProvider.otherwise('/stock-trading')
 
