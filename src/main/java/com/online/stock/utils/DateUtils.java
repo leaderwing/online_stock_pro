@@ -2,7 +2,9 @@ package com.online.stock.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
 public class DateUtils {
@@ -60,8 +62,10 @@ public class DateUtils {
     }
 
     public static void main(String[] args) {
-        Date date = new Date();
-         System.out.println(getDateYYYYMMDD("2019-03-21T15:50:43Z"));
-        //getHHMMSS("2019-03-21T15:50:43Z");
+        List strArray = new ArrayList();
+        strArray.add("1234567|@3345");
+        strArray.add("44|555");
+        String joinedString = strArray.toString().replace("[","").replace("]","");
+        System.out.print(joinedString);
     }
 }
