@@ -1,6 +1,6 @@
 angular.module('app').controller('stockTradingCtrl',
-    ['data', 'modal', '$window', '$rootScope', '$state', '$scope', 'dateFilter',
-        function (data, modal, $window, $rootScope, $state, $scope, dateFilter) {
+    ['data', 'modal', '$window', '$rootScope', '$state', '$scope', 'dateFilter','$interval',
+        function (data, modal, $window, $rootScope, $state, $scope, dateFilter,$interval) {
             var todos = {};
             var vm = this;
             var fromDate = moment($scope.THAMSO_NGAY1).format("YYYYMMDD");
@@ -12,21 +12,21 @@ angular.module('app').controller('stockTradingCtrl',
                 symbol: ($scope.THAMSO_SYMBOL) ? $scope.THAMSO_SYMBOL : ""
 
             };
-            // listen stomp api
-            var socket = new SockJS('/gs-guide-websocket');
-            var stompClient = Stomp.over(socket);
-            stompClient.connect({}, function (frame) {
-                console.log('Connected: ' + frame);
-                stompClient.subscribe('/topic/trading', function (result) {
-                    vm.history = result.rowList
-                });
-            });
-
-            $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-                if (stompClient !== null) {
-                    stompClient.disconnect();
-                }
-            });
+            // // listen stomp api
+            // var socket = new SockJS('/gs-guide-websocket');
+            // var stompClient = Stomp.over(socket);
+            // stompClient.connect({}, function (frame) {
+            //     console.log('Connected: ' + frame);
+            //     stompClient.subscribe('/topic/trading', function (result) {
+            //         vm.history = result.rowList
+            //     });
+            // });
+            //
+            // $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+            //     if (stompClient !== null) {
+            //         stompClient.disconnect();
+            //     }
+            // });
 
             data.history(todo).then(function (result) {
                 vm.history = result.rowList
@@ -50,6 +50,10 @@ angular.module('app').controller('stockTradingCtrl',
                     alert(err);
                 })
             }
+            $interval( function(){
+                vm.seHistory();
+                vm.getttchung();
+                vm.getttTyle()}, 1000);
 
 //----------------------------get view data--------------------------------------
 
@@ -79,20 +83,20 @@ angular.module('app').controller('stockTradingCtrl',
             };
 
             //----------------get thong tin chung-----------------
-            data.ttchung().then(function (result) {
+            vm.getttchung = function() { data.ttchung().then(function (result) {
 
                 vm.ttchung = result;
 
             }, function (err) {
                 console.log(err);
-            });
+            }) };
             //----------------get thong tin ty le-----------------
-            data.tttyle().then(function (result) {
+            vm.getttTyle = function() {data.tttyle().then(function (result) {
                 vm.tttyle = result;
 
             }, function (err) {
                 console.log(err);
-            });
+            })};
 
             //----------------dat lenh mua-----------------------
             vm.createTodos = function () {

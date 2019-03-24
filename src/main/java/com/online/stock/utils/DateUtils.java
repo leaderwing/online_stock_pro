@@ -27,6 +27,17 @@ public class DateUtils {
             return null;
         }
     }
+    public static String convertIntDate (String date) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_YYYYMMDD);
+            Date date1  = sdf.parse((date));
+             sdf = new SimpleDateFormat("dd/MM/yyyy");
+            return sdf.format(date1);
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return null;
+        }
+    }
     public static Date convertDate (String date ) {
         SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_YYYYMMDD);
         try {
