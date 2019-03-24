@@ -168,7 +168,7 @@ public class UserAuthenticationController {
         }
     }
 
-    @RequestMapping(value = "/doimk", method = RequestMethod.POST)
+    @RequestMapping(value = "/doimk", method = RequestMethod.PUT)
     public ResponseEntity<Void> changePassword(@RequestParam String username, @RequestParam String oldPassword,
                                                @RequestParam String newPassword) {
         if (StringUtils.isBlank(username) || StringUtils.isBlank(oldPassword) || StringUtils.isBlank(newPassword)) {

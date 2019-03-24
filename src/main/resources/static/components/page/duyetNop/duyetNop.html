@@ -1,6 +1,8 @@
 
 <div class="page-wrapper">
-       
+    <p class="text-center" ng-show="loading">
+        <span class="fa fa-spinner fa-spin fa-3x"></span>
+    </p>
     <div class="page-breadcrumb">
         <div class="row">
             <div class="col-12 d-flex no-block align-items-center">
@@ -42,10 +44,10 @@
                         </thead>
                         <tbody id="accordion">
                             <tr ng-repeat="duyetnop in vm.duyetnop">
-                                <td>{{duyetnop.ID}}</td>
-                                <td>{{duyetnop.ACCTNO}}</td>
-                                <td>{{duyetnop.FULLNAME}}</td>
-                                <td>{{duyetnop.AMT}}</td>
+                                <td>{{duyetnop.id}}</td>
+                                <td>{{duyetnop.acctno}}</td>
+                                <td>{{duyetnop.fullname}}</td>
+                                <td>{{duyetnop.amt}}</td>
                                 <td>
                                     <button type="button" ng-click="vm.duyetNop(duyetnop)" class="btn btn-primary">Duyet</button>
                                 </td>   

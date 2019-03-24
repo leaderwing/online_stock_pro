@@ -37,7 +37,7 @@ public class DepositeService implements IDepositService {
         call.registerParameter(4, String.class, ParameterMode.IN).bindValue(request.getAccount());
         call.registerParameter(5, String.class, ParameterMode.IN).bindValue(remoteIp);
         call.registerParameter(6, String.class, ParameterMode.IN).bindValue(request.getTxdesc());
-        call.registerParameter(7, String.class, ParameterMode.OUT);
+        call.registerParameter(7, Integer.class, ParameterMode.OUT);
 
         output = (Integer) call.getOutputs().getOutputParameterValue(7);
         return output;
@@ -64,13 +64,13 @@ public class DepositeService implements IDepositService {
         List<Object[]> rows = query.list();
         for (Object[] row : rows) {
             ApproveDepositRes res = new ApproveDepositRes();
-            res.setFULLNAME(row[0].toString());
-            res.setCREATED_ACCTNO(row[1].toString());
-            res.setAPPROVED_ACCTNO(row[2].toString());
-            res.setAPPROVED_TXTIME(row[3].toString());
-            res.setAMT(Double.valueOf(row[4].toString()));
-            res.setACCTNO(row[5].toString());
-            res.setID(Integer.parseInt(row[6].toString()));
+            res.setFullname(row[0] == null ? null : row[0].toString());
+            res.setCreated_acctno(row[1] == null ? null :row[1].toString());
+            res.setApproved_acctno(row[2] == null ? null :row[2].toString());
+            res.setApproved_txtime(row[3] == null ? null :row[3].toString());
+            res.setAmt(row[4] == null ? 0 : Double.valueOf(row[4].toString()));
+            res.setAcctno(row[5] == null ? null : row[5].toString());
+            res.setId(row[6] == null ? 0 : Integer.parseInt(row[6].toString()));
             resList.add(res);
         }
         transaction.commit();
@@ -83,12 +83,12 @@ public class DepositeService implements IDepositService {
         int output;
         Session session = entityManager.unwrap(Session.class);
         ProcedureCall call = session.createStoredProcedureCall("PKG_ORDER_TRADING.PRC_CASH_APPROVE");
-        call.registerParameter(1, Integer.class, ParameterMode.IN).bindValue(res.getID());
+        call.registerParameter(1, Integer.class, ParameterMode.IN).bindValue(res.getId());
         call.registerParameter(2, String.class, ParameterMode.IN).bindValue(transferType);
-        call.registerParameter(3, Double.class, ParameterMode.IN).bindValue(res.getAMT());
-        call.registerParameter(4, String.class, ParameterMode.IN).bindValue(res.getAPPROVED_ACCTNO());
-        call.registerParameter(5, String.class, ParameterMode.IN).bindValue(res.getACCTNO());
-        call.registerParameter(6, String.class, ParameterMode.OUT);
+        call.registerParameter(3, Double.class, ParameterMode.IN).bindValue(res.getAmt());
+        call.registerParameter(4, String.class, ParameterMode.IN).bindValue(res.getApproved_acctno());
+        call.registerParameter(5, String.class, ParameterMode.IN).bindValue(res.getAcctno());
+        call.registerParameter(6, Integer.class, ParameterMode.OUT);
         output = (Integer) call.getOutputs().getOutputParameterValue(6);
         return output;
     }

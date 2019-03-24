@@ -1,4 +1,4 @@
-angular.module('app').controller('chungkhoanCtrl',
+angular.module('app').controller('afTypeCtrl',
     ['data', 'modal', '$window', '$rootScope', '$state', '$scope', 'dateFilter',
         function (data, modal, $window, $rootScope, $state, $scope, dateFilter) {
             var vm = this;
@@ -6,7 +6,7 @@ angular.module('app').controller('chungkhoanCtrl',
             $scope.isDisabled = true;
             $scope.hidden = true;
             vm.chungkhoan = {};
-            data.chungkhoan().then(function (result) {
+            data.afType().then(function (result) {
                 $scope.loading = false;
                 vm.chungkhoan = result;
                 console.log(result);
@@ -14,36 +14,34 @@ angular.module('app').controller('chungkhoanCtrl',
                 console.log(err);
             });
 
-            vm.addSecurity = function() {
+            vm.addAfType = function() {
                 var todo = {};
-                todo.symbol = $scope.formData.symbol;
-                todo.txdate  = $scope.formData.txdate;
-                todo.txtime = $scope.formData.txtime;
-                todo.basicprice = $scope.formData.basicprice;
-                todo.ceilingprice = $scope.formData.ceilingprice;
-                todo.floorprice = $scope.formData.floorprice;
-                todo.bidprice1  = $scope.formData.bidprice1;
-                todo.bqtty1 = $scope.formData.bqtty1;
-                todo.askprice1 = $scope.formData.askprice1;
-                todo.aqtty1 = $scope.formData.aqtty1;
-                todo.lqtty = $scope.formData.lqtty;
+                todo.acType = $scope.formData.acType;
+                todo.typeName  = $scope.formData.typeName;
+                todo.afType = $scope.formData.afType;
+                todo.tradeRate = $scope.formData.tradeRate;
+                todo.margRate = $scope.formData.margRate;
+                todo.WarningRate = $scope.formData.WarningRate;
+                todo.processRate  = $scope.formData.processRate;
+                todo.depoRate = $scope.formData.depoRate;
+                todo.MiscRate = $scope.formData.MiscRate;
 
-                data.addSecurity(todo).then(function (response) {
-                    data.chungkhoan().then(function (result) {
+
+                data.addAfType(todo).then(function (response) {
+                    data.afType().then(function (result) {
                         $scope.loading = false;
 
                         vm.chungkhoan = result;
-                        $scope.formData.symbol = "";
-                        $scope.formData.txdate = "";
-                        $scope.formData.txtime = "";
-                        $scope.formData.basicprice = "";
-                        $scope.formData.ceilingprice = "";
-                        $scope.formData.floorprice = "";
-                        $scope.formData.bidprice1 = "";
-                        $scope.formData.bqtty1 = "";
-                        $scope.formData.askprice1 = "";
-                        $scope.formData.aqtty1 = "";
-                        $scope.formData.lqtty = "";
+                        $scope.formData.acType = "";
+                        $scope.formData.typeName = "";
+                        $scope.formData.afType = "";
+                        $scope.formData.tradeRate = "";
+                        $scope.formData.margRate = "";
+                        $scope.formData.WarningRate = "";
+                        $scope.formData.processRate = "";
+                        $scope.formData.depoRate = "";
+                        $scope.formData.MiscRate = "";
+
                         alert('Bạn đã thêm thành công')
                     }, function (err) {
                         console.log(err);
@@ -53,7 +51,7 @@ angular.module('app').controller('chungkhoanCtrl',
                 });
             }
 
-            vm.updateSecurity = function () {
+            vm.updateAfType = function () {
 
                 if($scope.isDisabled == false){
                     $scope.isDisabled = true;
@@ -72,7 +70,7 @@ angular.module('app').controller('chungkhoanCtrl',
                 }
             }
 
-            vm.saveUpdateSecurity = function () {
+            vm.saveUpdateAfType = function () {
                 var updatedItems = [];
                 for(var i=0;i<listOfChangedRows.length;i++)
                 {
@@ -83,9 +81,9 @@ angular.module('app').controller('chungkhoanCtrl',
                 // todo.varvalue =  vm.thamso[a].varvalue;
                 // todo.vardesc =  vm.thamso[a].vardesc;
                 // todo.en_vardesc =  vm.thamso[a].en_vardesc;
-                data.saveUpdateSecurity(updatedItems[updatedItems.length-1]).then(function (res) {
+                data.saveUpdateAfType(updatedItems[updatedItems.length-1]).then(function (res) {
                     alert("Cập nhật thành công!")
-                    data.chungkhoan().then(function (result) {
+                    data.afType().then(function (result) {
                         $scope.loading = false;
 
                         vm.chungkhoan = result;
@@ -98,15 +96,16 @@ angular.module('app').controller('chungkhoanCtrl',
                 });
             }
 
-            vm.deleteSecurity = function (chungkhoan) {
-            alert(chungkhoan.symbol)
+            vm.deleteAfType = function (chungkhoan) {
+alert(chungkhoan.acType)
 
                 var delVal = {
-                    symbol : chungkhoan.symbol,
+                    acType : chungkhoan.acType,
 
                 }
-                data.deleteSecurity(delVal).then(function (res) {
-                    data.chungkhoan().then(function (result) {
+                data.deleteAfType(delVal).then(function (res) {
+                    alert("ok")
+                    data.afType().then(function (result) {
                         $scope.loading = false;
 
                         vm.chungkhoan = result;
@@ -114,7 +113,7 @@ angular.module('app').controller('chungkhoanCtrl',
                     }, function (err) {
                         console.log(err);
                     });
-                    alert("ok");
+
                 }, function (err) {
                     alert("không")
                 })

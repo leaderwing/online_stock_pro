@@ -3,6 +3,7 @@ angular.module('app').controller('capTaiKhoanCtrl',
         function (data, modal, $window, $rootScope, $state, $scope, dateFilter ) {
             var vm = this;
 
+
             //get thong tin tai khoan--------------------------
             data.getTK().then(function (response) {
 

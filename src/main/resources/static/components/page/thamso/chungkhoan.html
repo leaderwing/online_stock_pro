@@ -13,131 +13,191 @@
                 <div class="col-sm-12 right">
                     <div class="row">
                         <div class="col-sm-2">
-                            <select class="form-control" ng-model="formData.gname">
-                                <option value="">Nhóm tên</option>
-                                <option>SYSTEM</option>
-                                <option>DEFINED</option>
-                            </select>
+                            <input type="text" class="form-control"
+                                   ng-model="formData.symbol" placeholder="Mã chứng khoán">
                             <!-- <input type="text" class="form-control" ng-model="formData.orderType" placeholder="Type"> -->
                         </div>
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <input type="text" class="form-control"
-                                       ng-model="formData.name" placeholder="Tên">
+                                       ng-model="formData.txdate" placeholder="Ngày">
                                 <!-- <button class="btn_info">Chi tiết</button> -->
                             </div>
                         </div>
                         <div class="col-sm-4">
-                            <input type="number" class="form-control" ng-model="formData.value"
-                                   placeholder="Giá trị">
+                            <div class="form-group">
+                                <input type="text" class="form-control" ng-model="formData.txtime"
+                                       placeholder="Thời gian">
+                            </div>
                         </div>
 
                         <div class="col-sm-4">
-                            <textarea class="form-control" ng-model="formData.v_note" placeholder="V_Ghi chú"> </textarea>
+                            <div class="form-group">
+                                <input type="text" class="form-control" ng-model="formData.basicprice"
+                                       placeholder="basicprice"> </input>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control" ng-model="formData.ceilingprice"
+                                       placeholder="ceilingprice"></input>
+                            </div>
                         </div>
                         <div class="col-sm-4">
-                            <textarea type="text" class="form-control" ng-model="formData.e_note" placeholder="E_Ghi chú"></textarea>
+                            <div class="form-group">
+                                <input type="text" class="form-control" ng-model="formData.floorprice"
+                                       placeholder="floorprice"> </input>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control" ng-model="formData.bidprice1"
+                                       placeholder="bidprice1"></input>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control" ng-model="formData.bqtty1"
+                                       placeholder="bqtty1"> </input>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control" ng-model="formData.askprice1"
+                                       placeholder="askprice1"></input>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control" ng-model="formData.aqtty1"
+                                       placeholder="aqtty1"></input>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control" ng-model="formData.lqtty"
+                                       placeholder="lqtty"></input>
+                            </div>
                         </div>
                     </div>
                 </div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ</button>
-                <button type="button" class="btn btn-danger" ng-click="vm.addSysVar()">Thêm</button>
+                <button type="button" class="btn btn-danger" ng-click="vm.addSecurity()">Thêm</button>
             </div>
         </div>
     </div>
 </div>
 <div class="page-wrapper">
-       
+    <p class="text-center" ng-show="loading">
+        <span class="fa fa-spinner fa-spin fa-3x"></span>
+    </p>
     <div class="page-breadcrumb">
         <div class="row">
             <div class="col-12 d-flex no-block align-items-center">
-                <h4 class="page-title">Tham số chung khoan</h4>
+                <h4 class="page-title">Tham số chứng khoán</h4>
                 <div class="ml-auto text-right">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <button type="button" data-toggle="modal" data-target="#Modal2" class="btn btn btn-danger"><i class="fas fa-plus"></i></button>
-                            <p style="width: 5px"> </p>
-                            <button type="button" ng-click="vm.updateSecurity()" class="btn btn-primary"><i class="fas fa-pencil-alt"></i></button>
+                            <button type="button" data-toggle="modal" data-target="#Modal2" class="btn btn btn-danger">
+                                <i class="fas fa-plus"></i></button>
+                            <p style="width: 5px"></p>
+                            <button type="button" ng-click="vm.updateSecurity()" class="btn btn-primary"><i
+                                    class="fas fa-pencil-alt"></i></button>
                         </ol>
                     </nav>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <!-- ============================================================== -->
     <!-- End Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
     <!-- ============================================================== -->
     <!-- Container fluid  -->
     <!-- ============================================================== -->
-   
-        <!-- ============================================================== -->
-        <!-- Start Page Content -->
-        <!-- ============================================================== -->
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th style="width: 50px;">Ma CK</th>
-                                <th style="width: 50px;">Ngay</th>
-                                <th style="width: 50px;">Thoi gian</th>
-                                <th style="width: 50px;">BASIC PRICE</th>
-                                <th style="width: 150px;">CEILING PRICE</th>
-                                <th style="width: 150px;">FLOOR PRICE</th>
-                                <th style="width: 150px;">BIDP RICE1</th>
-                                <th style="width: 150px;">BQTTY1</th>
-                                <th style="width: 150px;">ASK PRICE1</th>
-                                <th style="width: 150px;">AQTTY1</th>
-                                <th style="width: 150px;">LQTTY</th>
-                                <th style="width: 200px;">Active</th>
 
-                            </tr>
-                        </thead> 
-                        <tbody id="accordion">
-                            <tr ng-repeat="chungkhoan in vm.chungkhoan track by $index">
-                                <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)" ng-model="chungkhoan.symbol" ng-disabled="isDisabled" required=""
-                                           ng-value="chungkhoan.symbol"></td>
-                                <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)" ng-model="chungkhoan.txdate" ng-disabled="isDisabled" required=""
-                                           ng-value="chungkhoan.txdate"></td>
-                                <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)" ng-model="chungkhoan.txtime" ng-disabled="isDisabled" required=""
-                                           ng-value="chungkhoan.txtime"></td>
-                                <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)" ng-model="chungkhoan.basicprice" ng-disabled="isDisabled" required=""
-                                           ng-value="chungkhoan.basicprice"></td>
-                                <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)" ng-model="chungkhoan.ceilingprice" ng-disabled="isDisabled" required=""
-                                           ng-value="chungkhoan.ceilingprice"></td>
-                                <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)" ng-model="chungkhoan.floorprice" ng-disabled="isDisabled" required=""
-                                           ng-value="chungkhoan.floorprice"></td>
-                                <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)" ng-model="chungkhoan.bidprice1" ng-disabled="isDisabled" required=""
-                                           ng-value="chungkhoan.bidprice1"></td>
-                                <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)" ng-model="chungkhoan.bqtty1" ng-disabled="isDisabled" required=""
-                                           ng-value="chungkhoan.bqtty1"></td>
-                                <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)" ng-model="chungkhoan.askprice1" ng-disabled="isDisabled" required=""
-                                           ng-value="chungkhoan.askprice1"></td>
-                                <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)" ng-model="chungkhoan.aqtty1" ng-disabled="isDisabled" required=""
-                                           ng-value="chungkhoan.aqtty1"></td>
-                                <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)" ng-model="chungkhoan.lqtty" ng-disabled="isDisabled" required=""
-                                           ng-value="chungkhoan.lqtty"></td>
-                                <td>
-                                    <div class="ic_active">
-                                        <a href="" ng-click="vm.saveUpdateSecurity()" ng-hide="hidden"><i class="fas fa-save"></i></a>
-                                    </div>
-                                    <div class="ic_active">
-                                        <a href="" ng-click="vm.deleteSecurity(chungkhoan)"><i class="fas fa-trash-alt"></i></a>
-                                    </div>
+    <!-- ============================================================== -->
+    <!-- Start Page Content -->
+    <!-- ============================================================== -->
+    <div class="row">
 
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+        <div class="col-12">
+            <div class="card">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Ma CK</th>
+                        <th>Ngay</th>
+                        <th>Thoi gian</th>
+                        <th>BASIC PRICE</th>
+                        <th>CEILING PRICE</th>
+                        <th>FLOOR PRICE</th>
+                        <th>BIDP RICE1</th>
+                        <th>BQTTY1</th>
+                        <th>ASK PRICE1</th>
+                        <th>AQTTY1</th>
+                        <th>LQTTY</th>
+                        <th>Active</th>
+
+                    </tr>
+                    </thead>
+                    <tbody id="accordion">
+                    <tr ng-repeat="chungkhoan in vm.chungkhoan track by $index">
+                        <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)"
+                                   ng-model="chungkhoan.symbol" ng-disabled="isDisabled" required=""
+                                   ng-value="chungkhoan.symbol"></td>
+                        <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)"
+                                   ng-model="chungkhoan.txdate" ng-disabled="isDisabled" required=""
+                                   ng-value="chungkhoan.txdate"></td>
+                        <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)"
+                                   ng-model="chungkhoan.txtime" ng-disabled="isDisabled" required=""
+                                   ng-value="chungkhoan.txtime"></td>
+                        <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)"
+                                   ng-model="chungkhoan.basicprice" ng-disabled="isDisabled" required=""
+                                   ng-value="chungkhoan.basicprice"></td>
+                        <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)"
+                                   ng-model="chungkhoan.ceilingprice" ng-disabled="isDisabled" required=""
+                                   ng-value="chungkhoan.ceilingprice"></td>
+                        <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)"
+                                   ng-model="chungkhoan.floorprice" ng-disabled="isDisabled" required=""
+                                   ng-value="chungkhoan.floorprice"></td>
+                        <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)"
+                                   ng-model="chungkhoan.bidprice1" ng-disabled="isDisabled" required=""
+                                   ng-value="chungkhoan.bidprice1"></td>
+                        <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)"
+                                   ng-model="chungkhoan.bqtty1" ng-disabled="isDisabled" required=""
+                                   ng-value="chungkhoan.bqtty1"></td>
+                        <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)"
+                                   ng-model="chungkhoan.askprice1" ng-disabled="isDisabled" required=""
+                                   ng-value="chungkhoan.askprice1"></td>
+                        <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)"
+                                   ng-model="chungkhoan.aqtty1" ng-disabled="isDisabled" required=""
+                                   ng-value="chungkhoan.aqtty1"></td>
+                        <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)"
+                                   ng-model="chungkhoan.lqtty" ng-disabled="isDisabled" required=""
+                                   ng-value="chungkhoan.lqtty"></td>
+                        <td>
+                            <div class="ic_active">
+                                <a href="" ng-click="vm.saveUpdateSecurity()" ng-hide="hidden"><i
+                                        class="fas fa-save"></i></a>
+                            </div>
+                            <div class="ic_active">
+                                <a href="" ng-click="vm.deleteSecurity(chungkhoan)"><i class="fas fa-trash-alt"></i></a>
+                            </div>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-    
+    </div>
+
 
     <script src="./assets/extra-libs/multicheck/datatable-checkbox-init.js"></script>
     <script src="./assets/extra-libs/multicheck/jquery.multicheck.js"></script>

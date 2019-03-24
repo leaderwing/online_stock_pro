@@ -1,0 +1,248 @@
+<div class="modal fade" id="Modal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-sm-8 left">
+                    <h4>Thêm tham số</h4>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-sm-12 right">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control"
+                                   ng-model="formData.acType" placeholder="acType">
+                            <!-- <input type="text" class="form-control" ng-model="formData.orderType" placeholder="Type"> -->
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <input type="text" class="form-control"
+                                       ng-model="formData.typeName" placeholder="typeName">
+                                <!-- <button class="btn_info">Chi tiết</button> -->
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control" ng-model="formData.afType"
+                                       placeholder="afType">
+                            </div>
+                        </div>
+
+                        <!--<div class="col-sm-4">-->
+                            <!--<div class="form-group">-->
+                                <!--<input type="text" class="form-control" ng-model="formData.approveCd"-->
+                                       <!--placeholder="approveCd"> </input>-->
+                            <!--</div>-->
+                        <!--</div>-->
+
+                        <!--<div class="col-sm-4">-->
+                            <!--<div class="form-group">-->
+                                <!--<input type="text" class="form-control" ng-model="formData.floorLimit"-->
+                                       <!--placeholder="floorLimit"></input>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-4">-->
+                            <!--<div class="form-group">-->
+                                <!--<input type="text" class="form-control" ng-model="formData.branchLimit"-->
+                                       <!--placeholder="branchLimit"> </input>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-4">-->
+                            <!--<div class="form-group">-->
+                                <!--<input type="text" class="form-control" ng-model="formData.teleLimit"-->
+                                       <!--placeholder="teleLimit"></input>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-4">-->
+                            <!--<div class="form-group">-->
+                                <!--<input type="text" class="form-control" ng-model="formData.onlineLimit"-->
+                                       <!--placeholder="onlineLimit"> </input>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control" ng-model="formData.tradeRate"
+                                       placeholder="tradeRate"></input>
+                            </div>
+                        </div>
+                        <!--<div class="col-sm-4">-->
+                            <!--<div class="form-group">-->
+                                <!--<input type="text" class="form-control" ng-model="formData.minBal"-->
+                                       <!--placeholder="minBal"></input>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control" ng-model="formData.margRate"
+                                       placeholder="margRate"></input>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control" ng-model="formData.WarningRate"
+                                       placeholder="WarningRate"></input>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control" ng-model="formData.processRate"
+                                       placeholder="processRate"></input>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control" ng-model="formData.depoRate"
+                                       placeholder="depoRate"></input>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control" ng-model="formData.MiscRate"
+                                       placeholder="MiscRate"></input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ</button>
+                <button type="button" class="btn btn-danger" ng-click="vm.addAfType()">Thêm</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-wrapper">
+    <p class="text-center" ng-show="loading">
+        <span class="fa fa-spinner fa-spin fa-3x"></span>
+    </p>
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-12 d-flex no-block align-items-center">
+                <h4 class="page-title">Khai báo phí mua bán và lãi suất</h4>
+                <div class="ml-auto text-right">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <button type="button" data-toggle="modal" data-target="#Modal2" class="btn btn btn-danger">
+                                <i class="fas fa-plus"></i></button>
+                            <p style="width: 5px"></p>
+                            <button type="button" ng-click="vm.updateAfType()" class="btn btn-primary"><i
+                                    class="fas fa-pencil-alt"></i></button>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- End Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Container fluid  -->
+    <!-- ============================================================== -->
+
+    <!-- ============================================================== -->
+    <!-- Start Page Content -->
+    <!-- ============================================================== -->
+    <div class="row">
+
+        <div class="col-12">
+            <div class="card">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>acType</th>
+                        <th>typeName</th>
+                        <th>afType</th>
+                        <!--<th>approveCd</th>-->
+                        <!--<th>floorLimit</th>-->
+                        <!--<th>branchLimit</th>-->
+                        <!--<th>teleLimit</th>-->
+                        <!--<th>onlineLimit</th>-->
+                        <th>tradeRate</th>
+                        <!--<th>minBal</th>-->
+                        <th>margRate</th>
+                        <th>WarningRate</th>
+                        <th>processRate</th>
+                        <th>depoRate</th>
+                        <th>MiscRate</th>
+                        <th>Active</th>
+
+                    </tr>
+                    </thead>
+                    <tbody id="accordion">
+                    <tr ng-repeat="chungkhoan in vm.chungkhoan track by $index">
+                        <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)"
+                                   ng-model="chungkhoan.acType" ng-disabled="isDisabled" required=""
+                                   ng-value="chungkhoan.acType"></td>
+                        <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)"
+                                   ng-model="chungkhoan.typeName" ng-disabled="isDisabled" required=""
+                                   ng-value="chungkhoan.typeName"></td>
+                        <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)"
+                                   ng-model="chungkhoan.afType" ng-disabled="isDisabled" required=""
+                                   ng-value="chungkhoan.afType"></td>
+                        <!--<td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)"-->
+                                   <!--ng-model="chungkhoan.approveCd" ng-disabled="isDisabled" required=""-->
+                                   <!--ng-value="chungkhoan.approveCd"></td>-->
+                        <!--<td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)"-->
+                                   <!--ng-model="chungkhoan.floorLimit" ng-disabled="isDisabled" required=""-->
+                                   <!--ng-value="chungkhoan.floorLimit"></td>-->
+                        <!--<td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)"-->
+                                   <!--ng-model="chungkhoan.branchLimit" ng-disabled="isDisabled" required=""-->
+                                   <!--ng-value="chungkhoan.branchLimit"></td>-->
+                        <!--<td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)"-->
+                                   <!--ng-model="chungkhoan.teleLimit" ng-disabled="isDisabled" required=""-->
+                                   <!--ng-value="chungkhoan.teleLimit"></td>-->
+                        <!--<td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)"-->
+                                   <!--ng-model="chungkhoan.onlineLimit" ng-disabled="isDisabled" required=""-->
+                                   <!--ng-value="chungkhoan.onlineLimit"></td>-->
+                        <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)"
+                                   ng-model="chungkhoan.tradeRate" ng-disabled="isDisabled" required=""
+                                   ng-value="chungkhoan.tradeRate"></td>
+                        <!--<td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)"-->
+                                   <!--ng-model="chungkhoan.minBal" ng-disabled="isDisabled" required=""-->
+                                   <!--ng-value="chungkhoan.minBal"></td>-->
+                        <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)"
+                                   ng-model="chungkhoan.margRate" ng-disabled="isDisabled" required=""
+                                   ng-value="chungkhoan.margRate"></td>
+                        <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)"
+                                   ng-model="chungkhoan.WarningRate" ng-disabled="isDisabled" required=""
+                                   ng-value="chungkhoan.WarningRate"></td>
+                        <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)"
+                                   ng-model="chungkhoan.processRate" ng-disabled="isDisabled" required=""
+                                   ng-value="chungkhoan.processRate"></td>
+                        <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)"
+                                   ng-model="chungkhoan.depoRate" ng-disabled="isDisabled" required=""
+                                   ng-value="chungkhoan.depoRate"></td>
+                        <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)"
+                                   ng-model="chungkhoan.MiscRate" ng-disabled="isDisabled" required=""
+                                   ng-value="chungkhoan.MiscRate"></td>
+                        <td>
+                            <div class="ic_active">
+                                <a href="" ng-click="vm.saveUpdateAfType()" ng-hide="hidden"><i
+                                        class="fas fa-save"></i></a>
+                            </div>
+                            <div class="ic_active">
+                                <a href="" ng-click="vm.deleteAfType(chungkhoan)"><i class="fas fa-trash-alt"></i></a>
+                            </div>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="./assets/extra-libs/multicheck/datatable-checkbox-init.js"></script>
+    <script src="./assets/extra-libs/multicheck/jquery.multicheck.js"></script>
+
+    <script src="./assets/extra-libs/DataTables/datatables.min.js"></script>
+    <script>
+        $('#zero_config').DataTable();
+    </script>
