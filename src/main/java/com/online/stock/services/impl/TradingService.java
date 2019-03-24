@@ -62,7 +62,7 @@ public class TradingService implements ITradingService {
                 float basicPrice = 0;
                 SecuritiesPractice sp = securitiesPracticeList.stream().filter(securitiesPractice -> securitiesPractice.getSymbol().equals(odMast.getCodeid())).findFirst().orElse(null);
                 if (sp != null) {
-                    basicPrice = sp.getBasicprice();
+                    basicPrice = Float.parseFloat(sp.getBasicprice());
                 }
                 BeanUtils.copyProperties(odMast, row);
                 row.setBasicPrice(basicPrice);
