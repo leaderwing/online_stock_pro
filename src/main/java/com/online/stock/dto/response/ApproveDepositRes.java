@@ -4,17 +4,17 @@ import lombok.Data;
 
 @Data
 public class ApproveDepositRes {
-    private String FULLNAME;
+    private String fullname;
 
-    private String CREATED_ACCTNO;
+    private String created_acctno;
 
-    private String APPROVED_ACCTNO;
+    private String approved_acctno;
 
-    private String APPROVED_TXTIME;
+    private String approved_txtime;
 
-    private Double AMT;
+    private Double amt;
 
-    private  String ACCTNO;
+    private  String acctno;
 
-    private int ID;
+    private int id;
 }

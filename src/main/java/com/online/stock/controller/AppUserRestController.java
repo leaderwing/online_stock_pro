@@ -6,6 +6,8 @@ import com.online.stock.model.Cfmast;
 import com.online.stock.repository.AfmastRepository;
 import com.online.stock.repository.CfMastRepository;
 import com.online.stock.services.IAccountService;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,12 +50,15 @@ public class AppUserRestController {
      * @return appUser
      */
     @RequestMapping(value = "/users/name", method = RequestMethod.GET)
-    public ResponseEntity<String> getAccName(@RequestParam String custId) {
-        Cfmast appUser = cfMastRepository.findByCustid(custId);
+    public ResponseEntity<String> getAccName(@RequestParam String custid) throws JSONException {
+        Cfmast appUser = cfMastRepository.findByCustid(custid);
         if (appUser == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            return new ResponseEntity<>(appUser.getFullname(), HttpStatus.OK);
+            JSONObject jsonObject = new JSONObject();
+            String fullName = appUser.getFullname();
+            jsonObject.put("name", fullName);
+            return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
         }
     }
 
@@ -82,7 +87,7 @@ public class AppUserRestController {
      * @return
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(value = "/users/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/users/update", method = RequestMethod.PUT)
     public ResponseEntity<Void> createUser(@RequestBody RegisterRequest  request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String loggedUsername = auth.getName();

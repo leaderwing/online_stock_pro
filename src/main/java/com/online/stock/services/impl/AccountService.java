@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.online.stock.utils.DateUtils;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.procedure.ProcedureCall;
@@ -101,6 +102,7 @@ public class AccountService implements IAccountService {
                 .addScalar("email", new StringType())
                 .addScalar("fullname", new StringType())
                 .addScalar("idcode", new StringType())
+                .addScalar("iddate", new DateType())
                 .addScalar("idplace",new StringType())
                 .addScalar("address", new StringType())
                 .addScalar("phone",  new StringType())
@@ -109,17 +111,17 @@ public class AccountService implements IAccountService {
         List<Object[]> rows = query.list();
         if ( rows.size() > 0) {
             Object [] row = rows.get(0);
-           res.setAcctno(row[0].toString());
-           res.setDateofbirth(row[1].toString());
-           res.setEmail(row[2].toString());
-           res.setFullname(row[3].toString());
-           res.setIdcode(row[4].toString());
-           res.setIddate(row[5].toString());
-           res.setIdplace(row[6].toString());
-           res.setAddress(row[7].toString());
-           res.setPhone(row[8].toString());
-           res.setBankacctno(row[9].toString());
-           res.setPin(row[10].toString());
+           res.setAcctno(row[0] == null ? null : row[0].toString());
+           res.setDateofbirth(row[1] == null ? null : row[1].toString());
+           res.setEmail(row[2] == null ? null : row[2].toString());
+           res.setFullname(row[3] == null ? null : row[3].toString());
+           res.setIdcode(row[4] == null ? null : row[4].toString());
+           res.setIddate(row[5] == null ? null : row[5].toString());
+           res.setIdplace(row[6] == null ? null : row[6].toString());
+           res.setAddress(row[7] == null ? null : row[7].toString());
+           res.setPhone(row[8] == null ? null : row[8].toString());
+           res.setBankacctno(row[9] == null ? null : row[9].toString());
+           res.setPin(row[10] == null ? null : row[10].toString());
         }
         transaction.commit();
         session.close();
@@ -132,26 +134,27 @@ public class AccountService implements IAccountService {
         Session session = entityManager.unwrap(Session.class);
         ProcedureCall call = session.createStoredProcedureCall("PKG_OPEN_CONTRACTS.PRC_CONTRACTEDIT");
         call.registerParameter(1, String.class, ParameterMode.IN).bindValue(rq.getAcctno());
-        call.registerParameter(2, String.class, ParameterMode.IN).bindValue(rq.getFullname());
-        call.registerParameter(3, String.class, ParameterMode.IN).bindValue(rq.getFullname());
-        call.registerParameter(4, String.class, ParameterMode.IN).bindValue(rq.getDateofbirth());
-        call.registerParameter(5, String.class, ParameterMode.IN).bindValue(rq.getSex());
-        call.registerParameter(6, String.class, ParameterMode.IN).bindValue(rq.getIdcode());
-        call.registerParameter(7, String.class, ParameterMode.IN).bindValue(rq.getIddate());
-        call.registerParameter(8, String.class, ParameterMode.IN).bindValue(rq.getIdplace());
-        call.registerParameter(9, String.class, ParameterMode.IN).bindValue("VNM");
-        call.registerParameter(10, String.class, ParameterMode.IN).bindValue(rq.getAddress());
-        call.registerParameter(11, String.class, ParameterMode.IN).bindValue(rq.getPhone());
-        call.registerParameter(12, String.class, ParameterMode.IN).bindValue(rq.getEmail());
-        call.registerParameter(13, String.class, ParameterMode.IN).bindValue(rq.getBankacctno());
-        call.registerParameter(14, String.class, ParameterMode.IN).bindValue("004");
-        call.registerParameter(15, String.class, ParameterMode.IN).bindValue("");
+        call.registerParameter(2, String.class, ParameterMode.IN).bindValue(StringUtils.trimToEmpty(rq.getFullname()));
+        call.registerParameter(3, String.class, ParameterMode.IN).bindValue(StringUtils.trimToEmpty(rq.getFullname()));
+        call.registerParameter(4, String.class, ParameterMode.IN).bindValue(StringUtils.trimToEmpty(rq.getDateofbirth()));
+        call.registerParameter(5, String.class, ParameterMode.IN).bindValue(StringUtils.trimToEmpty(rq.getSex()));
+        call.registerParameter(6, String.class, ParameterMode.IN).bindValue("001");
+        call.registerParameter(7, String.class, ParameterMode.IN).bindValue(StringUtils.trimToEmpty(rq.getIdcode()));
+        call.registerParameter(8, String.class, ParameterMode.IN).bindValue(StringUtils.trimToEmpty(rq.getIddate()));
+        call.registerParameter(9, String.class, ParameterMode.IN).bindValue(StringUtils.trimToEmpty(rq.getIdplace()));
+        call.registerParameter(10, String.class, ParameterMode.IN).bindValue("VNM");
+        call.registerParameter(11, String.class, ParameterMode.IN).bindValue(StringUtils.trimToEmpty(rq.getAddress()));
+        call.registerParameter(12, String.class, ParameterMode.IN).bindValue(StringUtils.trimToEmpty(rq.getPhone()));
+        call.registerParameter(13, String.class, ParameterMode.IN).bindValue(StringUtils.trimToEmpty(rq.getEmail()));
+        call.registerParameter(14, String.class, ParameterMode.IN).bindValue(StringUtils.trimToEmpty(rq.getBankacctno()));
+        call.registerParameter(15, String.class, ParameterMode.IN).bindValue("004");
         call.registerParameter(16, String.class, ParameterMode.IN).bindValue("");
-        call.registerParameter(17, String.class, ParameterMode.IN).bindValue(rq.getPin());
-        call.registerParameter(18, String.class, ParameterMode.IN).bindValue("001");
+        call.registerParameter(17, String.class, ParameterMode.IN).bindValue("");
+        call.registerParameter(18, String.class, ParameterMode.IN).bindValue(StringUtils.trimToEmpty(rq.getPin()));
         call.registerParameter(19, String.class, ParameterMode.IN).bindValue("001");
-        call.registerParameter(20, String.class, ParameterMode.OUT);
-        errCode = (String) call.getOutputs().getOutputParameterValue(20);
+        call.registerParameter(20, String.class, ParameterMode.IN).bindValue("001");
+        call.registerParameter(21, String.class, ParameterMode.OUT);
+        errCode = (String) call.getOutputs().getOutputParameterValue(21);
         return errCode;
     }
 }

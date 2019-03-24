@@ -37,7 +37,7 @@ public class SecuritiesController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @PreAuthorize("hasAnyRole('ROLE_ADMIN_2','ROLE_SADMIN')")
-    @RequestMapping(value = "/deleteSecurity", method = RequestMethod.PUT)
+    @RequestMapping(value = "/deleteSecurity", method = RequestMethod.GET)
     public ResponseEntity<Void> deleteSecurity (@RequestParam String symbol) {
         securitiesService.deleteSecurity(symbol);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

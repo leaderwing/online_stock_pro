@@ -1,5 +1,7 @@
 <div class="page-wrapper">
-
+	<p class="text-center" ng-show="loading">
+		<span class="fa fa-spinner fa-spin fa-3x"></span>
+	</p>
 	<div class="page-breadcrumb">
 		<div class="row">
 			<div class="col-12 d-flex no-block align-items-center">
@@ -46,7 +48,7 @@
 									<td><input type="text" class="form-control" id="p_acctno" ng-model="formData.account" ng-blur="vm.getHoten()"
 										 placeholder="Account ID" name="p_acctno" required=""></td>
 									<td><input type="text" class="form-control" id="p_fullname" disabled  placeholder="Họ và tên" required="" name="p_fullname"
-										 value="{{vm.fullname.FULLNAME}}"></td>
+										 value="{{vm.fullname}}"></td>
 									<td><input type="text" class="form-control" id="p_amt" ng-model="formData.amount" ng-click="vm.getHoten()" placeholder="Số tiền" name="p_amt"
 										 required=""></td>
 									<td><textarea type="text" class="form-control" id="p_txdesc" ng-model="formData.txdesc" placeholder="" name="p_txdesc" required=""></textarea></td>

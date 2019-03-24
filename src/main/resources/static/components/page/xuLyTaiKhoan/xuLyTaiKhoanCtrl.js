@@ -6,14 +6,15 @@ angular.module('app').controller('xuLyTaiKhoanCtrl',
             $interval( function(){
                 vm.luongchung();}, 1000);
 
-            vm.luongchung = function() { data.luongchungse().then(function (result) {
-
+            vm.luongchung = function() {
+            data.luongchungse().then(function (result) {
                 vm.luongchungse = result;
             }, function (err) {
                 console.log(err);
             })};
 
             vm.hisxulytaikhoan = function (id) {
+                $scope.loading = false;
                 $window.localStorage.setItem('idcusid', id);
                 $state.go("root.his-xy-ly-tai-khoan");
 

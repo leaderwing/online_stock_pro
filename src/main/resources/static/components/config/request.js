@@ -50,7 +50,7 @@ angular.module('app').factory('request',
 
                 }, function (err) {
                     console.log(err)
-                    $window.location.href = '/';
+
                 });
                 return defer.promise;
             }
@@ -96,7 +96,7 @@ angular.module('app').factory('request',
 
                 }, function (err) {
                     console.log(err)
-                    $window.location.href = '/';
+
                 });
                 return defer.promise;
             }
@@ -118,7 +118,7 @@ angular.module('app').factory('request',
 
                             }, function (err) {
                                 console.log(err)
-                                $window.location.href = '/';
+
                             });
                             return defer.promise;
                         }

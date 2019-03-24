@@ -53,6 +53,27 @@ angular.module('app').factory('data', ['config', 'request',
             var url = config.HOST + '/buyNomarl';
             return request.get(url, todoData);
         }
+
+        methods.userInfo = function () {
+            var url = config.HOST + '/users/info';
+            return request.get(url);
+        }
+
+        methods.accNames = function () {
+            var url = config.HOST + '/getTypeNames';
+            return request.get(url);
+        }
+
+        methods.userInfoUpdate = function (data) {
+            var url = config.HOST + '/users/update';
+            return request.put(url, data);
+        }
+
+        methods.changePass = function (data) {
+            var url = config.HOST + '/doimk';
+            return request.put(url, data);
+        }
+
         //-----------Dat lenh ban------------------------------
         methods.createNormalBan = function (todoData) {
             var url = config.HOST + '/sellNomarl';
@@ -66,12 +87,12 @@ angular.module('app').factory('data', ['config', 'request',
         //-----------Duyet nop-----------------------------
         methods.duyetNop = function (todoData) {
             var url = config.HOST + '/depositap';
-            return request.post(url, todoData);
+            return request.put(url, todoData);
         }
         //-----------Duyet rut---------------------------------
         methods.duyetRut = function (todoData) {
             var url = config.HOST + '/withdrawalap';
-            return request.post(url, todoData);
+            return request.put(url, todoData);
         }
         //----------Cap tai khoan-----------------------
         methods.captksm = function (todoData) {
@@ -162,10 +183,30 @@ angular.module('app').factory('data', ['config', 'request',
             return request.get(url, data);
         }
 
-        //--hien thi ho ten---------------------
-        methods.getHoten = function (account) {
-            var url = config.HOST + '/gethoten/' + account;
+        methods.afType = function () {
+            var url = config.HOST + '/getAfTypes';
             return request.get(url);
+        }
+
+        methods.addAfType = function (data) {
+            var url = config.HOST + '/addAfType';
+            return request.post(url, data);
+        }
+
+        methods.saveUpdateAfType = function (data) {
+            var url = config.HOST + '/updateAfType';
+            return request.put(url, data);
+        }
+
+        methods.deleteAfType = function (data) {
+            var url = config.HOST + '/deleteAfType';
+            return request.get(url, data);
+        }
+
+        //--hien thi ho ten---------------------
+        methods.getHoten = function (custId) {
+            var url = config.HOST + '/users/name';
+            return request.get(url, custId);
         }
         //-----hien thi thong tin chung-----------------
         methods.ttchung = function () {

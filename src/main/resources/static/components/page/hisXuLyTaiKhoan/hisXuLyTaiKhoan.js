@@ -3,6 +3,7 @@ angular.module('app').controller('hisXuLyTaiKhoan',
         function (data, modal, $window, $rootScope, $state, $scope, dateFilter) {
             var todos = {};
             var vm = this;
+            $scope.loading = true;
             var fromDate = moment($scope.THAMSO_NGAY1).format("YYYYMMDD");
             var toDate = moment($scope.THAMSO_NGAY2).format("YYYYMMDD");
 
@@ -43,6 +44,7 @@ angular.module('app').controller('hisXuLyTaiKhoan',
 
             //---------------------------
             data.hisxulytaikhoan($window.localStorage.getItem('idcusid')).then(function (result) {
+                $scope.loading = false;
                  console.log("ddds", result)
                 vm.history = result.rowList
             })

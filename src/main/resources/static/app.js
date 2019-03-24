@@ -52,6 +52,10 @@ angular.module('app', ['ui.router', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', '
             url: '/stock-trading',
             templateUrl: "components/page/stockTrading/StockTradingView.html",
             controller: 'stockTradingCtrl as vm',
+        }).state('root.aftype', {
+            url: '/aftype',
+            templateUrl: "components/page/afType/afType.html",
+            controller: 'afTypeCtrl as vm',
         }).state('root.stock-tradinghits', {
             url: '/stock-tradinghits',
             templateUrl: "components/page/hits/hitsView.html",
@@ -60,6 +64,14 @@ angular.module('app', ['ui.router', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', '
             url: '/chung-khoan',
             templateUrl: "components/page/thamso/chungkhoan.html",
             controller: 'chungkhoanCtrl as vm',
+        }).state('root.users', {
+            url: '/users',
+            templateUrl: "components/page/users/users.html",
+            controller: 'usersCtrl as vm',
+        }).state('root.change-pass', {
+            url: '/change-pass',
+            templateUrl: "components/page/changePass/changePass.html",
+            controller: 'changePassCtrl as vm',
         }).state('root.xu-ly-tai-khoan', {
             url: '/xu-ly-tai-khoan',
             templateUrl: "components/page/xuLyTaiKhoan/xuLyTaiKhoan.html",

@@ -114,37 +114,20 @@
                                 src="../../assets/images/users/1.jpg" alt="user" class="rounded-circle" width="31">
                     </a>
                     <div class="dropdown-menu dropdown-menu-right user-dd animated">
-                        <a class="dropdown-item" href="javascript:void(0)">
+                        <a class="dropdown-item" ui-sref="root.users">
                             <i class="ti-user m-r-5 m-l-5"></i>
-                            My
-                            Profile
+                            Thông tin cá nhân
                         </a>
-                        <a class="dropdown-item" href="javascript:void(0)">
-                            <i class="ti-wallet m-r-5 m-l-5"></i>
-                            My
-                            Balance
-                        </a>
-                        <a class="dropdown-item" href="javascript:void(0)">
-                            <i class="ti-email m-r-5 m-l-5"></i>
-                            Inbox
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="javascript:void(0)">
-                            <i class="ti-settings m-r-5 m-l-5"></i>
-                            Account Setting
+                        <a class="dropdown-item" ui-sref="root.change-pass">
+                            <i class="ti-user m-r-5 m-l-5"></i>
+                            Đổi mật khẩu
                         </a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="javascript:void(0)" ng-click="vm.logout()">
                             <i class="fa fa-power-off m-r-5 m-l-5"></i>
-                            Logout
+                            Đăng xuất
                         </a>
-                        <div class="dropdown-divider"></div>
-                        <div class="p-l-30 p-10">
-                            <a href="javascript:void(0)"
-                               class="btn btn-sm btn-success btn-rounded">View
-                                Profile
-                            </a>
-                        </div>
+
                     </div>
                 </li>
                 <!-- ============================================================== -->
@@ -280,6 +263,13 @@
                             ui-sref="root.export-report">
                         <i class="fas fa-file-invoice-dollar"></i>
                         <span class="hide-menu">Xuất báo cáo giao dịch
+
+                <li class="sidebar-item" ng-if="vm.isstaft == 2 || vm.isstaft == 3 ">
+                    <a
+                            class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false"
+                            ui-sref="root.aftype">
+                        <i class="fas fa-percent"></i>
+                        <span class="hide-menu">Quản lý mua bán và lãi suất
                         </span>
                     </a>
                 </li>

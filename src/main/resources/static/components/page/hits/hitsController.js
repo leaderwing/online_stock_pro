@@ -3,6 +3,7 @@ angular.module('app').controller('hitsController',
         function (data, modal, $window, $rootScope, $state, $scope, dateFilter) {
             var todos = {};
             var vm = this;
+            $scope.loading = true;
             var fromDate = moment($scope.THAMSO_NGAY1).format("YYYYMMDD");
             var toDate = moment($scope.THAMSO_NGAY2).format("YYYYMMDD");
 
@@ -17,6 +18,7 @@ angular.module('app').controller('hitsController',
 
 
             data.historyhits(todo).then(function (result) {
+                $scope.loading = false;
                 vm.history = result.rowList
                 // data.floorName(result.CODEID).then(function (resultfloor) {
                 //     // console.log(resultfloor)

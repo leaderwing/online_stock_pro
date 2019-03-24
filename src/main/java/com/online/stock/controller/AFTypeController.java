@@ -40,12 +40,12 @@ public class AFTypeController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @PreAuthorize("hasAnyRole('ROLE_ADMIN_2','ROLE_SADMIN')")
-    @RequestMapping(value = "/deleteAfType", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/deleteAfType", method = RequestMethod.GET)
     public ResponseEntity<Void> deleteAfType (@RequestParam String acType) {
         afTypeService.deleteAfType(acType);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    @RequestMapping(value = "/getTypeNames")
+    @RequestMapping(value = "/getTypeNames", method = RequestMethod.GET)
     public ResponseEntity<List<AfTypeListRes>> getListTypeName() {
         List<AfTypeListRes> afTypeListRes = new ArrayList<>();
         List<AfType> afTypeList = afTypeService.getListType();
