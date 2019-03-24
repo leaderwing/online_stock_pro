@@ -55,7 +55,7 @@ public class UserAuthenticationController {
      * @return
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<String> createUser(@RequestBody RegisterRequest request) {
+    public ResponseEntity<String> createUser(@RequestBody RegisterRequest request) throws JSONException {
         String errDetail = "";
         if (afmastRepository.findOneByUsername(request.getAcctno()) != null) {
             return new ResponseEntity<>("Đã tồn tại tên tài khoản!",HttpStatus.CONFLICT);
@@ -107,20 +107,21 @@ public class UserAuthenticationController {
             e.printStackTrace();
         }
         emailSender.send(message);
-        return new ResponseEntity<>(errDetail,HttpStatus.CREATED);
+        JSONObject jsonObject = new JSONObject(errDetail);
+        return new ResponseEntity<>(jsonObject.toString(),HttpStatus.CREATED);
     }
 
     /**
      * This method will return the logged user.
      *
-     * @param principal
      * @return Principal java security principal object
      */
-    @RequestMapping("/user")
-    public Afmast user(Principal principal) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String loggedUsername = auth.getName();
-        return afmastRepository.findOneByUsername(loggedUsername);
+    @RequestMapping("/random/custid")
+    public ResponseEntity<String> getRandomCustId() throws JSONException {
+       JSONObject jsonObject = new JSONObject();
+       String custId = accountService.getCustId("0001");
+       jsonObject.put("result", custId);
+        return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
     }
 
     /**

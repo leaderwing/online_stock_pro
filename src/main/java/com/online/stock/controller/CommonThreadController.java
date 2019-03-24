@@ -27,7 +27,6 @@ public class CommonThreadController {
         ProcedureCall call = session.createStoredProcedureCall("PKG_ORDER_TRADING.PRC_BATCH");
         call.registerParameter(1, Integer.class, ParameterMode.IN).bindValue(runDate);
         call.getOutputs();
-
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
