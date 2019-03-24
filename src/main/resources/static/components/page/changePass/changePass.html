@@ -35,99 +35,25 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 text-right control-label col-form-label">Mật khẩu cũ</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" ng-model="oldPassword"  placeholder="Mật khẩu cũ">
+                                    <input type="password" class="form-control" ng-model="oldPassword"  placeholder="Mật khẩu cũ">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label  class="col-sm-3 text-right control-label col-form-label">Mật khẩu mới</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" ng-model="newPassword" placeholder="Mật khẩu mới">
+                                    <input type="password" class="form-control" ng-model="newPassword" placeholder="Mật khẩu mới">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-3 text-right control-label col-form-label">Nhập lại mật khẩu mới</label>
                                 <div class="col-sm-9">
-                                    <input type="date" class="form-control" ng-model="dateofbirth" ng-value="vm.user.dateofbirth" placeholder="Ngày sinh">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-3 text-right control-label col-form-label">Giới tính</label>
-                                <div class="col-sm-9">
-                                    <select id="sex" name="sex" ng-model="sex" class="form-control" ng-value="vm.user.sex">
-                                        <option value="">{{vm.user.sex}}</option>
-                                        <option value="Nam">Nam</option>
-                                        <option value="Nữ">Nữ</option>
-                                        <option value="Khác">Khác</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label  class="col-sm-3 text-right control-label col-form-label">CMND</label>
-                                <div class="col-sm-9">
-                                    <input type="number" class="form-control" ng-model="idcode" ng-value="vm.user.idcode" placeholder="CMND">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-3 text-right control-label col-form-label">Ngày cấp</label>
-                                <div class="col-sm-9">
-                                    <input type="date" class="form-control" ng-model="iddate" ng-value="vm.user.iddate" placeholder="Ngày cấp">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-3 text-right control-label col-form-label">Nơi cấp</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" ng-model="idplace" ng-value="vm.user.idplace" placeholder="Nơi cấp">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-3 text-right control-label col-form-label">Địa chỉ</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" ng-model="address" ng-value="vm.user.address" placeholder="Địa chỉ">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-3 text-right control-label col-form-label">Số điện thoại</label>
-                                <div class="col-sm-9">
-                                    <input type="number" class="form-control" ng-model="phone" ng-value="vm.user.phone" placeholder="Số điện thoại">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-3 text-right control-label col-form-label">Tài khoản ngân hàng</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" ng-model="bankacctno" ng-value="vm.user.bankacctno" placeholder="Tài khoản ngân hàng">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-3 text-right control-label col-form-label">Tên ngân hàng</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" ng-model="bankname" ng-value="vm.user.bankname" placeholder="Tên ngân hàng">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-3 text-right control-label col-form-label">Email</label>
-                                <div class="col-sm-9">
-                                    <input type="email" class="form-control" ng-model="email" ng-value="vm.user.email" placeholder="Email">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-3 text-right control-label col-form-label">Mật khẩu</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" ng-model="pin" ng-value="vm.user.pin" placeholder="Mật khẩu">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-3 text-right control-label col-form-label">Loại hình</label>
-                                <div class="col-sm-9">
-                                    <select class="form-control" id="accType"  name="accType" ng-model="accType" autofocus>
-                                        <option value="">{{vm.user.accType}}</option>
-                                        <option ng-repeat="accnames in vm.acname">{{accnames.typeName}}</option>
-                                    </select>
+                                    <input type="password" class="form-control" ng-model="checkNewPassword" placeholder="Nhập lại mật khẩu mới">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="p-t-20" style="text-align: center">
-                                <button class="btn btn-primary btn-lg btn-info" type="submit" ng-click="vm.updateUserInfo()">Cập nhật</button>
+                                <button class="btn btn-primary btn-lg btn-info" type="submit" ng-click="vm.changePass()">Cập nhật</button>
                             </div>
                         </div>
                     </form>

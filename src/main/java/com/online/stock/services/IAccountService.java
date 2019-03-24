@@ -14,4 +14,6 @@ public interface IAccountService {
     RegisterRequest getUserInfo (String custId);
 
     String updateUserInfo (RegisterRequest request);
+
+    String getCustId (String branchCode);
 }

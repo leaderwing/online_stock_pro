@@ -6,10 +6,7 @@ import com.online.stock.model.Afmast;
 import com.online.stock.repository.AfmastRepository;
 import com.online.stock.services.IAccountService;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import com.online.stock.utils.DateUtils;
 import org.apache.commons.lang.StringUtils;
@@ -156,5 +153,20 @@ public class AccountService implements IAccountService {
         call.registerParameter(21, String.class, ParameterMode.OUT);
         errCode = (String) call.getOutputs().getOutputParameterValue(21);
         return errCode;
+    }
+
+    @Override
+    public String getCustId(String branchCode) {
+        String result = "";
+        SessionFactory sessionFactory = new Configuration().buildSessionFactory();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        SQLQuery query = session.createSQLQuery(
+                        "SELECT PKG_OPEN_CONTRACTS.fnc_get_acctno_available('"+branchCode+"') FROM DUAL");
+        List<String> rows = query.list();
+        if ( rows.size() > 0) {
+            result = rows.get(0);
+        }
+        return  result;
     }
 }

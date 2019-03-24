@@ -79,6 +79,12 @@ angular.module('app').factory('data', ['config', 'request',
             var url = config.HOST + '/sellNomarl';
             return request.post(url, todoData);
         }
+
+        methods.resetPass = function (data) {
+            var url = config.HOST + '/resetmk';
+            return request.get(url, data);
+        }
+
         //-----------Dat lenh ban------------------------------
         methods.createNormalBanUser = function (todoData) {
             var url = config.HOST + '/sellNomarlUser';

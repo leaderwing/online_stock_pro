@@ -5,8 +5,10 @@ import com.online.stock.dto.response.TradingRecords;
 import com.online.stock.dto.response.TradingRow;
 import com.online.stock.model.ODMast;
 import com.online.stock.model.ODMasthist;
+import com.online.stock.model.SecuritiesPractice;
 import com.online.stock.repository.ODMastRepository;
 import com.online.stock.repository.ODMasthistRepository;
+import com.online.stock.repository.SecuritiesPracticeRepository;
 import com.online.stock.services.ITradingService;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +32,8 @@ public class TradingService implements ITradingService {
     @Autowired
     private ODMasthistRepository odMasthistRepository;
     @Autowired
+    private SecuritiesPracticeRepository securitiesPracticeRepository;
+    @Autowired
     private EntityManager entityManager;
 
     @Override
@@ -41,6 +45,7 @@ public class TradingService implements ITradingService {
         List<ODMast> odMastList =
                 odMastRepository.findAllByAfacctnoAndTxdateIsLessThanEqualAndTxdateIsGreaterThanEqual(
                         loggedUsername, toDate, fromDate);
+        List<SecuritiesPractice> securitiesPracticeList = securitiesPracticeRepository.findAll();
         if (!odMastList.isEmpty()) {
             if (StringUtils.isNotBlank(symbol)) {
                 odMastList = odMastList.stream()
@@ -54,7 +59,13 @@ public class TradingService implements ITradingService {
             }
             odMastList.forEach(odMast -> {
                 TradingRow row = new TradingRow();
+                float basicPrice = 0;
+                SecuritiesPractice sp = securitiesPracticeList.stream().filter(securitiesPractice -> securitiesPractice.getSymbol().equals(odMast.getCodeid())).findFirst().orElse(null);
+                if (sp != null) {
+                    basicPrice = Float.parseFloat(sp.getBasicprice());
+                }
                 BeanUtils.copyProperties(odMast, row);
+                row.setBasicPrice(basicPrice);
                 tradingRowList.add(row);
             });
         }

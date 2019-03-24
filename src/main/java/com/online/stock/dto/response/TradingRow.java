@@ -47,4 +47,7 @@ public class TradingRow {
     private int closedqtty;
 
     private String refOderId;
+
+    private float basicPrice;
+
 }
