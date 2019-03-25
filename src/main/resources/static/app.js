@@ -36,9 +36,9 @@ angular.module('app', ['ui.router', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', '
                 templateUrl: 'components/page/register/register.html',
                 controller: 'RegisterController as vm'
             }).state('reset-pass', {
-            url: '/pass',
+            url: '/reset-pass',
             templateUrl: "components/page/login/resetPass.html",
-            controller: 'resetCtrl as vm'
+            controller: 'ResetPasswordCtrl as vm'
             })
             .state('root.price-list', {
                 url: '/price-list',
