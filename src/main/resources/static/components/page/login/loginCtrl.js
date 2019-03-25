@@ -4,11 +4,11 @@ angular.module('app')
         function ($http, AuthService, data, modal, $window, $rootScope, $state, $scope, dateFilter) {
             var vm = this;
             var todos = {};
-            $scope.hidden = true;
-            $scope.hiddenReset = false;
-            $scope.hiddenSend = true;
-            $scope.hiddenUser = false;
-            $scope.hiddenPass = false;
+            // $scope.hidden = true;
+            // $scope.hiddenReset = false;
+            // $scope.hiddenSend = true;
+            // $scope.hiddenUser = false;
+            // $scope.hiddenPass = false;
 
             vm.login = function () {
                 todos.username = $scope.username;
@@ -40,24 +40,25 @@ angular.module('app')
 
             };
 
-            vm.resetPass = function () {
-                $scope.hidden = false;
-                $scope.hiddenReset = true;
-                $scope.hiddenSend = false;
-                $scope.hiddenUser = true;
-                $scope.hiddenPass = true;
-            }
+            // vm.resetPass = function () {
+            //     $scope.hidden = false;
+            //     $scope.hiddenReset = true;
+            //     $scope.hiddenSend = false;
+            //     $scope.hiddenUser = true;
+            //     $scope.hiddenPass = true;
+            // }
+            //
+            // vm.sendMail = function () {
+            //     var datas = {
+            //         email : $scope.email
+            //     }
+            //     data.resetPass(datas).then(function (res) {
+            //         alert(res.result);
+            //     },function (err) {
+            //         console.log(err);
+            //     })
+            // }
 
-            vm.sendMail = function () {
-                var datas = {
-                    email : $scope.email
-                }
-                data.resetPass(datas).then(function (res) {
-                    alert(res.result);
-                },function (err) {
-                    console.log(err);
-                })
-            }
 
             return;
         }
