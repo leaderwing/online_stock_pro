@@ -1,6 +1,6 @@
 angular.module('app').controller('stockTradingCtrl',
-    ['data', 'modal', '$window', '$rootScope', '$state', '$scope', 'dateFilter','$interval',
-        function (data, modal, $window, $rootScope, $state, $scope, dateFilter,$interval) {
+    ['data', 'modal', '$window', '$rootScope', '$state', '$scope', 'dateFilter', '$interval',
+        function (data, modal, $window, $rootScope, $state, $scope, dateFilter, $interval) {
             var todos = {};
             var vm = this;
 
@@ -34,7 +34,7 @@ angular.module('app').controller('stockTradingCtrl',
                 vm.history = result.rowList
 
             }, function (err) {
-                alert(err);
+                console.log(err);
             });
 
             vm.seHistory = function () {
@@ -49,13 +49,14 @@ angular.module('app').controller('stockTradingCtrl',
                     vm.history = result.rowList
 
                 }, function (err) {
-                    alert(err);
+                    console.log(err);
                 })
             }
-            $interval( function(){
+            $interval(function () {
                 vm.seHistory();
                 vm.getttchung();
-                vm.getttTyle()}, 3000);
+                vm.getttTyle()
+            }, 3000);
 
 //----------------------------get view data--------------------------------------
 
@@ -74,7 +75,7 @@ angular.module('app').controller('stockTradingCtrl',
 
                 }).catch(function (err) {
                     console.log(err);
-                    alert(err);
+                    console.log(err);
                 })
                 data.priceView(todo.symbol).then(function (result) {
 
@@ -85,20 +86,24 @@ angular.module('app').controller('stockTradingCtrl',
             };
 
             //----------------get thong tin chung-----------------
-            vm.getttchung = function() { data.ttchung().then(function (result) {
+            vm.getttchung = function () {
+                data.ttchung().then(function (result) {
 
-                vm.ttchung = result;
+                    vm.ttchung = result;
 
-            }, function (err) {
-                console.log(err);
-            }) };
+                }, function (err) {
+                    console.log(err);
+                })
+            };
             //----------------get thong tin ty le-----------------
-            vm.getttTyle = function() {data.tttyle().then(function (result) {
-                vm.tttyle = result;
+            vm.getttTyle = function () {
+                data.tttyle().then(function (result) {
+                    vm.tttyle = result;
 
-            }, function (err) {
-                console.log(err);
-            })};
+                }, function (err) {
+                    console.log(err);
+                })
+            };
 
             //----------------dat lenh mua-----------------------
             vm.createTodos = function () {
@@ -167,7 +172,7 @@ angular.module('app').controller('stockTradingCtrl',
                             })
                         }
                     } else {
-                        alert(todos.symbol)
+
                         data.createNormal(todos).then(function (result) {
 
                             if (result === 'Dat lenh thanh cong') {
@@ -234,9 +239,9 @@ angular.module('app').controller('stockTradingCtrl',
                         })
                     }, function (err) {
                         console.log(err)
-                    }).catch( function (callback) {
-                            console.log(callback);
-                            alert(callback);
+                    }).catch(function (callback) {
+                        console.log(callback);
+
                     })
                 } else {
                     alert('Lệnh đã được hủy');

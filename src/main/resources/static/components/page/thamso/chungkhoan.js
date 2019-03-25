@@ -15,6 +15,8 @@ angular.module('app').controller('chungkhoanCtrl',
             });
 
             vm.addSecurity = function() {
+                var t = confirm('Bạn có chắc chắn muốn thực hiện');
+                if (t === true){
                 var todo = {};
                 todo.symbol = $scope.formData.symbol;
                 todo.txdate  = $scope.formData.txdate;
@@ -50,7 +52,9 @@ angular.module('app').controller('chungkhoanCtrl',
                     });
                 }, function (err) {
                     alert(err);
-                });
+                });} else {
+                    alert ("Lệnh đã được hủy")
+                }
             }
 
             vm.updateSecurity = function () {
@@ -73,6 +77,8 @@ angular.module('app').controller('chungkhoanCtrl',
             }
 
             vm.saveUpdateSecurity = function () {
+                var t = confirm('Bạn có chắc chắn muốn thực hiện');
+                if (t === true){
                 var updatedItems = [];
                 for(var i=0;i<listOfChangedRows.length;i++)
                 {
@@ -93,13 +99,17 @@ angular.module('app').controller('chungkhoanCtrl',
                     }, function (err) {
                         console.log(err);
                     });
+                    alert("Thành công")
                 }, function (err) {
                     alert(err);
-                });
+                });} else {
+                    alert("Lệnh đã được hủy")
+                }
             }
 
             vm.deleteSecurity = function (chungkhoan) {
-            alert(chungkhoan.symbol)
+                var t = confirm('Bạn có chắc chắn muốn thực hiện');
+                if (t === true){
 
                 var delVal = {
                     symbol : chungkhoan.symbol,
@@ -114,10 +124,12 @@ angular.module('app').controller('chungkhoanCtrl',
                     }, function (err) {
                         console.log(err);
                     });
-                    alert("ok");
+                    alert("Thành công")
                 }, function (err) {
-                    alert("không")
-                })
+                    console.log(err)
+                })} else {
+                    alert("Lệnh đã được hủy")
+                }
             }
 
 

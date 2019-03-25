@@ -34,12 +34,11 @@ angular.module('app', ['ui.router', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', '
             .state('register', {
                 url: '/register',
                 templateUrl: 'components/page/register/register.html',
-                controller: 'RegisterController'
-            })
-            .state('registers', {
-                url: '/registers',
-                templateUrl: 'components/page/doimatkhau/doimatkhau.html',
-                controller: 'RegisterControllers'
+                controller: 'RegisterController as vm'
+            }).state('reset-pass', {
+            url: '/pass',
+            templateUrl: "components/page/login/resetPass.html",
+            controller: 'resetCtrl as vm'
             })
             .state('root.price-list', {
                 url: '/price-list',

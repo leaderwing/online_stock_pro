@@ -54,7 +54,7 @@ public class AccountService implements IAccountService {
         call.registerParameter(12, String.class, ParameterMode.IN).bindValue(rq.getBankname());
         call.registerParameter(13, String.class, ParameterMode.IN).bindValue(password);
         call.registerParameter(14, String.class, ParameterMode.IN).bindValue(rq.getAccType());
-        call.registerParameter(15, Integer.class, ParameterMode.OUT);
+        call.registerParameter(15, String.class, ParameterMode.OUT);
         errCode = (String) call.getOutputs().getOutputParameterValue(15);
         return errCode;
     }

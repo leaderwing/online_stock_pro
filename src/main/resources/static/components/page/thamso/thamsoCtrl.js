@@ -16,6 +16,8 @@ angular.module('app').controller('thamsoCtrl',
             });
 
             vm.addSysVar = function() {
+                var t = confirm('Bạn có chắc chắn muốn thực hiện');
+                if (t === true){
                 var todo = {};
 
                 todo.grname = $scope.formData.gname;
@@ -39,8 +41,10 @@ angular.module('app').controller('thamsoCtrl',
                         console.log(err);
                     });
                 }, function (err) {
-                    alert(err);
-                });
+                    console.log(err);
+                });} else {
+                    alert("Lệnh đã được hủy")
+                }
             }
 
             vm.updateSysVar = function () {
@@ -63,6 +67,8 @@ angular.module('app').controller('thamsoCtrl',
             }
 
             vm.saveUpdateSysVar = function () {
+                var t = confirm('Bạn có chắc chắn muốn thực hiện');
+                if (t === true){
                 var updatedItems = [];
                 for(var i=0;i<listOfChangedRows.length;i++)
                 {
@@ -83,14 +89,18 @@ angular.module('app').controller('thamsoCtrl',
                     }, function (err) {
                         console.log(err);
                     });
+                    alert("Thành công")
                 }, function (err) {
-                    alert(err);
-                });
+                    console.log(err);
+                });}else {
+                    alert ("Lệnh đã được hủy")
+                }
             }
             
             vm.deleteSysVar = function (thamso) {
 
-                console.log("dsdasd",thamso)
+                var t = confirm('Bạn có chắc chắn muốn thực hiện');
+                if (t === true){
                 var delVal = {
                     grname : thamso.grname,
                     varname : thamso.varname
@@ -104,10 +114,12 @@ angular.module('app').controller('thamsoCtrl',
                     }, function (err) {
                         console.log(err);
                     });
-                    alert("ok");
+                  alert("Thành công")
                 }, function (err) {
-                    alert("không")
-                })
+                   console.log(err)
+                })} else {
+                    alert ("Lệnh đã được hủy")
+                }
             }
 
             return;

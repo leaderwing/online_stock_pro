@@ -42,96 +42,122 @@
     <!-- Login box.scss -->
     <!-- ============================================================== -->
     <div class="auth-wrapper d-flex no-block justify-content-center align-items-center bg-dark">
-        <div class="auth-box bg-dark border-top border-secondary">
+        <div class="auth-box bg-dark ">
             <div>
-
+                <div ng-if="vm.status != 200 && vm.status != null">
+                    <div class="alert alert-danger">
+                        <strong>ERR!</strong> {{vm.messageStatus}}.
+                    </div>
+                </div>
+                <div ng-if="vm.status == 200 && vm.status == undefined">
+                    <div class="alert alert-danger">
+                        <strong>Vui lòng đợi phê duyệt</strong>
+                    </div>
+                </div>
                 <!-- Form -->
-                <form class="form-horizontal m-t-20" action="/register" method="post">
+                <form class="form-horizontal m-t-20">
                     <div class="row p-b-30">
                         <div class="col-12">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text bg-success text-white" id="basic-addon1"><i class="ti-user"></i></span>
+                                    <span  class="input-group-text bg-success text-white"><i class="fas fa-user-alt"></i></span>
                                 </div>
-                                <input type="text" class="form-control" placeholder="" id="p_acctno" name="p_acctno"
-                                       value="{{account}}" aria-label="Username" aria-describedby="basic-addon1"
+                                <input type="text" class="form-control" placeholder="" ng-model="acctno" id="p_acctno" name="p_acctno"
+                                       ng-value="account" aria-label="Username" aria-describedby="basic-addon1"
                                        required="">
                             </div>
                             <!-- email -->
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text bg-danger text-white" id="basic-addon1">Họ và tên</span>
+                                    <span class="input-group-text bg-danger text-white" id="basic-addon1"><i class="fas fa-file-signature"></i></span>
                                 </div>
-                                <input type="text" class="form-control" id="p_fullname" name="p_fullname"
+                                <input type="text" class="form-control" ng-model="fullname" id="p_fullname" name="p_fullname"
                                        placeholder="Họ và tên *" aria-label="Username" aria-describedby="basic-addon1"
                                        required="">
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text bg-warning text-white" id="basic-addon2">Ngày sinh</span>
+                                    <span class="input-group-text bg-warning text-white" ><i class="fas fa-birthday-cake" title="Ngày sinh"></i></span>
                                 </div>
-                                <input type="date" class="form-control" id="p_dateofbirth" name="p_dateofbirth"
+                                <input type="date" class="form-control" ng-model="dateofbirth" id="p_dateofbirth" name="p_dateofbirth"
                                        placeholder="Ngày sinh" aria-label="Password" aria-describedby="basic-addon1"
                                        required="">
-                                <select id="p_sex" name="p_sex" placeholder="">
-                                    <option>Nam</option>
-                                    <option>Nữ</option>
-                                    <option>Khác</option>
+                                <select  ng-model="sex" id="p_sex" name="p_sex" placeholder="" ng-init="sex = 'Nam'">
+                                    <option value="Nam">Nam</option>
+                                    <option value="Nu">Nữ</option>
+                                    <option value="Other">Khác</option>
                                 </select>
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text bg-info text-white" id="basic-addon2">CMTND</span>
+                                    <span class="input-group-text bg-info text-white"><i class="fas fa-passport"></i></span>
                                 </div>
-                                <input type="number" required class="form-control" id="p_idcode" name="p_idcode"
+                                <input type="number" required class="form-control" ng-model="idcode" id="p_idcode" name="p_idcode"
                                        placeholder="CMTND *">
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text bg-info text-white" id="basic-addon2">Ngày cấp</span>
+                                    <span class="input-group-text bg-info text-white" ><i class="fas fa-calendar-day" title="Ngày cấp"></i></span>
                                 </div>
-                                <input type="date" class="form-control" id="p_iddate" name="p_iddate" placeholder="Ngày cấp">
+                                <input type="date" class="form-control" ng-model="iddate" id="p_iddate" name="p_iddate" placeholder="Ngày cấp">
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text bg-info text-white" id="basic-addon2">Nơi cấp</span>
+                                    <span class="input-group-text bg-info text-white"><i class="fas fa-id-card" title="Nơi cấp"></i></span>
                                 </div>
-                                <input type="text" class="form-control" id="p_idplace" name="p_idplace" placeholder="Nơi cấp">
+                                <input type="text" class="form-control" ng-model="idplace" id="p_idplace" name="p_idplace" placeholder="Nơi cấp">
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text bg-info text-white" id="basic-addon2">Địa chỉ</span>
+                                    <span class="input-group-text bg-info text-white" ><i class="fas fa-map-marked" title="Địa chỉ"></i></span>
                                 </div>
-                                <input type="text" class="form-control" id="p_address" name="p_address" placeholder="Địa chỉ">
+                                <input type="text" class="form-control" ng-model="address" id="p_address" name="p_address" placeholder="Địa chỉ">
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text bg-info text-white" id="basic-addon2">Điện thoại</span>
+                                    <span class="input-group-text bg-info text-white" ><i class="fas fa-envelope" title="Địa chỉ email"></i></span>
+                                </div>
+                                <input type="email" required class="form-control" ng-model="email" id="email" name="email"
+                                       placeholder="Email *">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-info text-white" ><i class="fas fa-phone" title="Điện thoại"></i></span>
                                 </div>
                                 <input type="tel" pattern="^\+?(?:[0-9]??).{5,10}[0-9]$" required class="form-control"
-                                       id="p_phone" name="p_phone" placeholder="Điện thoại *">
+                                       id="p_phone" name="p_phone" ng-model="phone" placeholder="Điện thoại *">
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text bg-info text-white" id="basic-addon2">TKNH</span>
+                                    <span class="input-group-text bg-info text-white" ><i class="fas fa-university" title="Tài khoản ngân hàng"></i></span>
                                 </div>
-                                <input type="text" required class="form-control" id="p_bankacctno" name="p_bankacctno"
+                                <input type="text" required class="form-control" ng-model="bankacctno" id="p_bankacctno" name="p_bankacctno"
                                        placeholder="Tài khoản ngân hàng *">
                             </div>
                             <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text bg-info text-white" id="basic-addon2">Ngân hàng</span>
-                                </div>
-                                <input type="text" required class="form-control" id="p_bankname" name="p_bankname"
-                                       placeholder="Ngân hàng *">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-info text-white" ><i class="fas fa-piggy-bank" title="Tên ngân hàng"></i></span>
+                                    </div>
+                                    <input type="text" required class="form-control" ng-model="bankname" id="p_bankname" name="p_bankname"
+                                           placeholder="Ngân hàng *">
                             </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-info text-white" ><i class="fas fa-font" title="Loại hình"></i></span>
+                                </div>
+                                <select class="form-control" ng-model="accType" id="accType" name="accType" placeholder="">
+                                    <option value="">--Mời bạn chọn loại hình--</option>
+                                    <option ng-repeat="accnames in vm.acname" value="{{accnames.acType}}">{{accnames.typeName}}</option>
+                                </select>
+                            </div>
+
                         </div>
                     </div>
-                    <div class="row border-top border-secondary">
+                    <div class="row ">
                         <div class="col-12">
                             <div class="form-group">
                                 <div class="p-t-20">
-                                    <button class="btn btn-block btn-lg btn-info" type="submit">Sign Up</button>
+                                    <button class="btn btn-block btn-lg btn-info" ng-click="vm.register()">Sign Up</button>
                                 </div>
                             </div>
                         </div>

@@ -1,20 +1,113 @@
 <div class="page-wrapper">
-    <a href="/export/excel/1/2/3/4/5/6">Xuất</a>
-</div>
+
+  <div class="page-breadcrumb">
+    <div class="row">
+      <div class="col-12 d-flex no-block align-items-center">
+        <h4 class="page-title">Xuất báo cáo</h4>
+        <div class="ml-auto text-right">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ============================================================== -->
-    <!-- End Container fluid  -->
+  <!-- End Bread crumb and right sidebar toggle -->
+  <!-- ============================================================== -->
+  <!-- ============================================================== -->
+  <!-- Container fluid  -->
+  <!-- ============================================================== -->
+  <!-- <form onSubmit="if(!confirm('Bạn có chắc chắn muốn thực hiện?')){alert('Lệnh đã được hủy');return false;}" action="/withdrawal" method="post"> -->
+  <div class="container-fluid">
     <!-- ============================================================== -->
+    <!-- Start Page Content -->
     <!-- ============================================================== -->
-    <!-- footer -->
-    <!-- ============================================================== -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <form class="form-horizontal">
+            <div class="card-body">
 
-    <script src="./assets/extra-libs/multicheck/datatable-checkbox-init.js"></script>
-    <script src="./assets/extra-libs/multicheck/jquery.multicheck.js"></script>
+              <div class="form-group row">
+                <label class="col-sm-3 text-right control-label col-form-label">Ngày mua từ</label>
+                <div class="col-sm-9">
+                  <input type="date" class="form-control" ng-model="startbuydate">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label  class="col-sm-3 text-right control-label col-form-label">Ngày mua đến</label>
+                <div class="col-sm-9">
+                  <input type="date" class="form-control" ng-model="endbuydate">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 text-right control-label col-form-label">Ngày bán từ</label>
+                <div class="col-sm-9">
+                  <input type="date" class="form-control" ng-model="startselldate">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 text-right control-label col-form-label">Ngày bán đến</label>
+                <div class="col-sm-9">
+                  <input type="date" class="form-control" ng-model="endselldate">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label  class="col-sm-3 text-right control-label col-form-label">Mã chứng khoán</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" ng-model="symbol">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 text-right control-label col-form-label">Tài khoản</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" ng-model="account">
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="p-t-20" style="text-align: center">
+                <button class="btn btn-primary btn-lg btn-info" type="submit" ng-click="vm.export()">Export</button>
+              </div>
+            </div>
+          </form>
+        </div>
 
-    <script src="./assets/extra-libs/DataTables/datatables.min.js"></script>
-    <script>
-        /****************************************
-         *       Basic Table                   *
-         ****************************************/
-        $('#zero_config').DataTable();
-    </script>
+
+
+
+      </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- End PAge Content -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Right sidebar -->
+    <!-- ============================================================== -->
+    <!-- .right-sidebar -->
+    <!-- ============================================================== -->
+    <!-- End Right sidebar -->
+    <!-- ============================================================== -->
+  </div>
+  <!-- </form> -->
+  <!-- ============================================================== -->
+  <!-- End Container fluid  -->
+  <!-- ============================================================== -->
+  <!-- ============================================================== -->
+  <!-- footer -->
+  <!-- ============================================================== -->
+
+  <script src="./assets/extra-libs/multicheck/datatable-checkbox-init.js"></script>
+  <script src="./assets/extra-libs/multicheck/jquery.multicheck.js"></script>
+
+  <script src="./assets/extra-libs/DataTables/datatables.min.js"></script>
+  <script>
+    /****************************************
+     *       Basic Table                   *
+     ****************************************/
+    $('#zero_config').DataTable();
+  </script>

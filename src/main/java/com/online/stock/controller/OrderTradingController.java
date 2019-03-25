@@ -13,6 +13,7 @@ import com.online.stock.services.IThirdPartyService;
 import com.online.stock.services.impl.OrderTradingService;
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +42,10 @@ public class OrderTradingController {
     @RequestMapping(value = "/buyNomarl", method = RequestMethod.GET)
     public ResponseEntity<String> buyStock(@RequestParam String floor, @RequestParam int quantity,
                                            @RequestParam double price, @RequestParam String symbol,
-                                           @RequestParam String orderType) {
+                                           @RequestParam String orderType) throws JSONException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String loggedUsername = auth.getName();
+        JSONObject jsonObject = new JSONObject();
         OrderTradingResponse tradingResponse = new OrderTradingResponse();
         int result = 0;
         if (StringUtils.isBlank(loggedUsername)) {
@@ -62,7 +64,8 @@ public class OrderTradingController {
 
                 vtos_token = System.getProperty("vtos");
                 if (StringUtils.isBlank(vtos_token)) {
-                    return new ResponseEntity<>("invalid authen token!", HttpStatus.NOT_FOUND);
+                    jsonObject.put("result", "invalid authen token!");
+                    return new ResponseEntity<>(jsonObject.toString(), HttpStatus.NOT_FOUND);
                 }
             }
             try {
@@ -85,13 +88,16 @@ public class OrderTradingController {
                     tradingResponse.getTxTime(), tradingResponse.getTxDate(),floor);
             if(saveResponse == 1) {
                 //error
-                return new ResponseEntity<>("save failure!", HttpStatus.INTERNAL_SERVER_ERROR);
+                jsonObject.put("result", "save failure!");
+                return new ResponseEntity<>(jsonObject.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
             } else {
-                return new ResponseEntity<>("Order successfully", HttpStatus.OK);
+                jsonObject.put("result", "Order successfully");
+                return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
             }
 
         } else {
-            return new ResponseEntity<>("Invalid Order Checking!", HttpStatus.BAD_REQUEST);
+            jsonObject.put("result", "Invalid Order Checking!");
+            return new ResponseEntity<>(jsonObject.toString(), HttpStatus.BAD_REQUEST);
         }
     }
     @RequestMapping(value = "/sellNomarl", method = RequestMethod.POST)
