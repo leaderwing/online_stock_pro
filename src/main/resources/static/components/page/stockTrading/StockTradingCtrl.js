@@ -3,6 +3,12 @@ angular.module('app').controller('stockTradingCtrl',
         function (data, modal, $window, $rootScope, $state, $scope, dateFilter, $interval) {
             var todos = {};
             var vm = this;
+            vm
+            data.getTime().then(function (res) {
+                console.log(moment(res.time).format("HH:mm:ss"));
+                vm.hour = moment(res.time).format("HH:mm:ss");
+
+            })
 
             var fromDate = moment($scope.THAMSO_NGAY1).format("YYYYMMDD");
             var toDate = moment($scope.THAMSO_NGAY2).format("YYYYMMDD");
@@ -124,8 +130,8 @@ angular.module('app').controller('stockTradingCtrl',
                             todos.price = todos.m1 * 1000;
                             data.createNormal(todos).then(function (result) {
 
-                                if (result === 'Dat lenh thanh cong') {
-                                    alert(result);
+                                if (result.result == "Order successfully") {
+                                    alert("Đặt lệnh thành công");
                                     $scope.formData.command = "";
                                     $scope.formData.symbol = "";
                                     $scope.formData.quantity = "";
@@ -134,7 +140,7 @@ angular.module('app').controller('stockTradingCtrl',
                                     $scope.formData.expiredDate = "";
                                     //$window.location.href = '/back';
                                 } else {
-                                    alert(result);
+                                    alert("Lỗi");
                                     $scope.formData.command = "";
                                     $scope.formData.symbol = "";
                                     $scope.formData.quantity = "";
@@ -149,8 +155,8 @@ angular.module('app').controller('stockTradingCtrl',
                             todos.price = todos.ceM * 1000;
                             data.createNormal(todos).then(function (result) {
 
-                                if (result === 'Dat lenh thanh cong') {
-                                    alert(result);
+                                if (result.result == "Order successfully") {
+                                    alert("Đặt lệnh thành công");
                                     $scope.formData.command = "";
                                     $scope.formData.symbol = "";
                                     $scope.formData.quantity = "";
@@ -159,7 +165,7 @@ angular.module('app').controller('stockTradingCtrl',
                                     $scope.formData.expiredDate = "";
                                     //$window.location.href = '/back';
                                 } else {
-                                    alert(result);
+                                    alert("Lỗi");
                                     $scope.formData.command = "";
                                     $scope.formData.symbol = "";
                                     $scope.formData.quantity = "";
@@ -175,8 +181,9 @@ angular.module('app').controller('stockTradingCtrl',
 
                         data.createNormal(todos).then(function (result) {
 
-                            if (result === 'Dat lenh thanh cong') {
-                                alert(result);
+
+                            if (result.result == "Order successfully") {
+                                alert("Đặt lệnh thành công");
                                 $scope.formData.command = "";
                                 $scope.formData.symbol = "";
                                 $scope.formData.quantity = "";
@@ -185,7 +192,7 @@ angular.module('app').controller('stockTradingCtrl',
                                 $scope.formData.expiredDate = "";
                                 // $window.location.href = '/back';
                             } else {
-                                alert(result);
+                                alert("Lỗi");
                                 $scope.formData.command = "";
                                 $scope.formData.symbol = "";
                                 $scope.formData.quantity = "";
