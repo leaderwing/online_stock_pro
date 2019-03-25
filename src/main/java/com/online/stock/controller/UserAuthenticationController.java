@@ -57,14 +57,18 @@ public class UserAuthenticationController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<String> createUser(@RequestBody RegisterRequest request) throws JSONException {
         String errDetail = "";
+        JSONObject jsonObjectNotErrDetail = new JSONObject();
         if (afmastRepository.findOneByUsername(request.getAcctno()) != null) {
-            return new ResponseEntity<>("Đã tồn tại tên tài khoản!",HttpStatus.CONFLICT);
+            jsonObjectNotErrDetail.put("result", "Đã tồn tại tên tài khoản!");
+            return new ResponseEntity<>(jsonObjectNotErrDetail.toString(),HttpStatus.CONFLICT);
         }
-        if (afmastRepository.findOneByEmail(request.getEmail()) != null) {
-            return new ResponseEntity<>("Đã tồn tại tài khoản email!", HttpStatus.CONFLICT);
+        if (afmastRepository.findFirstByEmail(request.getEmail()) != null) {
+            jsonObjectNotErrDetail.put("result", "Đã tồn tại tài khoản email!");
+            return new ResponseEntity<>(jsonObjectNotErrDetail.toString(), HttpStatus.CONFLICT);
         }
         String genPassword = FileUtils.genRandomPassword(6);
-        String errCode = accountService.register(request,genPassword);
+        String hashPassword = FileUtils.hashString(genPassword);
+        String errCode = accountService.register(request,hashPassword);
         switch (errCode) {
             case "030001" :
                 errDetail = "Số tài khoản đã tồn tại";
@@ -107,7 +111,8 @@ public class UserAuthenticationController {
             e.printStackTrace();
         }
         emailSender.send(message);
-        JSONObject jsonObject = new JSONObject(errDetail);
+        JSONObject jsonObject = new JSONObject();
+        jsonObjectNotErrDetail.put("result", errDetail);
         return new ResponseEntity<>(jsonObject.toString(),HttpStatus.CREATED);
     }
 
@@ -138,7 +143,7 @@ public class UserAuthenticationController {
         String password = jsonObject.getString("password");
         Afmast appUser = afmastRepository.findOneByUsername(username);
         Map<String, Object> tokenMap = new HashMap<String, Object>();
-        if (appUser != null && appUser.getPassword().equals(password)) {
+        if (appUser != null && appUser.getPassword().equals(FileUtils.hashString(password))) {
             // login success, call vndirect api
             thirdPartyService.getAdminAuthen();
             //gen token jwt
@@ -180,9 +185,9 @@ public class UserAuthenticationController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         Afmast appUser = afmastRepository.findOneByUsername(username);
-        if (appUser != null && appUser.getPassword().equals(oldPassword)) {
+        if (appUser != null && appUser.getPassword().equals(FileUtils.hashString(oldPassword))) {
             // update new password
-            accountService.changePassword(username, newPassword);
+            accountService.changePassword(username, FileUtils.hashString(newPassword));
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -191,14 +196,14 @@ public class UserAuthenticationController {
     @RequestMapping(value = "/resetmk", method = RequestMethod.GET)
     public ResponseEntity<String> resetPassword (@RequestParam String email) throws JSONException {
         JSONObject jsonObject = new JSONObject();
-        Afmast afmast = afmastRepository.findOneByEmail(email);
+        Afmast afmast = afmastRepository.findFirstByEmail(email);
         if (afmast == null) {
             jsonObject.put("result","Không tìm thấy tài khoản email!");
             return new ResponseEntity<>(jsonObject.toString(),HttpStatus.NOT_FOUND);
         }
         //gen new password
         String newPass = FileUtils.genRandomPassword(6);
-        afmast.setPassword(newPass);
+        afmast.setPassword(FileUtils.hashString(newPass));
         afmastRepository.save(afmast);
         // send mail
         MimeMessage message = emailSender.createMimeMessage();

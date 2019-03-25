@@ -189,6 +189,12 @@ angular.module('app').factory('data', ['config', 'request',
             return request.get(url, data);
         }
 
+        //-----------Export------------------------
+        // methods.export = function (data) {
+        //     var url = config.HOST + '/export/excel/' + symbol;
+        //     return request.get(url);
+        // }
+
         methods.afType = function () {
             var url = config.HOST + '/getAfTypes';
             return request.get(url);
@@ -226,8 +232,13 @@ angular.module('app').factory('data', ['config', 'request',
         }
 
         methods.randomAccount = function () {
-            var url = config.HOST + '/custid';
+            var url = config.HOST + '/random/custid';
             return request.get(url);
+        }
+
+        methods.register = function (data) {
+            var url = config.HOST + '/register';
+            return request.post(url, data)
         }
 
         //----------------------ty le-------------------------

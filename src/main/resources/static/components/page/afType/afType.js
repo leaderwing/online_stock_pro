@@ -15,40 +15,45 @@ angular.module('app').controller('afTypeCtrl',
             });
 
             vm.addAfType = function() {
-                var todo = {};
-                todo.acType = $scope.formData.acType;
-                todo.typeName  = $scope.formData.typeName;
-                todo.afType = $scope.formData.afType;
-                todo.tradeRate = $scope.formData.tradeRate;
-                todo.margRate = $scope.formData.margRate;
-                todo.WarningRate = $scope.formData.WarningRate;
-                todo.processRate  = $scope.formData.processRate;
-                todo.depoRate = $scope.formData.depoRate;
-                todo.MiscRate = $scope.formData.MiscRate;
+                var t = confirm('Bạn có chắc chắn muốn thực hiện');
+                if (t === true) {
+                    var todo = {};
+                    todo.acType = $scope.formData.acType;
+                    todo.typeName = $scope.formData.typeName;
+                    todo.afType = $scope.formData.afType;
+                    todo.tradeRate = $scope.formData.tradeRate;
+                    todo.margRate = $scope.formData.margRate;
+                    todo.WarningRate = $scope.formData.WarningRate;
+                    todo.processRate = $scope.formData.processRate;
+                    todo.depoRate = $scope.formData.depoRate;
+                    todo.MiscRate = $scope.formData.MiscRate;
 
 
-                data.addAfType(todo).then(function (response) {
-                    data.afType().then(function (result) {
-                        $scope.loading = false;
+                    data.addAfType(todo).then(function (response) {
+                        data.afType().then(function (result) {
+                            $scope.loading = false;
 
-                        vm.chungkhoan = result;
-                        $scope.formData.acType = "";
-                        $scope.formData.typeName = "";
-                        $scope.formData.afType = "";
-                        $scope.formData.tradeRate = "";
-                        $scope.formData.margRate = "";
-                        $scope.formData.WarningRate = "";
-                        $scope.formData.processRate = "";
-                        $scope.formData.depoRate = "";
-                        $scope.formData.MiscRate = "";
+                            vm.chungkhoan = result;
+                            $scope.formData.acType = "";
+                            $scope.formData.typeName = "";
+                            $scope.formData.afType = "";
+                            $scope.formData.tradeRate = "";
+                            $scope.formData.margRate = "";
+                            $scope.formData.WarningRate = "";
+                            $scope.formData.processRate = "";
+                            $scope.formData.depoRate = "";
+                            $scope.formData.MiscRate = "";
 
-                        alert('Bạn đã thêm thành công')
+                            alert('Bạn đã thêm thành công')
+                        }, function (err) {
+                            console.log(err);
+                        });
                     }, function (err) {
-                        console.log(err);
+                        alert(err);
                     });
-                }, function (err) {
-                    alert(err);
-                });
+                } else {
+                    alert("Lệnh đã được hủy")
+                }
             }
 
             vm.updateAfType = function () {
@@ -71,6 +76,8 @@ angular.module('app').controller('afTypeCtrl',
             }
 
             vm.saveUpdateAfType = function () {
+                var t = confirm('Bạn có chắc chắn muốn thực hiện');
+                if (t === true){
                 var updatedItems = [];
                 for(var i=0;i<listOfChangedRows.length;i++)
                 {
@@ -93,18 +100,20 @@ angular.module('app').controller('afTypeCtrl',
                     });
                 }, function (err) {
                     alert(err);
-                });
+                });} else {
+                    alert("Lệnh đã được hủy");
+                }
             }
 
             vm.deleteAfType = function (chungkhoan) {
-alert(chungkhoan.acType)
-
+                var t = confirm('Bạn có chắc chắn muốn thực hiện');
+                if (t === true){
                 var delVal = {
                     acType : chungkhoan.acType,
 
                 }
                 data.deleteAfType(delVal).then(function (res) {
-                    alert("ok")
+                    alert("Bạn đã xóa thành công")
                     data.afType().then(function (result) {
                         $scope.loading = false;
 
@@ -115,8 +124,10 @@ alert(chungkhoan.acType)
                     });
 
                 }, function (err) {
-                    alert("không")
-                })
+                    console.log(err)
+                })} else {
+                    alert("Lệnh đã được hủy")
+                }
             }
 
 
