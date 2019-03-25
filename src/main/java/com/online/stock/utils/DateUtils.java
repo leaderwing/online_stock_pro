@@ -18,9 +18,19 @@ public class DateUtils {
         int result = Integer.parseInt(sdf.format(date));
         return result;
     }
+
     public static String convertYYYY_MM_DD (Date date) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+            return sdf.format(date);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+    public static String convertIso_date (Date date) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_ISO);
             return sdf.format(date);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -73,10 +83,6 @@ public class DateUtils {
     }
 
     public static void main(String[] args) {
-        List strArray = new ArrayList();
-        strArray.add("1234567|@3345");
-        strArray.add("44|555");
-        String joinedString = strArray.toString().replace("[","").replace("]","");
-        System.out.print(joinedString);
+       System.out.print(convertIso_date(new Date()));
     }
 }

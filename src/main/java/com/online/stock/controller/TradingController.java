@@ -50,6 +50,15 @@ public class TradingController {
 
     public static final String DEFAULT_START_DATE = "20181201";
 
+    @RequestMapping(value = "/gettime", method = RequestMethod.GET)
+    public ResponseEntity<String> getCurrentTime() throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        Date date = new Date();
+        String currentDate = DateUtils.convertIso_date(date);
+        jsonObject.put("time", currentDate);
+        return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
+    }
+
 
     @RequestMapping(value = "/history",method = RequestMethod.GET)
     public ResponseEntity<TradingRecords> getTradingHistory(@RequestParam String ngay1,
