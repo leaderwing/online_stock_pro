@@ -115,6 +115,12 @@ angular.module('app').factory('data', ['config', 'request',
             var url = config.HOST + '/duyetnop';
             return request.get(url);
         }
+
+        methods.getTime = function () {
+            var url = config.HOST + '/gettime';
+            return request.get(url);
+        }
+
         //--------------hien thi trang duyet tai khoan---------------------
         methods.getTK = function () {
             var url = config.HOST + '/gettk';

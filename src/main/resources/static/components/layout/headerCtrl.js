@@ -14,6 +14,7 @@ angular.module('app').controller('headerCtrl',
             cookieData   = document.cookie.split("$");
             console.log(cookieData);
             vm.isstaft = cookieData[1];
+            vm.acctno = cookieData[2];
             //vm.isstaft = 3
             console.log(vm.isstaft)
            // data.getIsstaft().then(function (result) {

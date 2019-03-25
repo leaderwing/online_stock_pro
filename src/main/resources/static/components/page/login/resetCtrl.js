@@ -1,12 +1,6 @@
-angular.module('app')
-// Creating the Angular Controller
-    .controller('resetCtrl', ['$http', 'AuthService', 'data', 'modal', '$window', '$rootScope', '$state', '$scope', 'dateFilter',
-        function ($http, AuthService, data, modal, $window, $rootScope, $state, $scope, dateFilter) {
+angular.module('app').controller('ResetPasswordCtrl', ['$http', 'data', 'modal', '$window', '$rootScope', '$state', '$scope', 'dateFilter',
+        function ($http, data, modal, $window, $rootScope, $state, $scope, dateFilter) {
             var vm = this;
-
-
-
-
             vm.sendMail = function () {
                 var datas = {
                     email : $scope.email

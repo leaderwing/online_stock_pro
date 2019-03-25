@@ -1,4 +1,5 @@
-<div class="main-wrapper" >
+
+<div class="main-wrapper">
 
     <div class="preloader" style="display: none;">
         <div class="lds-ripple">
@@ -7,16 +8,14 @@
         </div>
     </div>
 
-    <div class="auth-wrapper d-flex  justify-content-center align-items-center" id="index_page">
+    <div class="auth-wrapper d-flex no-block justify-content-center align-items-center bg-dark">
+
         <div class="auth-box bg-dark">
-            <div class="logo">
-                <img src="../../../public/images/logo.png" style="align-items: center; width: 200px;height: 50px" alt="stock88.com.vn"/>
-            </div>
             <div id="loginform">
                 <div ng-if="message == 'Authetication Failed !'">
-                <div class="alert alert-danger">
-                    <strong>Lỗi!</strong> {{message}}.
-                </div>
+                    <div class="alert alert-danger">
+                        <strong>ERR!</strong> {{message}}.
+                    </div>
                 </div>
                 <!--<div class="text-center p-t-20 p-b-20">-->
 
@@ -50,9 +49,9 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <div class="p-t-20">
-                                    <button class="btn btn-success " type="submit">Đăng nhập</button>
-                                    <a ui-sref="register" class="btn btn-success">Đăng ký </a>
-                                    <button ui-sref="reset-pass" class="btn btn-warning float-right">Quên mật khẩu</button>
+                                    <a ui-sref="register" class="btn btn-info">Đăng ký thông tin</a>
+                                    <a ui-sref="registers" class="btn btn-info">Đăng ký thông tin</a>
+                                    <button class="btn btn-success float-right" type="submit">Login</button>
                                 </div>
                             </div>
                         </div>
@@ -63,17 +62,6 @@
     </div>
 
 </div>
-<style>
-
-    #index_page {
-        background: url("../../../public/images/login.png");
-        height: 100%;
-        /* Center and scale the image nicely */
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-    }
-</style>
 <!-- ============================================================== -->
 <!-- All Required js -->
 <!-- ============================================================== -->
