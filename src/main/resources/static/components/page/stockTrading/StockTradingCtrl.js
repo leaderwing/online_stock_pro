@@ -3,7 +3,7 @@ angular.module('app').controller('stockTradingCtrl',
         function (data, modal, $window, $rootScope, $state, $scope, dateFilter,$interval) {
             var todos = {};
             var vm = this;
-            $scope.loading = true;
+
             var fromDate = moment($scope.THAMSO_NGAY1).format("YYYYMMDD");
             var toDate = moment($scope.THAMSO_NGAY2).format("YYYYMMDD");
             var todo = {
@@ -55,7 +55,7 @@ angular.module('app').controller('stockTradingCtrl',
             $interval( function(){
                 vm.seHistory();
                 vm.getttchung();
-                vm.getttTyle()}, 1000);
+                vm.getttTyle()}, 3000);
 
 //----------------------------get view data--------------------------------------
 

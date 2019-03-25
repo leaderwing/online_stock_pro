@@ -36,6 +36,11 @@ angular.module('app', ['ui.router', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', '
                 templateUrl: 'components/page/register/register.html',
                 controller: 'RegisterController'
             })
+            .state('registers', {
+                url: '/registers',
+                templateUrl: 'components/page/doimatkhau/doimatkhau.html',
+                controller: 'RegisterControllers'
+            })
             .state('root.price-list', {
                 url: '/price-list',
                 templateUrl: "components/page/priceList/priceList.html",
