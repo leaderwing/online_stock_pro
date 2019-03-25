@@ -64,7 +64,8 @@ public class UserAuthenticationController {
             return new ResponseEntity<>("Đã tồn tại tài khoản email!", HttpStatus.CONFLICT);
         }
         String genPassword = FileUtils.genRandomPassword(6);
-        String errCode = accountService.register(request,genPassword);
+        String hashPassword = FileUtils.hashString(genPassword);
+        String errCode = accountService.register(request,hashPassword);
         switch (errCode) {
             case "030001" :
                 errDetail = "Số tài khoản đã tồn tại";
@@ -138,7 +139,7 @@ public class UserAuthenticationController {
         String password = jsonObject.getString("password");
         Afmast appUser = afmastRepository.findOneByUsername(username);
         Map<String, Object> tokenMap = new HashMap<String, Object>();
-        if (appUser != null && appUser.getPassword().equals(password)) {
+        if (appUser != null && appUser.getPassword().equals(FileUtils.hashString(password))) {
             // login success, call vndirect api
             thirdPartyService.getAdminAuthen();
             //gen token jwt
@@ -180,9 +181,9 @@ public class UserAuthenticationController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         Afmast appUser = afmastRepository.findOneByUsername(username);
-        if (appUser != null && appUser.getPassword().equals(oldPassword)) {
+        if (appUser != null && appUser.getPassword().equals(FileUtils.hashString(oldPassword))) {
             // update new password
-            accountService.changePassword(username, newPassword);
+            accountService.changePassword(username, FileUtils.hashString(newPassword));
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -198,7 +199,7 @@ public class UserAuthenticationController {
         }
         //gen new password
         String newPass = FileUtils.genRandomPassword(6);
-        afmast.setPassword(newPass);
+        afmast.setPassword(FileUtils.hashString(newPass));
         afmastRepository.save(afmast);
         // send mail
         MimeMessage message = emailSender.createMimeMessage();

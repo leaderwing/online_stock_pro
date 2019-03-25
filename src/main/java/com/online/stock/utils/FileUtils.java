@@ -5,16 +5,26 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
-import java.util.TreeMap;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.*;
 
 public class FileUtils {
 
     public static void main(String[] args) {
-        System.out.println(genRandomPassword(6));
-        //getMatrixCode(Arrays.asList("A1","B4"));
+        System.out.print(hashString("123456"));
+    }
+    public static String hashString (String input) {
+        MessageDigest digest = null;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        byte[] hash = digest.digest(input.getBytes(StandardCharsets.UTF_8));
+        String result = Base64.getEncoder().encodeToString(hash);
+        return  result;
     }
     public static String getMatrixCode(List<String> keyList) {
         Properties props = new Properties();
