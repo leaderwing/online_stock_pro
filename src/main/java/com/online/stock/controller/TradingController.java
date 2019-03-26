@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,6 +48,8 @@ public class TradingController {
     private ODMastRepository odMastRepository;
     @Autowired
     private VGeneralInfoRepository vGeneralInfoRepository;
+    @Autowired
+    private SimpMessagingTemplate template;
 
     public static final String DEFAULT_START_DATE = "20181201";
 
@@ -59,6 +62,11 @@ public class TradingController {
         return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
     }
 
+
+    @RequestMapping(value = "/route/socket")
+    public void callSocket() throws Exception {
+        this.template.convertAndSend("/topic/trading");
+    }
 
     @RequestMapping(value = "/history",method = RequestMethod.GET)
     public ResponseEntity<TradingRecords> getTradingHistory(@RequestParam String ngay1,
