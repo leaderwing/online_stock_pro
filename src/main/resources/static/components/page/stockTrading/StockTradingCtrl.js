@@ -41,23 +41,23 @@ angular.module('app').controller('stockTradingCtrl',
 
             };
             // // listen stomp api
-//             function conn() {
-//             console.log ("start connect sockjs!");
-//             var socket = new SockJS('/gs-guide-websocket');
-//             stompClient = Stomp.over(socket);
-//             stompClient.connect({}, function (frame) {
-//                 console.log('Connected: ' + frame);
-//                 stompClient.subscribe('/topic/trading', function (result) {
-//                     vm.history = result.rowList
-//                 });
-//             });
-////             $interval(function () {
-////             stompClient.send('/db');
-////                         }, 3000);
-//             }
-//             vm.conn = function () {
-//             stompClient.send('/app/db',{},null);
-//             }
+             function conn() {
+             console.log ("start connect sockjs!");
+             var socket = new SockJS('/gs-guide-websocket');
+             stompClient = Stomp.over(socket);
+             stompClient.connect({}, function (frame) {
+                 console.log('Connected: ' + frame);
+                 stompClient.subscribe('/topic/trading', function (result) {
+                     vm.history = result.rowList
+                 });
+             });
+//             $interval(function () {
+//             stompClient.send('/db');
+//                         }, 3000);
+             }
+             vm.conn = function () {
+             stompClient.send('/app/db',{},null);
+             }
 
              $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
                  if (stompClient !== null) {

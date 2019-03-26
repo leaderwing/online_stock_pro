@@ -9,4 +9,6 @@ public interface IBatchService {
    void getMatchCancelValue();
 
    void  getPriceValue();
+
+   void getToken ();
 }
