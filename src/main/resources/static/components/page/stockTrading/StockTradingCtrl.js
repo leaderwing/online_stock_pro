@@ -3,7 +3,28 @@ angular.module('app').controller('stockTradingCtrl',
         function (data, modal, $window, $rootScope, $state, $scope, dateFilter, $interval) {
             var todos = {};
             var vm = this;
-            vm
+            var stompClient = null;
+ //----------------get thong tin chung-----------------
+            const getttchung = function () {
+                data.ttchung().then(function (result) {
+
+                    vm.ttchung = result;
+
+                }, function (err) {
+                    console.log(err);
+                })
+            };
+            //----------------get thong tin ty le-----------------
+            const getttTyle = function () {
+                data.tttyle().then(function (result) {
+                    vm.tttyle = result;
+
+                }, function (err) {
+                    console.log(err);
+                })
+            };
+            getttchung();
+            getttTyle();
             data.getTime().then(function (res) {
                 console.log(moment(res.time).format("HH:mm:ss"));
                 vm.hour = moment(res.time).format("HH:mm:ss");
@@ -20,20 +41,29 @@ angular.module('app').controller('stockTradingCtrl',
 
             };
             // // listen stomp api
-            // var socket = new SockJS('/gs-guide-websocket');
-            // var stompClient = Stomp.over(socket);
-            // stompClient.connect({}, function (frame) {
-            //     console.log('Connected: ' + frame);
-            //     stompClient.subscribe('/topic/trading', function (result) {
-            //         vm.history = result.rowList
-            //     });
-            // });
-            //
-            // $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-            //     if (stompClient !== null) {
-            //         stompClient.disconnect();
-            //     }
-            // });
+//             function conn() {
+//             console.log ("start connect sockjs!");
+//             var socket = new SockJS('/gs-guide-websocket');
+//             stompClient = Stomp.over(socket);
+//             stompClient.connect({}, function (frame) {
+//                 console.log('Connected: ' + frame);
+//                 stompClient.subscribe('/topic/trading', function (result) {
+//                     vm.history = result.rowList
+//                 });
+//             });
+////             $interval(function () {
+////             stompClient.send('/db');
+////                         }, 3000);
+//             }
+//             vm.conn = function () {
+//             stompClient.send('/app/db',{},null);
+//             }
+
+             $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+                 if (stompClient !== null) {
+                     stompClient.disconnect();
+                 }
+             });
 
             data.history(todo).then(function (result) {
                 $scope.loading = false;
@@ -57,12 +87,14 @@ angular.module('app').controller('stockTradingCtrl',
                 }, function (err) {
                     console.log(err);
                 })
+                getttchung();
+                getttTyle();
             }
-            $interval(function () {
-                vm.seHistory();
-                vm.getttchung();
-                vm.getttTyle()
-            }, 3000);
+//            $interval(function () {
+//                vm.seHistory();
+//                vm.getttchung();
+//                vm.getttTyle()
+//            }, 3000);
 
 //----------------------------get view data--------------------------------------
 
@@ -91,25 +123,7 @@ angular.module('app').controller('stockTradingCtrl',
                 });
             };
 
-            //----------------get thong tin chung-----------------
-            vm.getttchung = function () {
-                data.ttchung().then(function (result) {
 
-                    vm.ttchung = result;
-
-                }, function (err) {
-                    console.log(err);
-                })
-            };
-            //----------------get thong tin ty le-----------------
-            vm.getttTyle = function () {
-                data.tttyle().then(function (result) {
-                    vm.tttyle = result;
-
-                }, function (err) {
-                    console.log(err);
-                })
-            };
 
             //----------------dat lenh mua-----------------------
             vm.createTodos = function () {
