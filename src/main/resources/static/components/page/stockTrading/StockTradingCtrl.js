@@ -5,7 +5,7 @@ angular.module('app').controller('stockTradingCtrl',
             var vm = this;
             var stompClient = null;
  //----------------get thong tin chung-----------------
-            const getttchung = function () {
+            var getttchung = function () {
                 data.ttchung().then(function (result) {
 
                     vm.ttchung = result;
@@ -15,7 +15,7 @@ angular.module('app').controller('stockTradingCtrl',
                 })
             };
             //----------------get thong tin ty le-----------------
-            const getttTyle = function () {
+            var getttTyle = function () {
                 data.tttyle().then(function (result) {
                     vm.tttyle = result;
 

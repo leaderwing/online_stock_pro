@@ -92,6 +92,7 @@ public class BatchService implements  IBatchService{
                             JSONArray arr = obj.getJSONArray("orderReports");
                             response.setAvg_price(arr.getJSONObject(0).getDouble("averagePrice"));
                             response.setRemain_qtty(obj.getInt("remainingQuantity"));
+                            response.setType(1);
                             list.add(response.toString());
                         } else if ("Cancelled".equals(status) || "PendingCancel".equals(status)) {
                             response.setOrderId(obj.getString("id"));
@@ -101,6 +102,7 @@ public class BatchService implements  IBatchService{
                             response.setTotal_qtty(obj.getInt("quantity"));
                             response.setAvg_price(0);
                             response.setRemain_qtty(obj.getInt("remainingQuantity"));
+                            response.setType(2);
                             list.add(response.toString());
                         }
                     }
@@ -112,9 +114,11 @@ public class BatchService implements  IBatchService{
                     String response = list.toString().replace("[", "").replace("]", "");
                     System.out.println("$ match data: " + response);
                     Session session = entityManager.unwrap(Session.class);
-                    ProcedureCall call = session.createStoredProcedureCall("PKG_ORDER_TRADING.PRC_GET_TRADING_RESULT");
-                    call.registerParameter(1, String.class, ParameterMode.IN).bindValue(response);
-                    call.getOutputs();
+                    if (StringUtils.isNotBlank(response)) {
+                        ProcedureCall call = session.createStoredProcedureCall("PKG_ORDER_TRADING.PRC_GET_TRADING_RESULT");
+                        call.registerParameter(1, String.class, ParameterMode.IN).bindValue(response);
+                        call.getOutputs();
+                    }
                 } catch (Exception ex) {
                     LOGGER.error("error save data! ", ex.getMessage());
                 }
@@ -137,11 +141,13 @@ public class BatchService implements  IBatchService{
             System.out.println(data);
             LOGGER.debug(" price data: {data}", data);
             try {
-                Session session = entityManager.unwrap(Session.class);
-                ProcedureCall call = session.createStoredProcedureCall("PKG_ORDER_TRADING.PRC_UPDATE_TRADING_DATA");
-                call.registerParameter(1, String.class,ParameterMode.IN).bindValue(data);
-                call.getOutputs();
-                session.close();
+                if (StringUtils.isNotBlank(data)) {
+                    Session session = entityManager.unwrap(Session.class);
+                    ProcedureCall call = session.createStoredProcedureCall("PKG_ORDER_TRADING.PRC_UPDATE_TRADING_DATA");
+                    call.registerParameter(1, String.class, ParameterMode.IN).bindValue(data);
+                    call.getOutputs();
+                    session.close();
+                }
             } catch (Exception ex) {
                 ex.printStackTrace();
                 LOGGER.error("error save data! "+ ex.getMessage());

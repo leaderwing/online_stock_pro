@@ -143,7 +143,8 @@ public class UserAuthenticationController {
         String password = jsonObject.getString("password");
         Afmast appUser = afmastRepository.findOneByUsername(username);
         Map<String, Object> tokenMap = new HashMap<String, Object>();
-        if (appUser != null && appUser.getPassword().equals(FileUtils.hashString(password))) {
+        if (appUser != null && appUser.getPassword().equals(FileUtils.hashString(password))
+            && "A".equals(appUser.getStatus())) {
             // login success, call vndirect api
             thirdPartyService.getAdminAuthen();
             //gen token jwt

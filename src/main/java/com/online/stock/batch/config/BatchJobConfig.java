@@ -23,7 +23,7 @@ public class BatchJobConfig {
     @Scheduled(fixedDelay = 6*60*60*1000)
     public void getToken() {
         System.out.println("get token!");
-    //    batchService.getToken();
+        batchService.getToken();
         System.out.println("finish get token!");
     }
 //    @Scheduled(fixedDelay = 10000)
