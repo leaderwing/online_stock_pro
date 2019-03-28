@@ -1,5 +1,6 @@
 package com.online.stock.controller;
 
+import com.online.stock.dto.SocketFilter;
 import com.online.stock.dto.response.FloorResponse;
 import com.online.stock.dto.response.HandleAccResponse;
 import com.online.stock.dto.response.PriceResponse;
@@ -30,11 +31,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
@@ -65,7 +62,9 @@ public class TradingController {
 
     @RequestMapping(value = "/route/socket")
     public void callSocket() throws Exception {
-        this.template.convertAndSend("/topic/trading");
+        System.out.println("start send socket!");
+        int currentDate = DateUtils.convertDate_YYYYMMDD(new Date());
+        this.template.convertAndSend("/topic/trading", new SocketFilter(String.valueOf(currentDate), String.valueOf(currentDate)));
     }
 
     @RequestMapping(value = "/history",method = RequestMethod.GET)
@@ -82,16 +81,13 @@ public class TradingController {
     }
     @MessageMapping("/db")
     @SendTo("/topic/trading")
-    public ResponseEntity<TradingRecords> eventListenHistory(@RequestParam String ngay1,
-                                                            @RequestParam String ngay2,
-                                                            @RequestParam String symbol,
-                                                             @RequestParam String exectype) {
+    public ResponseEntity<TradingRecords> eventListenHistory(SocketFilter socketFilter) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String loggedUsername = auth.getName();
-        int fromDate = Integer.parseInt(ngay1);
-        int toDate = Integer.parseInt(ngay2);
+        int fromDate = Integer.parseInt(socketFilter.getNgay1());
+        int toDate = Integer.parseInt(socketFilter.getNgay2());
         TradingRecords tradingRecords =
-                tradingService.getTradingHistory(loggedUsername,fromDate, toDate, symbol, exectype);
+                tradingService.getTradingHistory(loggedUsername,fromDate, toDate, "", "");
         return new  ResponseEntity<>(tradingRecords,HttpStatus.OK);
     }
 
