@@ -13,7 +13,7 @@ public class BatchJobConfig {
     @Autowired
     private IBatchService batchService;
 
-    @Scheduled(fixedDelay = 5000)
+    @Scheduled(fixedDelay = 5000*5)
     public void scheduleGetMatchAndCancelled() {
         System.out.println(
                 "start get match and cancel data - " + System.currentTimeMillis() / 1000000);
