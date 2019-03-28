@@ -1,3 +1,4 @@
+
 package com.online.stock.batch.config;
 
 import com.online.stock.batch.service.IBatchService;
@@ -23,9 +24,10 @@ public class BatchJobConfig {
     @Scheduled(fixedDelay = 6*60*60*1000)
     public void getToken() {
         System.out.println("get token!");
-    //    batchService.getToken();
+        batchService.getToken();
         System.out.println("finish get token!");
     }
+
 //    @Scheduled(fixedDelay = 10000)
 //    public void scheduleGetPriceData() {
 //        System.out.println(
@@ -34,4 +36,5 @@ public class BatchJobConfig {
 //        System.out.println(
 //                "finish get price data - " + System.currentTimeMillis() / 1000000);
 //    }
+
 }

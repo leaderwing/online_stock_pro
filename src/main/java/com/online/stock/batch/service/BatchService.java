@@ -1,3 +1,4 @@
+
 package com.online.stock.batch.service;
 
 import com.online.stock.controller.OrderTradingController;
@@ -173,42 +174,140 @@ public class BatchService implements  IBatchService{
 //        if (!adminUserList.isEmpty()) {
 //             adminUser = adminUserList.get(0);
 //        }
-        RestTemplate restTemplate = new RestTemplate();
-        Token token =
-                restTemplate.postForObject(Constant.API_URL_TOKEN, adminUser, Token.class);
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("x-auth-token", token.getToken());
-        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-        ResponseEntity<String> data =
-                restTemplate.exchange(Constant.API_MATCH_CANCEL_DEAL, HttpMethod.GET, entity,
-                        new ParameterizedTypeReference<String>() {
-                        });
-        String jsonRes = data.getBody();
-        if (StringUtils.isNotBlank(jsonRes)) {
-            try {
-                JSONObject jsonObject = new JSONObject(jsonRes);
-                JSONArray jsonArray = jsonObject.getJSONArray("orders");
-                for (int i = 0;i < jsonArray.length(); i ++) {
-                    JSONObject obj = jsonArray.getJSONObject(i);
-                    BatchDataResponse response = new BatchDataResponse();
-                    String status = obj.getString("status");
-                    if ("Cancelled".equals(status)) {
-                        response.setOrderId(obj.getString("id"));
-                        response.setQtty(obj.getInt("quantity"));
-                        response.setTxtime(obj.getString("createdAt"));
-                        response.setPrice(obj.getDouble("price"));
-                        response.setTotal_qtty(obj.getInt("quantity"));
-
-                        JSONArray arr = obj.getJSONArray("orderReports");
-                        response.setAvg_price(arr.getJSONObject(0).getDouble("averagePrice"));
-                        response.setRemain_qtty(obj.getInt("remainingQuantity"));
-                        array[i] = response.toString();
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-           System.out.print(array);
-        }
-    }
-}
+//        try {
+//            RestTemplate restTemplate = new RestTemplate();
+//            Token token =
+//                    restTemplate.postForObject(Constant.API_URL_TOKEN, adminUser, Token.class);
+//            HttpHeaders headers = new HttpHeaders();
+//            headers.set("x-auth-token", token.getToken());
+//            HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
+//            ResponseEntity<String> data =
+//                    restTemplate.exchange(Constant.API_MATCH_CANCEL_DEAL, HttpMethod.GET, entity,
+//                            new ParameterizedTypeReference<String>() {
+//                            });
+//            String jsonRes = data.getBody();
+//            if (StringUtils.isNotBlank(jsonRes)) {
+//                try {
+//                    JSONObject jsonObject = new JSONObject(jsonRes);
+//                    JSONArray jsonArray = jsonObject.getJSONArray("orders");
+//                    for (int i = 0; i < jsonArray.length(); i++) {
+//                        JSONObject obj = jsonArray.getJSONObject(i);
+//                        BatchDataResponse response = new BatchDataResponse();
+//                        String status = obj.getString("status");
+//                        if ("Filled".equals(status)) {
+//                            response.setOrderId(obj.getString("id"));
+//                            response.setQtty(obj.getInt("quantity"));
+//                            response.setTxtime(obj.getString("createdAt"));
+//                            response.setPrice(obj.getDouble("price"));
+//                            response.setTotal_qtty(obj.getInt("quantity"));
+//
+//                            JSONArray arr = obj.getJSONArray("orderReports");
+//                            response.setAvg_price(arr.getJSONObject(0).getDouble("averagePrice"));
+//                            response.setRemain_qtty(obj.getInt("remainingQuantity"));
+//                            list.add(response.toString());
+//                        } else if ("Cancelled".equals(status) || "PendingCancel".equals(status)) {
+//                            response.setOrderId(obj.getString("id"));
+//                            response.setQtty(obj.getInt("quantity"));
+//                            response.setTxtime(obj.getString("createdAt"));
+//                            response.setPrice(0);
+//                            response.setTotal_qtty(obj.getInt("quantity"));
+//                            response.setAvg_price(0);
+//                            response.setRemain_qtty(obj.getInt("remainingQuantity"));
+//                            list.add(response.toString());
+//                        }
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//                //save database
+//                try {
+//                    String response = list.toString().replace("[", "").replace("]", "");
+//                    System.out.println("$ match data: " + response);
+//                    Session session = entityManager.unwrap(Session.class);
+//                    ProcedureCall call = session.createStoredProcedureCall("PKG_ORDER_TRADING.PRC_GET_TRADING_RESULT");
+//                    call.registerParameter(1, String.class, ParameterMode.IN).bindValue(response);
+//                    call.getOutputs();
+//                } catch (Exception ex) {
+//                    LOGGER.error("error save data! ", ex.getMessage());
+//                }
+//            }
+//        }catch (Exception ex) {
+//            System.out.print(" error when get api data: " + ex.getMessage());
+//        }
+//    }
+//
+//    @Override
+//    @Transactional(rollbackFor = Exception.class)
+//    public void getPriceValue() {
+//        List<SecuritiesPractice> securitiesPractices = securitiesPracticeRepository.findAll();
+//        Set<String> symbols = securitiesPractices.stream().map(SecuritiesPractice::getSymbol).collect(Collectors.toSet());
+//        String url = Constant.API_PRICE_DEAL.concat("q=codes:").concat(symbols.toString().replace("[","").replace("]","").replaceAll(" ",""));
+//        RestTemplate restTemplate = new RestTemplate();
+//        String data = restTemplate.getForObject(url, String.class);
+//        if (StringUtils.isNotBlank(data)) {
+//            data = data.substring(2, data.length() - 2).replace("\"", "");
+//            System.out.println(data);
+//            LOGGER.debug(" price data: {data}", data);
+//            try {
+//                Session session = entityManager.unwrap(Session.class);
+//                ProcedureCall call = session.createStoredProcedureCall("PKG_ORDER_TRADING.PRC_UPDATE_TRADING_DATA");
+//                call.registerParameter(1, String.class,ParameterMode.IN).bindValue(data);
+//                call.getOutputs();
+//                session.close();
+//            } catch (Exception ex) {
+//                ex.printStackTrace();
+//                LOGGER.error("error save data! "+ ex.getMessage());
+//            }
+//        }
+//    }
+//
+//    public static void main(String[] args) {
+//
+//        AdminUser adminUser = new AdminUser();
+//        adminUser.setUsername("0001623688");
+//        adminUser.setPassword("maiyeu1612");
+//        List<BatchDataResponse> dataResponseList = new ArrayList<>();
+//        String array[] = new String[1000];
+////        List<AdminUser> adminUserList = adminUserRepository.findAll();
+////        if (!adminUserList.isEmpty()) {
+////             adminUser = adminUserList.get(0);
+////        }
+//        RestTemplate restTemplate = new RestTemplate();
+//        Token token =
+//                restTemplate.postForObject(Constant.API_URL_TOKEN, adminUser, Token.class);
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.set("x-auth-token", token.getToken());
+//        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
+//        ResponseEntity<String> data =
+//                restTemplate.exchange(Constant.API_MATCH_CANCEL_DEAL, HttpMethod.GET, entity,
+//                        new ParameterizedTypeReference<String>() {
+//                        });
+//        String jsonRes = data.getBody();
+//        if (StringUtils.isNotBlank(jsonRes)) {
+//            try {
+//                JSONObject jsonObject = new JSONObject(jsonRes);
+//                JSONArray jsonArray = jsonObject.getJSONArray("orders");
+//                for (int i = 0;i < jsonArray.length(); i ++) {
+//                    JSONObject obj = jsonArray.getJSONObject(i);
+//                    BatchDataResponse response = new BatchDataResponse();
+//                    String status = obj.getString("status");
+//                    if ("Cancelled".equals(status)) {
+//                        response.setOrderId(obj.getString("id"));
+//                        response.setQtty(obj.getInt("quantity"));
+//                        response.setTxtime(obj.getString("createdAt"));
+//                        response.setPrice(obj.getDouble("price"));
+//                        response.setTotal_qtty(obj.getInt("quantity"));
+//
+//                        JSONArray arr = obj.getJSONArray("orderReports");
+//                        response.setAvg_price(arr.getJSONObject(0).getDouble("averagePrice"));
+//                        response.setRemain_qtty(obj.getInt("remainingQuantity"));
+//                        array[i] = response.toString();
+//                    }
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//           System.out.print(array);
+//        }
+//    }
+//}
