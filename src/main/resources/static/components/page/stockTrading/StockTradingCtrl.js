@@ -3,9 +3,10 @@ angular.module('app').controller('stockTradingCtrl',
         function (data, modal, $window, $rootScope, $state, $scope, dateFilter, $interval) {
             var todos = {};
             var vm = this;
+
             var stompClient = null;
  //----------------get thong tin chung-----------------
-            var getttchung = function () {
+             var getttchung = function () {
                 data.ttchung().then(function (result) {
 
                     vm.ttchung = result;
@@ -15,7 +16,7 @@ angular.module('app').controller('stockTradingCtrl',
                 })
             };
             //----------------get thong tin ty le-----------------
-            var getttTyle = function () {
+             var getttTyle = function () {
                 data.tttyle().then(function (result) {
                     vm.tttyle = result;
 
@@ -154,6 +155,13 @@ angular.module('app').controller('stockTradingCtrl',
                                     $scope.formData.orderType = "";
                                     $scope.formData.expiredDate = "";
                                     //$window.location.href = '/back';
+                                    data.history(todo).then(function (result) {
+                                        $scope.loading = false;
+                                        vm.history = result.rowList
+
+                                    }, function (err) {
+                                        console.log(err);
+                                    });
                                 } else {
                                     alert("Lỗi");
                                     $scope.formData.command = "";
@@ -179,6 +187,13 @@ angular.module('app').controller('stockTradingCtrl',
                                     $scope.formData.orderType = "";
                                     $scope.formData.expiredDate = "";
                                     //$window.location.href = '/back';
+                                    data.history(todo).then(function (result) {
+                                        $scope.loading = false;
+                                        vm.history = result.rowList
+
+                                    }, function (err) {
+                                        console.log(err);
+                                    });
                                 } else {
                                     alert("Lỗi");
                                     $scope.formData.command = "";
@@ -206,6 +221,13 @@ angular.module('app').controller('stockTradingCtrl',
                                 $scope.formData.orderType = "";
                                 $scope.formData.expiredDate = "";
                                 // $window.location.href = '/back';
+                                data.history(todo).then(function (result) {
+                                    $scope.loading = false;
+                                    vm.history = result.rowList
+
+                                }, function (err) {
+                                    console.log(err);
+                                });
                             } else {
                                 alert("Lỗi");
                                 $scope.formData.command = "";

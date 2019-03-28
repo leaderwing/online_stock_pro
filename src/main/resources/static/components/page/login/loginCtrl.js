@@ -4,6 +4,7 @@ angular.module('app')
         function ($http, AuthService, data, modal, $window, $rootScope, $state, $scope, dateFilter) {
             var vm = this;
             var todos = {};
+            $scope.loading = false;
             // $scope.hidden = true;
             // $scope.hiddenReset = false;
             // $scope.hiddenSend = true;
@@ -18,7 +19,7 @@ angular.module('app')
 
                     // checking if the token is available in the response
                     if (res.token) {
-
+                        $scope.loading = true;
                         $scope.message = '';
                         // setting the Authorization Bearer token with JWT token
                         $http.defaults.headers.common['Authorization'] = 'Bearer ' + res.token;
@@ -29,6 +30,7 @@ angular.module('app')
                         // going to the home page
                         $state.go('root.stock-trading');
                     } else {
+                        $scope.loading = false;
                         // if the token is not present in the response then the
                         // authentication was not successful. Setting the error message.
                         $scope.message = 'Authetication Failed !';

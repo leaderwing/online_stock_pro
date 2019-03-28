@@ -1,3 +1,4 @@
+
 package com.online.stock.batch.service;
 
 import org.springframework.stereotype.Service;

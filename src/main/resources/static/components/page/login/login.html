@@ -18,6 +18,9 @@
                     <strong>Lỗi!</strong> {{message}}.
                 </div>
                 </div>
+                <p class="text-center" ng-show="loading">
+                    <span class="fa fa-spinner fa-spin fa-3x"></span>
+                </p>
                 <!--<div class="text-center p-t-20 p-b-20">-->
 
                 <!--<span class="db"><img src="./assets/images/logo.png" alt="logo"></span>-->
@@ -51,8 +54,9 @@
                             <div class="form-group">
                                 <div class="p-t-20">
                                     <button class="btn btn-success " type="submit">Đăng nhập</button>
-                                    <a ui-sref="register" class="btn btn-success">Đăng ký </a>
                                     <button ui-sref="reset-pass" class="btn btn-warning float-right">Quên mật khẩu</button>
+                                    <a ui-sref="register" class="btn btn-success">Đăng ký </a>
+
                                 </div>
                             </div>
                         </div>
