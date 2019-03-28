@@ -1,5 +1,6 @@
 package com.online.stock.batch.service;
 
+import com.online.stock.batch.config.ConnectDB;
 import com.online.stock.controller.OrderTradingController;
 import com.online.stock.dto.BatchDataResponse;
 import com.online.stock.dto.Token;
@@ -10,8 +11,10 @@ import com.online.stock.repository.AdminUserRepository;
 import com.online.stock.repository.SecuritiesPracticeRepository;
 import com.online.stock.utils.Constant;
 import netscape.javascript.JSObject;
+import oracle.jdbc.driver.OracleDriver;
 import oracle.jdbc.oracore.OracleType;
 import oracle.sql.ARRAY;
+import oracle.sql.ArrayDescriptor;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -35,7 +38,11 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
+import javax.persistence.Query;
+import javax.persistence.StoredProcedureQuery;
 import java.sql.Array;
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -111,16 +118,23 @@ public class BatchService implements  IBatchService{
                 }
                 //save database
                 try {
-                    String response = list.toString().replace("[", "").replace("]", "");
-                    System.out.println("$ match data: " + response);
-                    Session session = entityManager.unwrap(Session.class);
-                    if (StringUtils.isNotBlank(response)) {
-                        ProcedureCall call = session.createStoredProcedureCall("PKG_ORDER_TRADING.PRC_GET_TRADING_RESULT");
-                        call.registerParameter(1, String.class, ParameterMode.IN).bindValue(response);
-                        call.getOutputs();
+                    String[] arrStr = list.toArray(new String[list.size()]);
+                    //String response = list.toString().replace("[", "").replace("]", "");
+                    System.out.println("$ match data: " + Arrays.toString(arrStr));
+                    if (arrStr.length > 0) {
+                        Connection connection = ConnectDB.getInstance().getConnection();
+                        ArrayDescriptor arrDesc =
+                                ArrayDescriptor.createDescriptor("VARCHAR2_ARRAY", connection);
+                        Array array = new ARRAY(arrDesc, connection, arrStr);
+                        CallableStatement stmt =
+                                connection.prepareCall("BEGIN PKG_ORDER_TRADING.PRC_GET_TRADING_RESULT(?); END;");
+                        stmt.setArray(1, array);
+                        stmt.execute();
+                        connection.commit();
+                        connection.close();
                     }
                 } catch (Exception ex) {
-                    LOGGER.error("error save data! ", ex.getMessage());
+                    LOGGER.error("error save data! "+ ex.getMessage());
                 }
             }
         }catch (Exception ex) {
@@ -133,24 +147,30 @@ public class BatchService implements  IBatchService{
     public void getPriceValue() {
         List<SecuritiesPractice> securitiesPractices = securitiesPracticeRepository.findAll();
         Set<String> symbols = securitiesPractices.stream().map(SecuritiesPractice::getSymbol).collect(Collectors.toSet());
-        String url = Constant.API_PRICE_DEAL.concat("q=codes:").concat(symbols.toString().replace("[","").replace("]","").replaceAll(" ",""));
+        String url = Constant.API_PRICE_DEAL.concat("q=codes:").concat(symbols.toString().replace("[", "").replace("]", "").replaceAll(" ", ""));
         RestTemplate restTemplate = new RestTemplate();
         String data = restTemplate.getForObject(url, String.class);
         if (StringUtils.isNotBlank(data)) {
             data = data.substring(2, data.length() - 2).replace("\"", "");
             System.out.println(data);
+            String[] arrayPrice = data.split(",");
             LOGGER.debug(" price data: {data}", data);
-            try {
-                if (StringUtils.isNotBlank(data)) {
-                    Session session = entityManager.unwrap(Session.class);
-                    ProcedureCall call = session.createStoredProcedureCall("PKG_ORDER_TRADING.PRC_UPDATE_TRADING_DATA");
-                    call.registerParameter(1, String.class, ParameterMode.IN).bindValue(data);
-                    call.getOutputs();
-                    session.close();
+            if (arrayPrice.length > 0) {
+                try {
+                    Connection connection = ConnectDB.getInstance().getConnection();
+                    ArrayDescriptor arrDesc =
+                            ArrayDescriptor.createDescriptor("VARCHAR2_ARRAY", connection);
+                    Array array = new ARRAY(arrDesc, connection, arrayPrice);
+                    CallableStatement stmt =
+                            connection.prepareCall("BEGIN PKG_ORDER_TRADING.PRC_UPDATE_TRADING_DATA(?); END;");
+                    stmt.setArray(1, array);
+                    stmt.execute();
+                    connection.commit();
+                    connection.close();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    LOGGER.error("error save data! " + ex.getMessage());
                 }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                LOGGER.error("error save data! "+ ex.getMessage());
             }
         }
     }

@@ -25,6 +25,7 @@ angular.module('app').controller('stockTradingCtrl',
             };
             getttchung();
             getttTyle();
+            conn();
             data.getTime().then(function (res) {
                 console.log(moment(res.time).format("HH:mm:ss"));
                 vm.hour = moment(res.time).format("HH:mm:ss");
