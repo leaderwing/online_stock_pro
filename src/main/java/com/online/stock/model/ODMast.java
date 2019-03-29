@@ -41,7 +41,7 @@ public class ODMast {
     @Column(name = "TXTIME")
     private String txtime;
     @Column(name = "FEEACR")
-    private int feeacr;
+    private String feeacr;
     @Column(name = "CLOSEPRICE")
     private int closeprice;
     @Column(name = "PROFIT")

@@ -71,9 +71,9 @@ public class BatchService implements  IBatchService {
         try {
             String token = System.getProperty("job_token");
             if (StringUtils.isBlank(token)) {
-                //   getToken();
-                //token = System.getProperty("job_token");
-                token = "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJpc3N1ZXIiLCJzdWIiOiJzdWJqZWN0IiwiYXVkIjpbImF1ZGllbmNlIiwiaW9zIiwib25saW5lIiwidHJhZGVhcGkiLCJhdXRoIl0sImV4cCI6MTU1NDIxNzI2MCwibmJmIjoxNTUzNjEyMTYwLCJ0cmFkaW5nRXhwIjowLCJpZGdJZCI6IjAwMDExMDk3NDIiLCJyb2xlcyI6IltPTkxJTkVfVFJBRElORywgUk9MRV9PTkxJTkVfVFJBRElORywgT05MSU5FX1ZJRVdfQUNDT1VOVF9JTkZPLCBST0xFX09OTElORV9WSUVXX0FDQ09VTlRfSU5GT10iLCJhY2NvdW50VHlwZSI6IklORElWSURVQUxfQUNDT1VOVCIsImN1c3RvbWVySWQiOiIwMDAxMTA5NzQyIiwidXNlcklkIjoibnVsbCIsInZlcnNpb24iOiJWMiIsImN1c3RvbWVyTmFtZSI6IlbFqSBCw6EgSMOgbyIsImVtYWlsIjoidHJhbmR1Y3BodTE3NUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6IjAwMDE2MjM2ODgiLCJzdGF0dXMiOiJPTkxJTkVfQUNUSVZFIn0.ICiBSbqLJBY_kF0C135IqKpXjxphON03h6Yr_2ly-qtl9QcOBmPMl8WGKk3glJC5b__6yp1KwwyUQCh2Jcsdzyyu5FYn59x6aFe9Sl9dLU8a1u-QMGkEGyO_5L_HHHrcBAMxeD9zpzy6mzCDwyZfh7PzLECE69r87J0QvBXjHmzDQnBuBsayCQp4q2Q6pPkMJ8htISPfe16fm2-12LhEO5lje3UIXM3EzFV9Rq6zv8XzB_hgdAbDwuyQKs37S6L3z_llIq6_lqP20f7AoYGI4GmBiRJ3akadaIjJrmlaV9OMlSMZf7WHWfJW4BYez_6zheyO7Cx4V3QlTojiaybJJQ";
+                getToken();
+                token = System.getProperty("job_token");
+                //token = "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJpc3N1ZXIiLCJzdWIiOiJzdWJqZWN0IiwiYXVkIjpbImF1ZGllbmNlIiwiaW9zIiwib25saW5lIiwidHJhZGVhcGkiLCJhdXRoIl0sImV4cCI6MTU1NDIxNzI2MCwibmJmIjoxNTUzNjEyMTYwLCJ0cmFkaW5nRXhwIjowLCJpZGdJZCI6IjAwMDExMDk3NDIiLCJyb2xlcyI6IltPTkxJTkVfVFJBRElORywgUk9MRV9PTkxJTkVfVFJBRElORywgT05MSU5FX1ZJRVdfQUNDT1VOVF9JTkZPLCBST0xFX09OTElORV9WSUVXX0FDQ09VTlRfSU5GT10iLCJhY2NvdW50VHlwZSI6IklORElWSURVQUxfQUNDT1VOVCIsImN1c3RvbWVySWQiOiIwMDAxMTA5NzQyIiwidXNlcklkIjoibnVsbCIsInZlcnNpb24iOiJWMiIsImN1c3RvbWVyTmFtZSI6IlbFqSBCw6EgSMOgbyIsImVtYWlsIjoidHJhbmR1Y3BodTE3NUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6IjAwMDE2MjM2ODgiLCJzdGF0dXMiOiJPTkxJTkVfQUNUSVZFIn0.ICiBSbqLJBY_kF0C135IqKpXjxphON03h6Yr_2ly-qtl9QcOBmPMl8WGKk3glJC5b__6yp1KwwyUQCh2Jcsdzyyu5FYn59x6aFe9Sl9dLU8a1u-QMGkEGyO_5L_HHHrcBAMxeD9zpzy6mzCDwyZfh7PzLECE69r87J0QvBXjHmzDQnBuBsayCQp4q2Q6pPkMJ8htISPfe16fm2-12LhEO5lje3UIXM3EzFV9Rq6zv8XzB_hgdAbDwuyQKs37S6L3z_llIq6_lqP20f7AoYGI4GmBiRJ3akadaIjJrmlaV9OMlSMZf7WHWfJW4BYez_6zheyO7Cx4V3QlTojiaybJJQ";
             }
             HttpHeaders headers = new HttpHeaders();
             headers.set("x-auth-token", token);

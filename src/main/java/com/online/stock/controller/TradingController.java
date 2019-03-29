@@ -64,38 +64,46 @@ public class TradingController {
         return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/route/suminfo", method = RequestMethod.GET)
+    public void callSocketSumInfo() throws Exception {
+        System.out.println("start send sum info!");
+        //        //get ttchung
+        List<CommonInfoRes> commonInfoRes = new ArrayList<>();
+
+        List<VGeneralInfo> vGeneralInfos = vGeneralInfoRepository.findAll();
+        if (vGeneralInfos.size() > 0) {
+            vGeneralInfos.forEach(vGeneralInfo -> {
+                CommonInfoRes commonInfoRes1 = new CommonInfoRes();
+                commonInfoRes1.setAfacctno(vGeneralInfo.getCustId());
+                commonInfoRes1.setTai_san_rong(vGeneralInfo.getTsr());
+                commonInfoRes1.setSuc_mua(vGeneralInfo.getBitMax());
+                commonInfoRes1.setTy_le_ky_quy(vGeneralInfo.getRealMargrate());
+                commonInfoRes1.setDu_no_thuc_te(vGeneralInfo.getTotalLoad());
+                commonInfoRes.add(commonInfoRes1);
+            });
+        }
+        this.template.convertAndSend("/topic/ttchung", commonInfoRes);
+        System.out.println("end send sum info!");
+    }
+    @RequestMapping(value = "/route/rate", method = RequestMethod.GET)
+    public void callSocketRate() throws Exception {
+        System.out.println("start send rate info!");
+        //         get tttyle
+        List<RateInfoRes> rateInfoRes = new ArrayList<>();
+        rateInfoRes = orderTradingService.getRateInfo("");
+        this.template.convertAndSend("/topic/tttyle", rateInfoRes);
+        System.out.println("end send rate info!");
+    }
 
     @RequestMapping(value = "/route/socket", method = RequestMethod.GET)
-    public void callSocket() throws Exception {
-        System.out.println("start send socket!");
+    public void callSocketTrading() throws Exception {
+        System.out.println("start send trade!");
         int currentDate = DateUtils.convertDate_YYYYMMDD(new Date());
         TradingRecords tradingRecords =
                 tradingService.getTradingHistory("",currentDate, currentDate, "", "");
         List<TradingRow> rowList = tradingRecords.getRowList();
         this.template.convertAndSend("/topic/trading", rowList);
-        Thread t = new Thread();
-
-//        //get ttchung
-//        List<CommonInfoRes> commonInfoRes = new ArrayList<>();
-//
-//        List<VGeneralInfo> vGeneralInfos = vGeneralInfoRepository.findAll();
-//        if (vGeneralInfos.size() > 0) {
-//            vGeneralInfos.forEach(vGeneralInfo -> {
-//                CommonInfoRes commonInfoRes1 = new CommonInfoRes();
-//                commonInfoRes1.setAfacctno(vGeneralInfo.getCustId());
-//                commonInfoRes1.setTai_san_rong(vGeneralInfo.getTsr());
-//                commonInfoRes1.setSuc_mua(vGeneralInfo.getBitMax());
-//                commonInfoRes1.setTy_le_ky_quy(vGeneralInfo.getRealMargrate());
-//                commonInfoRes1.setDu_no_thuc_te(vGeneralInfo.getTotalLoad());
-//                commonInfoRes.add(commonInfoRes1);
-//            });
-//        }
-//        this.template.convertAndSend("/topic/ttchung", commonInfoRes);
-//        // get tttyle
-//        List<RateInfoRes> rateInfoRes = new ArrayList<>();
-//        rateInfoRes = orderTradingService.getRateInfo("");
-//        this.template.convertAndSend("/topic/tttyle", rateInfoRes);
-        System.out.println("end send socket!");
+        System.out.println("end send trade!");
     }
 
     @RequestMapping(value = "/history",method = RequestMethod.GET)

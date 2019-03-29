@@ -93,7 +93,7 @@ public class OrderTradingService implements IOrderTradingService {
         List<Object[]> rows = query.list();
         for (Object[] row : rows) {
             RateInfoRes res = new RateInfoRes();
-            res.setCustId(row[0] == null ? null : row[0].toString());
+            res.setAfacctno(row[0] == null ? null : row[0].toString());
             res.setCodeid(row[1] == null ? null :row[1].toString());
             res.setSo_du(row[2] == null ? 0 :Float.parseFloat(row[2].toString()));
             res.setT2(row[3] == null ? 0 :Double.parseDouble(row[3].toString()));

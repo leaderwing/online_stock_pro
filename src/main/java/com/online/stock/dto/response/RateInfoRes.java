@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class RateInfoRes {
-    private String custId;
+    private String afacctno;
     private String codeid;
     private double so_du;
     private double t2;
