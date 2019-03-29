@@ -50,13 +50,31 @@ angular.module('app').controller('stockTradingCtrl',
              stompClient.connect({}, function (frame) {
                  console.log('Connected: ' + frame);
                  stompClient.subscribe('/topic/trading', function (result) {
-                     vm.history = result.rowList
+                     console.log("$$ update realtime trading");
+                     var data = JSON.parse(result.body);
+                     $scope.$apply(function () {
+                         vm.history = data.filter(isOwnerData);
+                     })
+                 });
+                 stompClient.subscribe('/topic/ttchung', function (result) {
+                     console.log("$$ update realtime sum info");
+                     var data1 = JSON.parse(result.body);
+                     $scope.$apply(function () {
+                         vm.ttchung = data1.filter(isOwnerData);
+                     })
+                 });
+                 stompClient.subscribe('/topic/tttyle', function (result) {
+                     console.log("$$ update realtime rate info");
+                     var data2 = JSON.parse(result.body);
+                     $scope.$apply(function () {
+                         vm.tttyle = data2.filter(isOwnerData);
+                     })
                  });
              });
-//             $interval(function () {
-//             stompClient.send('/db');
-//                         }, 3000);
              }
+            function isOwnerData(value) {
+                return value.afacctno === document.cookie.split('$')[2];
+            }
              vm.conn = function () {
              stompClient.send('/app/db',{},null);
              }

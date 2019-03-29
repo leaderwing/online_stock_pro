@@ -8,6 +8,7 @@ import io.swagger.models.auth.In;
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -72,15 +73,18 @@ public class OrderTradingService implements IOrderTradingService {
         SessionFactory sessionFactory = new Configuration().buildSessionFactory();
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        SQLQuery query = session.createSQLQuery("SELECT CODEID,SUM(CASE WHEN CLEARDAY < 1 THEN CASE WHEN EXECTYPE = 'Mua' THEN EXECQTTY-CLOSEDQTTY ELSE CLOSEDQTTY-EXECQTTY END ELSE 0  END) SO_DU,  \n" +
+        StringBuilder stringBuilder = new StringBuilder("SELECT AFACCTNO, CODEID,SUM(CASE WHEN CLEARDAY < 1 THEN CASE WHEN EXECTYPE = 'Mua' THEN EXECQTTY-CLOSEDQTTY ELSE CLOSEDQTTY-EXECQTTY END ELSE 0  END) SO_DU,  \n" +
                 "                    SUM(CASE WHEN CLEARDAY = 1 THEN CASE WHEN EXECTYPE = 'Mua' THEN EXECQTTY-CLOSEDQTTY ELSE CLOSEDQTTY-EXECQTTY END ELSE 0  END) T2,  \n" +
-                "                    SUM(CASE WHEN CLEARDAY = 2 THEN CASE WHEN EXECTYPE = 'Mua' THEN EXECQTTY-CLOSEDQTTY ELSE CLOSEDQTTY-EXECQTTY END ELSE 0  END) T1,  \n" +
-                "                    SUM(CASE WHEN CLEARDAY = 3 THEN CASE WHEN EXECTYPE = 'Mua' THEN EXECQTTY-CLOSEDQTTY ELSE CLOSEDQTTY-EXECQTTY END ELSE 0  END) T0  \n" +
-                "                    FROM ODMAST  \n" +
-                "                    WHERE AFACCTNO = "+custId+"  \n" +
-                "                    GROUP BY CODEID  \n" +
-                "                    HAVING SUM(EXECQTTY-CLOSEDQTTY) <> 0  \n" +
-                "                    ORDER BY CODEID ")
+                        "                    SUM(CASE WHEN CLEARDAY = 2 THEN CASE WHEN EXECTYPE = 'Mua' THEN EXECQTTY-CLOSEDQTTY ELSE CLOSEDQTTY-EXECQTTY END ELSE 0  END) T1,  \n" +
+                        "                    SUM(CASE WHEN CLEARDAY = 3 THEN CASE WHEN EXECTYPE = 'Mua' THEN EXECQTTY-CLOSEDQTTY ELSE CLOSEDQTTY-EXECQTTY END ELSE 0  END) T0  \n" +
+                        "                    FROM ODMAST  \n" );
+        stringBuilder.append(" WHERE 1 = 1 ");
+        if (StringUtils.isNotBlank(custId)) {
+            stringBuilder.append(" AND AFACCTNO = '"+custId+"'");
+        }
+        stringBuilder.append(" GROUP BY CODEID,AFACCTNO HAVING SUM(EXECQTTY-CLOSEDQTTY) <> 0 ORDER BY CODEID");
+        SQLQuery query = session.createSQLQuery(stringBuilder.toString())
+                .addScalar("AFACCTNO", new StringType())
                 .addScalar("CODEID", new StringType())
                 .addScalar("SO_DU", new FloatType())
                 .addScalar("T2", new DoubleType())
@@ -89,11 +93,12 @@ public class OrderTradingService implements IOrderTradingService {
         List<Object[]> rows = query.list();
         for (Object[] row : rows) {
             RateInfoRes res = new RateInfoRes();
-            res.setCustId(row[0].toString());
-            res.setSo_du(Float.parseFloat(row[1].toString()));
-            res.setT2(Double.parseDouble(row[2].toString()));
-            res.setT1(Double.parseDouble(row[3].toString()));
-            res.setT0(Double.parseDouble(row[4].toString()));
+            res.setCustId(row[0] == null ? null : row[0].toString());
+            res.setCodeid(row[1] == null ? null :row[1].toString());
+            res.setSo_du(row[2] == null ? 0 :Float.parseFloat(row[2].toString()));
+            res.setT2(row[3] == null ? 0 :Double.parseDouble(row[3].toString()));
+            res.setT1(row[4] == null ? 0 :Double.parseDouble(row[4].toString()));
+            res.setT0(row[5] == null ? 0 :Double.parseDouble(row[5].toString()));
             resList.add(res);
         }
         transaction.commit();

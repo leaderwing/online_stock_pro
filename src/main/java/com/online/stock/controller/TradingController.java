@@ -1,14 +1,12 @@
 package com.online.stock.controller;
 
 import com.online.stock.dto.SocketFilter;
-import com.online.stock.dto.response.FloorResponse;
-import com.online.stock.dto.response.HandleAccResponse;
-import com.online.stock.dto.response.PriceResponse;
-import com.online.stock.dto.response.TradingRecords;
+import com.online.stock.dto.response.*;
 import com.online.stock.model.ODMast;
 import com.online.stock.model.VGeneralInfo;
 import com.online.stock.repository.ODMastRepository;
 import com.online.stock.repository.VGeneralInfoRepository;
+import com.online.stock.services.IOrderTradingService;
 import com.online.stock.services.IThirdPartyService;
 import com.online.stock.services.ITradingService;
 import com.online.stock.utils.Constant;
@@ -46,7 +44,14 @@ public class TradingController {
     @Autowired
     private VGeneralInfoRepository vGeneralInfoRepository;
     @Autowired
+    private IOrderTradingService orderTradingService;
+
     private SimpMessagingTemplate template;
+
+    @Autowired
+    public TradingController(SimpMessagingTemplate template) {
+        this.template = template;
+    }
 
     public static final String DEFAULT_START_DATE = "20181201";
 
@@ -60,11 +65,37 @@ public class TradingController {
     }
 
 
-    @RequestMapping(value = "/route/socket")
+    @RequestMapping(value = "/route/socket", method = RequestMethod.GET)
     public void callSocket() throws Exception {
         System.out.println("start send socket!");
         int currentDate = DateUtils.convertDate_YYYYMMDD(new Date());
-        this.template.convertAndSend("/topic/trading", new SocketFilter(String.valueOf(currentDate), String.valueOf(currentDate)));
+        TradingRecords tradingRecords =
+                tradingService.getTradingHistory("",currentDate, currentDate, "", "");
+        List<TradingRow> rowList = tradingRecords.getRowList();
+        this.template.convertAndSend("/topic/trading", rowList);
+        Thread t = new Thread();
+
+//        //get ttchung
+//        List<CommonInfoRes> commonInfoRes = new ArrayList<>();
+//
+//        List<VGeneralInfo> vGeneralInfos = vGeneralInfoRepository.findAll();
+//        if (vGeneralInfos.size() > 0) {
+//            vGeneralInfos.forEach(vGeneralInfo -> {
+//                CommonInfoRes commonInfoRes1 = new CommonInfoRes();
+//                commonInfoRes1.setAfacctno(vGeneralInfo.getCustId());
+//                commonInfoRes1.setTai_san_rong(vGeneralInfo.getTsr());
+//                commonInfoRes1.setSuc_mua(vGeneralInfo.getBitMax());
+//                commonInfoRes1.setTy_le_ky_quy(vGeneralInfo.getRealMargrate());
+//                commonInfoRes1.setDu_no_thuc_te(vGeneralInfo.getTotalLoad());
+//                commonInfoRes.add(commonInfoRes1);
+//            });
+//        }
+//        this.template.convertAndSend("/topic/ttchung", commonInfoRes);
+//        // get tttyle
+//        List<RateInfoRes> rateInfoRes = new ArrayList<>();
+//        rateInfoRes = orderTradingService.getRateInfo("");
+//        this.template.convertAndSend("/topic/tttyle", rateInfoRes);
+        System.out.println("end send socket!");
     }
 
     @RequestMapping(value = "/history",method = RequestMethod.GET)
@@ -79,7 +110,7 @@ public class TradingController {
                 tradingService.getTradingHistory(loggedUsername,fromDate, toDate, symbol, exectype);
         return new  ResponseEntity<>(tradingRecords,HttpStatus.OK);
     }
-    @MessageMapping("/db")
+    @MessageMapping("/app/db")
     @SendTo("/topic/trading")
     public ResponseEntity<TradingRecords> eventListenHistory(SocketFilter socketFilter) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

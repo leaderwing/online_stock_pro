@@ -4,6 +4,8 @@ import lombok.Data;
 
 @Data
 public class CommonInfoRes {
+    private String afacctno;
+
     private long tai_san_rong;
 
     private float ty_le_ky_quy;

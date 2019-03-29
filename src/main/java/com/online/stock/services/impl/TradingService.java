@@ -42,9 +42,15 @@ public class TradingService implements ITradingService {
             String execType) {
         TradingRecords tradingRecords = new TradingRecords();
         List<TradingRow> tradingRowList = new ArrayList<>();
-        List<ODMast> odMastList =
-                odMastRepository.findAllByAfacctnoAndTxdateIsLessThanEqualAndTxdateIsGreaterThanEqual(
-                        loggedUsername, toDate, fromDate);
+        List<ODMast> odMastList = new ArrayList<>();
+        if ( StringUtils.isNotBlank(loggedUsername)) {
+            odMastList =
+                    odMastRepository.findAllByAfacctnoAndTxdateIsLessThanEqualAndTxdateIsGreaterThanEqual(
+                            loggedUsername, toDate, fromDate);
+        } else {
+            odMastList =
+                    odMastRepository.findAllByTxdateIsLessThanEqualAndTxdateIsGreaterThanEqual(toDate, fromDate);
+        }
         List<SecuritiesPractice> securitiesPracticeList = securitiesPracticeRepository.findAll();
         if (!odMastList.isEmpty()) {
             if (StringUtils.isNotBlank(symbol)) {
