@@ -20,7 +20,7 @@ angular.module('app').controller('duyetNopCtrl',
                 data.duyetNop(datas).then(function (response) {
                     alert("Duyệt thành công");
                     data.getDuyetNop().then(function (response1) {
-                        vm.duyetnop = response1;
+                        vm.duyetnop = response1.data;
                     }, function (err) {
                         console.log(err);
                     });
@@ -35,7 +35,7 @@ angular.module('app').controller('duyetNopCtrl',
             //------------get thong tin duyet nop---------------
             data.getDuyetNop().then(function (response) {
                 $scope.loading = false;
-                vm.duyetnop = response;
+                vm.duyetnop = response.data;
             }, function (err) {
                 console.log(err);
             });

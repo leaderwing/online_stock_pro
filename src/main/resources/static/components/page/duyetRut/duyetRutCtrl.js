@@ -22,7 +22,7 @@ angular.module('app').controller('duyetRutCtrl',
                 data.duyetRut(datas).then(function (response) {
                     alert("Duyệt thành công")
                     data.getDuyetRut().then(function (response1) {
-                        vm.duyetrut = response1;
+                        vm.duyetrut = response1.data;
                     }, function (err) {
                         console.log(err);
                     });
@@ -38,7 +38,7 @@ angular.module('app').controller('duyetRutCtrl',
             data.getDuyetRut().then(function (response) {
                 $scope.loading = false;
               // console.log(response)
-                vm.duyetrut = response;
+                vm.duyetrut = response.data;
             }, function (err) {
                 console.log(err);
             });

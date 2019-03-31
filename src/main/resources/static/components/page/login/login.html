@@ -1,4 +1,42 @@
-<div class="main-wrapper" >
+<div class="modal fade" id="Modal12" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div ng-if="vm.status == 200">
+            <div class="alert alert-danger">
+                {{vm.messageStatusEmail}}
+            </div>
+        </div>
+        <div ng-if="vm.status != 200 && vm.status != null">
+            <div class="alert alert-danger">
+                {{vm.messageStatusEmail}}
+            </div>
+        </div>
+        <p class="text-center" style="text-align: center" ng-show="loadingEmail">
+            <span class="fa fa-spinner fa-spin fa-3x"></span>
+        </p>
+        <div class="modal-header">
+
+            <h5 class="modal-title" id="exampleModalLabel">Lấy mật khẩu</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="input-group mb-3">
+                <input type="email" class="form-control form-control-lg" ng-model="email"
+                       placeholder="Mời bạn nhập email vào đây" aria-label="Mời bạn nhập email vào đây"
+                       ng-required=true>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" ng-click="vm.sendMail()" class="btn btn-primary">Lấy mật khẩu</button>
+        </div>
+    </div>
+</div>
+</div>
+<div class="main-wrapper">
 
     <div class="preloader" style="display: none;">
         <div class="lds-ripple">
@@ -10,13 +48,14 @@
     <div class="auth-wrapper d-flex  justify-content-center align-items-center" id="index_page">
         <div class="auth-box bg-dark">
             <div class="logo">
-                <img src="../../../public/images/logo.png" style="align-items: center; width: 200px;height: 50px" alt="stock88.com.vn"/>
+                <img src="../../../public/images/logo.png" style="align-items: center; width: 200px;height: 50px"
+                     alt="stock88.com.vn"/>
             </div>
             <div id="loginform">
                 <div ng-if="message == 'Authetication Failed !'">
-                <div class="alert alert-danger">
-                    <strong>Lỗi!</strong> {{message}}.
-                </div>
+                    <div class="alert alert-danger">
+                        <strong>Lỗi!</strong> {{message}}.
+                    </div>
                 </div>
                 <p class="text-center" ng-show="loading">
                     <span class="fa fa-spinner fa-spin fa-3x"></span>
@@ -54,7 +93,8 @@
                             <div class="form-group">
                                 <div class="p-t-20">
                                     <button class="btn btn-success " type="submit">Đăng nhập</button>
-                                    <button ui-sref="reset-pass" class="btn btn-warning float-right">Quên mật khẩu</button>
+                                    <a data-toggle="modal" data-target="#Modal12" class="btn btn-warning float-right">Quên
+                                        mật khẩu</a>
                                     <a ui-sref="register" class="btn btn-success">Đăng ký </a>
 
                                 </div>

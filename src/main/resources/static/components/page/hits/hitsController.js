@@ -6,20 +6,18 @@ angular.module('app').controller('hitsController',
             $scope.loading = true;
             var fromDate = moment($scope.THAMSO_NGAY1).format("YYYYMMDD");
             var toDate = moment($scope.THAMSO_NGAY2).format("YYYYMMDD");
-
-
             var todo = {
                 ngay1: fromDate,
                 ngay2: toDate,
-                exectype: "a",
-                symbol: "a"
+                exectype: ($scope.THAMSO_EXECTYPE) ? $scope.THAMSO_EXECTYPE : "",
+                symbol: ($scope.THAMSO_SYMBOL) ? $scope.THAMSO_SYMBOL : ""
 
-            }
+            };
 
 
             data.historyhits(todo).then(function (result) {
                 $scope.loading = false;
-                vm.history = result.rowList
+                vm.history = result.data.rowList
                 // data.floorName(result.CODEID).then(function (resultfloor) {
                 //     // console.log(resultfloor)
                 //     vm.floorName = resultfloor;

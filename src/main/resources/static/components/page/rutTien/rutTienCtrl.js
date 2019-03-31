@@ -10,8 +10,8 @@ angular.module('app').controller('nop1TienCtrl',
                 }
                 console.log(todo)
                 data.getHoten(todo).then(function (response) {
-                    console.log("sdsd"+response.name)
-                    vm.fullname = response.name;
+
+                    vm.fullname = response.data.name;
                 }, function (err) {
                     console.log(err);
                 })
@@ -25,7 +25,7 @@ angular.module('app').controller('nop1TienCtrl',
                 var t = confirm('Bạn có chắc chắn muốn thực hiện');
                 if (t === true) {
                     data.ruttien(todos).then(function (response) {
-                        alert(response.result)
+                        alert(response.data.result)
                         $scope.formData.account = "";
                         vm.fullname = "";
                         $scope.formData.amount = "";

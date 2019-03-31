@@ -9,7 +9,7 @@ angular.module('app').controller('thamsoCtrl',
             data.thamso().then(function (result) {
                 $scope.loading = false;
 
-                vm.thamso = result;
+                vm.thamso = result.data;
                 console.log(result);
             }, function (err) {
                 console.log(err);
@@ -30,7 +30,7 @@ angular.module('app').controller('thamsoCtrl',
                     data.thamso().then(function (result) {
                         $scope.loading = false;
 
-                        vm.thamso = result;
+                        vm.thamso = result.data;
                         $scope.formData.gname = ""
                         $scope.formData.name  = ""
                         $scope.formData.value = ""
@@ -84,12 +84,12 @@ angular.module('app').controller('thamsoCtrl',
                     data.thamso().then(function (result) {
                         $scope.loading = false;
 
-                        vm.thamso = result;
+                        vm.thamso = result.data;
                         console.log(result);
                     }, function (err) {
                         console.log(err);
                     });
-                    alert("Thành công")
+
                 }, function (err) {
                     console.log(err);
                 });}else {
@@ -109,12 +109,12 @@ angular.module('app').controller('thamsoCtrl',
                     data.thamso().then(function (result) {
                         $scope.loading = false;
 
-                        vm.thamso = result;
+                        vm.thamso = result.data;
                         console.log(result);
                     }, function (err) {
                         console.log(err);
                     });
-                  alert("Thành công")
+                  alert("Bạn đã xóa thành công")
                 }, function (err) {
                    console.log(err)
                 })} else {

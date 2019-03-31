@@ -5,6 +5,7 @@ angular.module('app')
             var vm = this;
             var todos = {};
             $scope.loading = false;
+            $scope.loadingEmail = false;
             // $scope.hidden = true;
             // $scope.hiddenReset = false;
             // $scope.hiddenSend = true;
@@ -12,20 +13,21 @@ angular.module('app')
             // $scope.hiddenPass = false;
 
             vm.login = function () {
+                $scope.loading = true;
                 todos.username = $scope.username;
                 todos.password = $scope.password;
                 data.login(todos).then(function (res) {
                     $scope.password = null;
 
                     // checking if the token is available in the response
-                    if (res.token) {
-                        $scope.loading = true;
+                    if (res.data.token) {
+
                         $scope.message = '';
                         // setting the Authorization Bearer token with JWT token
-                        $http.defaults.headers.common['Authorization'] = 'Bearer ' + res.token;
+                        $http.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
                         // setting the user in AuthService
-                        AuthService.setUser(res.user);
-                        document.cookie = res.token + "$" + res.user.isStaft + "$" + res.user.username;
+                        AuthService.setUser(res.data.user);
+                        document.cookie = res.data.token + "$" + res.data.user.isStaft + "$" + res.data.user.username;
                         $rootScope.$broadcast('LoginSuccessful');
                         // going to the home page
                         $state.go('root.stock-trading');
@@ -60,7 +62,25 @@ angular.module('app')
             //         console.log(err);
             //     })
             // }
+            vm.sendMail = function () {
+                $scope.loadingEmail = true;
+                var datas = {
+                    email : $scope.email
+                }
+                data.resetPass(datas).then(function (res) {
 
+                    $scope.loadingEmail = false;
+                    vm.status = res.status;
+                    if(res.data.result == null){
+                        vm.messageStatusEmail = "Bạn chưa nhập email";
+                    }else {
+                        vm.messageStatusEmail = res.data.result;
+                        $scope.email = '';
+                    }
+                },function (err) {
+                    console.log(err);
+                })
+            }
 
             return;
         }

@@ -8,7 +8,7 @@ angular.module('app').controller('afTypeCtrl',
             vm.chungkhoan = {};
             data.afType().then(function (result) {
                 $scope.loading = false;
-                vm.chungkhoan = result;
+                vm.chungkhoan = result.data;
                 console.log(result);
             }, function (err) {
                 console.log(err);
@@ -33,7 +33,7 @@ angular.module('app').controller('afTypeCtrl',
                         data.afType().then(function (result) {
                             $scope.loading = false;
 
-                            vm.chungkhoan = result;
+                            vm.chungkhoan = result.data;
                             $scope.formData.acType = "";
                             $scope.formData.typeName = "";
                             $scope.formData.afType = "";
@@ -93,7 +93,7 @@ angular.module('app').controller('afTypeCtrl',
                     data.afType().then(function (result) {
                         $scope.loading = false;
 
-                        vm.chungkhoan = result;
+                        vm.chungkhoan = result.data;
                         console.log(result);
                     }, function (err) {
                         console.log(err);
@@ -117,7 +117,7 @@ angular.module('app').controller('afTypeCtrl',
                     data.afType().then(function (result) {
                         $scope.loading = false;
 
-                        vm.chungkhoan = result;
+                        vm.chungkhoan = result.data;
                         console.log(result);
                     }, function (err) {
                         console.log(err);

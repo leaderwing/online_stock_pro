@@ -3,7 +3,7 @@ angular.module('app').controller('xuLyTaiKhoanCtrl',
         function (data, modal, $window, $rootScope, $state, $scope, dateFilter, $interval) {
             var vm = this;
             data.luongchungse().then(function (result) {
-                            vm.luongchungse = result;
+                            vm.luongchungse = result.data;
                         }, function (err) {
                             console.log(err);
                         });
@@ -13,7 +13,7 @@ angular.module('app').controller('xuLyTaiKhoanCtrl',
 
             vm.luongchung = function () {
             data.luongchungse().then(function (result) {
-                vm.luongchungse = result;
+                vm.luongchungse = result.data;
             }, function (err) {
                 console.log(err);
             })};

@@ -5,20 +5,20 @@ angular.module('app').controller('stockTradingCtrl',
             var vm = this;
 
             var stompClient = null;
- //----------------get thong tin chung-----------------
-             var getttchung = function () {
+            //----------------get thong tin chung-----------------
+            var getttchung = function () {
                 data.ttchung().then(function (result) {
 
-                    vm.ttchung = result;
+                    vm.ttchung = result.data;
 
                 }, function (err) {
                     console.log(err);
                 })
             };
             //----------------get thong tin ty le-----------------
-             var getttTyle = function () {
+            var getttTyle = function () {
                 data.tttyle().then(function (result) {
-                    vm.tttyle = result;
+                    vm.tttyle = result.data;
 
                 }, function (err) {
                     console.log(err);
@@ -28,8 +28,8 @@ angular.module('app').controller('stockTradingCtrl',
             getttTyle();
             conn();
             data.getTime().then(function (res) {
-                console.log(moment(res.time).format("HH:mm:ss"));
-                vm.hour = moment(res.time).format("HH:mm:ss");
+                console.log(moment(res.data.time).format("HH:mm:ss"));
+                vm.hour = moment(res.data.time).format("HH:mm:ss");
 
             })
 
@@ -42,52 +42,55 @@ angular.module('app').controller('stockTradingCtrl',
                 symbol: ($scope.THAMSO_SYMBOL) ? $scope.THAMSO_SYMBOL : ""
 
             };
+
             // // listen stomp api
-             function conn() {
-             console.log ("start connect sockjs!");
-             var socket = new SockJS('/gs-guide-websocket');
-             stompClient = Stomp.over(socket);
-             stompClient.connect({}, function (frame) {
-                 console.log('Connected: ' + frame);
-                 stompClient.subscribe('/topic/trading', function (result) {
-                     console.log("$$ update realtime trading");
-                     var data = JSON.parse(result.body);
-                     $scope.$apply(function () {
-                         vm.history = data.filter(isOwnerData);
-                     })
-                 });
-                 stompClient.subscribe('/topic/ttchung', function (result) {
-                     console.log("$$ update realtime sum info");
-                     var data1 = JSON.parse(result.body);
-                     $scope.$apply(function () {
-                         vm.ttchung = data1.filter(isOwnerData);
-                     })
-                 });
-                 stompClient.subscribe('/topic/tttyle', function (result) {
-                     console.log("$$ update realtime rate info");
-                     var data2 = JSON.parse(result.body);
-                     $scope.$apply(function () {
-                         vm.tttyle = data2.filter(isOwnerData);
-                     })
-                 });
-             });
-             }
+            function conn() {
+                console.log("start connect sockjs!");
+                var socket = new SockJS('/gs-guide-websocket');
+                stompClient = Stomp.over(socket);
+                stompClient.connect({}, function (frame) {
+                    console.log('Connected: ' + frame);
+                    stompClient.subscribe('/topic/trading', function (result) {
+                        console.log("$$ update realtime trading");
+                        var data = JSON.parse(result.body);
+                        $scope.$apply(function () {
+                            vm.history = data.filter(isOwnerData);
+                        })
+                    });
+                    stompClient.subscribe('/topic/ttchung', function (result) {
+                        console.log("$$ update realtime sum info");
+                        var data1 = JSON.parse(result.body);
+                        $scope.$apply(function () {
+                            vm.ttchung = data1.filter(isOwnerData);
+                        })
+                    });
+                    stompClient.subscribe('/topic/tttyle', function (result) {
+                        console.log("$$ update realtime rate info");
+                        var data2 = JSON.parse(result.body);
+                        $scope.$apply(function () {
+                            vm.tttyle = data2.filter(isOwnerData);
+                        })
+                    });
+                });
+            }
+
             function isOwnerData(value) {
                 return value.afacctno === document.cookie.split('$')[2];
             }
-             vm.conn = function () {
-             stompClient.send('/app/db',{},null);
-             }
 
-             $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-                 if (stompClient !== null) {
-                     stompClient.disconnect();
-                 }
-             });
+            vm.conn = function () {
+                stompClient.send('/app/db', {}, null);
+            }
+
+            $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+                if (stompClient !== null) {
+                    stompClient.disconnect();
+                }
+            });
 
             data.history(todo).then(function (result) {
                 $scope.loading = false;
-                vm.history = result.rowList
+                vm.history = result.data.rowList
 
             }, function (err) {
                 console.log(err);
@@ -102,7 +105,7 @@ angular.module('app').controller('stockTradingCtrl',
 
                 }
                 data.history(todoo).then(function (result) {
-                    vm.history = result.rowList
+                    vm.history = result.data.rowList
 
                 }, function (err) {
                     console.log(err);
@@ -126,10 +129,10 @@ angular.module('app').controller('stockTradingCtrl',
                 data.floorName(todo.symbol).then(function (result) {
                     console.log(result)
 
-                    todos.floor = result.floorCode;
-                    todos.ceM = result.ceil / 1000;
+                    todos.floor = result.data.floorCode;
+                    todos.ceM = result.data.ceil / 1000;
 
-                    vm.floorNamess = result;
+                    vm.floorNamess = result.data;
 
                 }).catch(function (err) {
                     console.log(err);
@@ -137,12 +140,11 @@ angular.module('app').controller('stockTradingCtrl',
                 })
                 data.priceView(todo.symbol).then(function (result) {
 
-                    vm.priceView = result;
-                    todos.m1 = result.m1;
+                    vm.priceView = result.data;
+                    todos.m1 = result.data.m1;
 
                 });
             };
-
 
 
             //----------------dat lenh mua-----------------------
@@ -164,7 +166,7 @@ angular.module('app').controller('stockTradingCtrl',
                             todos.price = todos.m1 * 1000;
                             data.createNormal(todos).then(function (result) {
 
-                                if (result.result == "Order successfully") {
+                                if (result.data.result == "Order successfully") {
                                     alert("Đặt lệnh thành công");
                                     $scope.formData.command = "";
                                     $scope.formData.symbol = "";
@@ -173,15 +175,9 @@ angular.module('app').controller('stockTradingCtrl',
                                     $scope.formData.orderType = "";
                                     $scope.formData.expiredDate = "";
                                     //$window.location.href = '/back';
-                                    data.history(todo).then(function (result) {
-                                        $scope.loading = false;
-                                        vm.history = result.rowList
-
-                                    }, function (err) {
-                                        console.log(err);
-                                    });
+                                    vm.seHistory();
                                 } else {
-                                    alert("Lỗi");
+                                    alert(result.data.result);
                                     $scope.formData.command = "";
                                     $scope.formData.symbol = "";
                                     $scope.formData.quantity = "";
@@ -196,7 +192,7 @@ angular.module('app').controller('stockTradingCtrl',
                             todos.price = todos.ceM * 1000;
                             data.createNormal(todos).then(function (result) {
 
-                                if (result.result == "Order successfully") {
+                                if (result.data.result == "Order successfully") {
                                     alert("Đặt lệnh thành công");
                                     $scope.formData.command = "";
                                     $scope.formData.symbol = "";
@@ -205,15 +201,9 @@ angular.module('app').controller('stockTradingCtrl',
                                     $scope.formData.orderType = "";
                                     $scope.formData.expiredDate = "";
                                     //$window.location.href = '/back';
-                                    data.history(todo).then(function (result) {
-                                        $scope.loading = false;
-                                        vm.history = result.rowList
-
-                                    }, function (err) {
-                                        console.log(err);
-                                    });
+                                    vm.seHistory();
                                 } else {
-                                    alert("Lỗi");
+                                    alert(result.data.result);
                                     $scope.formData.command = "";
                                     $scope.formData.symbol = "";
                                     $scope.formData.quantity = "";
@@ -230,7 +220,7 @@ angular.module('app').controller('stockTradingCtrl',
                         data.createNormal(todos).then(function (result) {
 
 
-                            if (result.result == "Order successfully") {
+                            if (result.data.result == "Order successfully") {
                                 alert("Đặt lệnh thành công");
                                 $scope.formData.command = "";
                                 $scope.formData.symbol = "";
@@ -239,15 +229,9 @@ angular.module('app').controller('stockTradingCtrl',
                                 $scope.formData.orderType = "";
                                 $scope.formData.expiredDate = "";
                                 // $window.location.href = '/back';
-                                data.history(todo).then(function (result) {
-                                    $scope.loading = false;
-                                    vm.history = result.rowList
-
-                                }, function (err) {
-                                    console.log(err);
-                                });
+                                vm.seHistory();
                             } else {
-                                alert("Lỗi");
+                                alert(result.data.result);
                                 $scope.formData.command = "";
                                 $scope.formData.symbol = "";
                                 $scope.formData.quantity = "";
@@ -269,10 +253,7 @@ angular.module('app').controller('stockTradingCtrl',
                 if (t === true) {
                     data.deletes(todo.orderid).then(function (result) {
                         alert('Bạn đã hủy thành công');
-                        data.history().then(function (result) {
-
-                            vm.history = result
-                        })
+                        vm.seHistory();
                     }, function (err) {
                         console.log(err);
                     });
@@ -293,12 +274,14 @@ angular.module('app').controller('stockTradingCtrl',
                         symbol: todo.codeid,
                         orderType: todo.pricetype
                     }
-                    console.log(request)
-                    data.createNormalBan(request).then(function (result) {
-                        data.history().then(function (result) {
-                            // console.log(result)
-                            vm.history = result
-                        })
+
+                    data.createNormalBan(request).then(function (result1) {
+                        if (result1.data.result == "Order successfully") {
+                            alert("Đặt lệnh thành công");
+                        } else {
+                            alert(result1.data.result);
+                        }
+                        vm.seHistory();
                     }, function (err) {
                         console.log(err)
                     }).catch(function (callback) {

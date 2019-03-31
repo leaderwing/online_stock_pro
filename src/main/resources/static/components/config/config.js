@@ -2,7 +2,7 @@ angular.module('app').factory('config',
     [
         function () {
             var config = {
-                HOST: 'http://stock88.com.vn',
+                HOST: 'http://10.176.28.15',
             }
             return config;
         }

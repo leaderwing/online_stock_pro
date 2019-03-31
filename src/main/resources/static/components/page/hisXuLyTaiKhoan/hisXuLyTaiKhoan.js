@@ -27,12 +27,12 @@ angular.module('app').controller('hisXuLyTaiKhoan',
                         symbol: todo.CODEID,
                         orderType: todo.PRICETYPE
                     }
-                    console.log(todo)
+
                     data.createNormalBan(todo).then(function (result) {
                         alert(result);
                         data.hisxulytaikhoan($window.localStorage.getItem('idcusid')).then(function (result) {
-                            console.log("ddds", result)
-                            vm.history = result.rowList
+
+                            vm.history = result.data.rowList
                         })
                     }, function (err) {
                         console.log(err);
@@ -45,8 +45,8 @@ angular.module('app').controller('hisXuLyTaiKhoan',
             //---------------------------
             data.hisxulytaikhoan($window.localStorage.getItem('idcusid')).then(function (result) {
                 $scope.loading = false;
-                 console.log("ddds", result)
-                vm.history = result.rowList
+
+                vm.history = result.data.rowList
             })
 
 
@@ -67,8 +67,8 @@ angular.module('app').controller('hisXuLyTaiKhoan',
 
                 }
                 data.hisxulytaikhoan($window.localStorage.getItem('idcusid')).then(function (result) {
-                    console.log("ddds", result)
-                    vm.history = result.rowList
+
+                    vm.history = result.data.rowList
                 })
             }
             $scope.date = new Date();
