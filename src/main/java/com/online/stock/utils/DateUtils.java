@@ -48,6 +48,17 @@ public class DateUtils {
             return null;
         }
     }
+    public static String convertDateToDDMMYYYY (String date) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date date1  = sdf.parse((date));
+            sdf = new SimpleDateFormat("dd/MM/yyyy");
+            return sdf.format(date1);
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return null;
+        }
+    }
     public static Date convertDate (String date ) {
         SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_YYYYMMDD);
         try {
@@ -72,9 +83,10 @@ public class DateUtils {
     public static String getHHMMSS(String iso_date)  {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-            sdf.setTimeZone(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
+            //sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
             Date date = sdf.parse(iso_date.replaceAll("Z$","+0700"));
             sdf = new SimpleDateFormat("HH:mm:ss");
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
             return  sdf.format(date);
         }catch (Exception e) {
             e.printStackTrace();
@@ -83,6 +95,6 @@ public class DateUtils {
     }
 
     public static void main(String[] args) {
-       System.out.print(convertIso_date(new Date()));
+       System.out.print(getHHMMSS("2019-04-01T15:12:12Z"));
     }
 }

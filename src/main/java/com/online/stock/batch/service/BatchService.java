@@ -7,8 +7,10 @@ import com.online.stock.dto.BatchDataResponse;
 import com.online.stock.dto.Token;
 import com.online.stock.dto.VTOSObject;
 import com.online.stock.model.AdminUser;
+import com.online.stock.model.ODMast;
 import com.online.stock.model.SecuritiesPractice;
 import com.online.stock.repository.AdminUserRepository;
+import com.online.stock.repository.ODMastRepository;
 import com.online.stock.repository.SecuritiesPracticeRepository;
 import com.online.stock.utils.Constant;
 import netscape.javascript.JSObject;
@@ -59,6 +61,8 @@ public class BatchService implements  IBatchService {
     private EntityManager entityManager;
     @Autowired
     private SecuritiesPracticeRepository securitiesPracticeRepository;
+    @Autowired
+    private ODMastRepository odMastRepository;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -112,6 +116,13 @@ public class BatchService implements  IBatchService {
                             response.setAvg_price(0);
                             response.setRemain_qtty(obj.getInt("remainingQuantity"));
                             response.setType(2);
+                            JSONArray arr = obj.getJSONArray("orderReports");
+                            String reqId = arr.getJSONObject(2).getString("id");
+                            ODMast odMast = odMastRepository.findFirstByOrderid(reqId);
+                            if ( odMast != null) {
+                                odMast.setRefOderId(response.getOrderId());
+                                odMastRepository.save(odMast);
+                            }
                             list.add(response.toString());
                         }
                     }
@@ -133,7 +144,7 @@ public class BatchService implements  IBatchService {
                         stmt.setArray(1, array);
                         stmt.execute();
                         connection.commit();
-                        connection.close();
+                        //connection.close();
                     }
                 } catch (Exception ex) {
                     LOGGER.error("error save data! " + ex.getMessage());
@@ -168,7 +179,7 @@ public class BatchService implements  IBatchService {
                     stmt.setArray(1, array);
                     stmt.execute();
                     connection.commit();
-                    connection.close();
+                    //connection.close();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     LOGGER.error("error save data! " + ex.getMessage());

@@ -14,6 +14,7 @@ public class BatchDataResponse implements Serializable {
     private double price;
     private double avg_price;
     private int type;
+    private String reqOrderId;
 
     @Override
     public String toString() {
