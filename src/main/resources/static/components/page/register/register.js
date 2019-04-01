@@ -5,14 +5,14 @@ angular.module('app')
         $scope.account = "";
         data.accNames().then(function (res) {
 
-            vm.acname = res;
+            vm.acname = res.data;
         }, function (err) {
             console.log(err)
         })
 
         data.randomAccount().then(function (response) {
 
-            $scope.account = response.result;
+            $scope.account = response.data.result;
 
 
         }, function (err) {
@@ -37,8 +37,13 @@ angular.module('app')
             }
 
             data.register(registerData).then(function (res) {
-                vm.status = res.msg.status;
-                vm.messageStatus = res.msg.data.result
+                if (res.status == 201) {
+                    vm.messageStatus = 'Không gửi được mail';
+                } else {
+                    vm.status = res.status;
+                    vm.messageStatus = res.data.result
+                }
+
             }, function (err) {
                 console.log(err);
             })

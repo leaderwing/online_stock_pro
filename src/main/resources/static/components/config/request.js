@@ -22,12 +22,11 @@ angular.module('app').factory('request',
                     req.headers.Accept = 'application/json';
                 }
                 $http(req).then(function (data) {
-                    
-                    _defer.resolve(data.data);
+                    console.log("ok",data);
+                    _defer.resolve(data);
                 }, function (err) {
-                    _defer.resolve({
-                        msg: err
-                    });
+                    console.log("ok",err);
+                    _defer.resolve(err)
                 });
                 return _defer.promise;
             }
@@ -110,14 +109,18 @@ angular.module('app').factory('request',
                             }
                             $http(config).then(function (data) {
                                 console.log(data)
-                                defer.resolve(data.data)
-                                // if (data.data.error == 0) {
-                                //     defer.resolve(data.data);
-                                // } else {
-                                // }
+
+                                    defer.resolve(data)
+                                    // if (data.data.error == 0) {
+                                    //     defer.resolve(data.data);
+                                    // } else {
+                                    // }
+
 
                             }, function (err) {
+
                                 console.log(err)
+                                defer.resolve(err)
 
                             });
                             return defer.promise;

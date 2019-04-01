@@ -39,17 +39,13 @@ angular.module('app', ['ui.router', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', '
             url: '/reset-pass',
             templateUrl: "components/page/login/resetPass.html",
             controller: 'ResetPasswordCtrl as vm'
-            })
+        })
             .state('root.price-list', {
                 url: '/price-list',
                 templateUrl: "components/page/priceList/priceList.html",
                 controller: 'priceListCtrl as vm',
             }).state('root.his-xy-ly-tai-khoan', {
             url: '/his-xy-ly-tai-khoan',
-            data: {
-                customData1: 44,
-                customData2: "red"
-            },
             templateUrl: "components/page/hisXuLyTaiKhoan/hisXuLyTaiKhoan.html",
             controller: 'hisXuLyTaiKhoan as vm',
         }).state('root.stock-trading', {

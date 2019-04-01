@@ -7,7 +7,7 @@ angular.module('app').controller('capTaiKhoanCtrl',
             //get thong tin tai khoan--------------------------
             data.getTK().then(function (response) {
 
-                vm.taikhoan = response;
+                vm.taikhoan = response.data;
                 
 
             }, function (err) {
@@ -20,9 +20,9 @@ angular.module('app').controller('capTaiKhoanCtrl',
                 if (t === true){
                 data.captksm(todo).then(function (response) {
 
-                    alert("thanh cong");
+                    alert("Duyệt thành công");
                     data.getTK().then(function (response1) {
-                        vm.taikhoan = response1;
+                        vm.taikhoan = response1.data;
                     }, function (err) {
                         console.log(err);
                     });

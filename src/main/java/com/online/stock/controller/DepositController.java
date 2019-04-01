@@ -57,7 +57,7 @@ public class DepositController {
                 return new ResponseEntity<>(jsonObject.toString(),
                         HttpStatus.INTERNAL_SERVER_ERROR);
             }
-            jsonObject.put("result", "Bạn vừa rút " + request.getAmount() + " cho tài khoản " + request.getAccount());
+            jsonObject.put("result", "Bạn vừa nạp " + request.getAmount() + " cho tài khoản " + request.getAccount());
             return new ResponseEntity<>(jsonObject.toString(),
                     HttpStatus.OK);
         } catch (Exception ex) {

@@ -8,8 +8,7 @@ angular.module('app').controller('chungkhoanCtrl',
             vm.chungkhoan = {};
             data.chungkhoan().then(function (result) {
                 $scope.loading = false;
-                vm.chungkhoan = result;
-                console.log(result);
+                vm.chungkhoan = result.data;
             }, function (err) {
                 console.log(err);
             });
@@ -34,7 +33,7 @@ angular.module('app').controller('chungkhoanCtrl',
                     data.chungkhoan().then(function (result) {
                         $scope.loading = false;
 
-                        vm.chungkhoan = result;
+                        vm.chungkhoan = result.data;
                         $scope.formData.symbol = "";
                         $scope.formData.txdate = "";
                         $scope.formData.txtime = "";
@@ -94,12 +93,11 @@ angular.module('app').controller('chungkhoanCtrl',
                     data.chungkhoan().then(function (result) {
                         $scope.loading = false;
 
-                        vm.chungkhoan = result;
+                        vm.chungkhoan = result.data;
                         console.log(result);
                     }, function (err) {
                         console.log(err);
                     });
-                    alert("Thành công")
                 }, function (err) {
                     alert(err);
                 });} else {
@@ -119,12 +117,12 @@ angular.module('app').controller('chungkhoanCtrl',
                     data.chungkhoan().then(function (result) {
                         $scope.loading = false;
 
-                        vm.chungkhoan = result;
+                        vm.chungkhoan = result.data;
                         console.log(result);
                     }, function (err) {
                         console.log(err);
                     });
-                    alert("Thành công")
+                    alert("Bạn đã xóa thành công")
                 }, function (err) {
                     console.log(err)
                 })} else {

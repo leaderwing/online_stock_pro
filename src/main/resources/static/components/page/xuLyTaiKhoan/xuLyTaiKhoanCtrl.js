@@ -18,14 +18,14 @@ angular.module('app').controller('xuLyTaiKhoanCtrl',
                          });
                          }
             data.luongchungse().then(function (result) {
-                            vm.luongchungse = result;
+                            vm.luongchungse = result.data;
                         }, function (err) {
                             console.log(err);
                         });
 
             vm.luongchung = function () {
             data.luongchungse().then(function (result) {
-                vm.luongchungse = result;
+                vm.luongchungse = result.data;
             }, function (err) {
                 console.log(err);
             })};

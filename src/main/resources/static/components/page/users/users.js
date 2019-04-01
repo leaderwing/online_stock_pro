@@ -6,13 +6,13 @@ angular.module('app').controller('usersCtrl',
             vm.user = {};
             data.userInfo().then(function (res) {
 
-                vm.user = res;
+                vm.user = res.data;
             }, function (err) {
                 console.log(err)
             })
             data.accNames().then(function (res) {
 
-                vm.acname = res;
+                vm.acname = res.data;
             }, function (err) {
                 console.log(err)
             })
@@ -34,9 +34,9 @@ angular.module('app').controller('usersCtrl',
                     email : $scope.email == undefined ? vm.user.email : $scope.email ,
                     pin : $scope.pin == undefined ? vm.user.pin : $scope.pin ,
                 }
-                console.log("dsadad",datauser);
+
                 data.userInfoUpdate(datauser).then(function (res) {
-                    console.log("trreer",res);
+                   alert("Cập nhật thành công")
                 },function (err) {
                     console.log(err);
                 })
