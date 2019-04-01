@@ -28,24 +28,24 @@ angular.module('app').controller('hitsController',
                 alert(err);
             })
 
-            // vm.seHistory = function () {
-            //     var todoo = {
-            //         ngay1: moment($scope.THAMSO_NGAY1).format("YYYYMMDD"),
-            //         ngay2: moment($scope.dateString).format("YYYYMMDD"),
-            //         exectype: ($scope.THAMSO_EXECTYPE) ? $scope.THAMSO_EXECTYPE : "",
-            //         symbol: ($scope.THAMSO_SYMBOL) ? $scope.THAMSO_SYMBOL : ""
-            //
-            //     }
-            //     data.historyhits(todoo).then(function (result) {
-            //         vm.history = result.rowList
-            //         // data.floorName(result.CODEID).then(function (resultfloor) {
-            //         //     // console.log(resultfloor)
-            //         //     vm.floorName = resultfloor;
-            //         // });
-            //     }, function (err) {
-            //         alert(err);
-            //     })
-            // }
+            vm.seHistoryhits = function () {
+                var todoo = {
+                    ngay1: moment($scope.THAMSO_NGAY1).format("YYYYMMDD"),
+                    ngay2: moment($scope.dateString).format("YYYYMMDD"),
+                    exectype: ($scope.THAMSO_EXECTYPE) ? $scope.THAMSO_EXECTYPE : "",
+                    symbol: ($scope.THAMSO_SYMBOL) ? $scope.THAMSO_SYMBOL : ""
+
+                }
+                data.historyhits(todoo).then(function (result) {
+                    vm.history = result.data.rowList
+                    // data.floorName(result.CODEID).then(function (resultfloor) {
+                    //     // console.log(resultfloor)
+                    //     vm.floorName = resultfloor;
+                    // });
+                }, function (err) {
+                    alert(err);
+                })
+            }
 
 
 
