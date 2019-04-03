@@ -2,6 +2,7 @@ angular.module('app')
 // Creating the Angular Controller
     .controller('RegisterController', function ($http, data, $scope, AuthService) {
         var vm = this;
+        $scope.loading = false;
         $scope.account = "";
         data.accNames().then(function (res) {
 
@@ -20,6 +21,7 @@ angular.module('app')
         });
 
         vm.register = function () {
+            $scope.loading = true;
             var registerData = {
                 acctno: $scope.acctno == undefined ? $scope.account : $scope.acctno,
                 fullname: $scope.fullname,
@@ -37,9 +39,14 @@ angular.module('app')
             }
 
             data.register(registerData).then(function (res) {
-                if (res.status == 201) {
-                    vm.messageStatus = 'Không gửi được mail';
+                if (res.status == 201 || res.status == 200) {
+                    $scope.loading = false;
+                    vm.messageStatus = 'Gửi mail thành công! Vui lòng đợi phê duyệt';
+                } else if(res.status == 500){
+                    $scope.loading = false;
+                    vm.messageStatus = 'Không gửi được mail'
                 } else {
+                    $scope.loading = false;
                     vm.status = res.status;
                     vm.messageStatus = res.data.result
                 }

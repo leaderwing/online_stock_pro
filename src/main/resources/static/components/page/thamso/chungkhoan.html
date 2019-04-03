@@ -17,67 +17,67 @@
                                    ng-model="formData.symbol" placeholder="Mã chứng khoán">
                             <!-- <input type="text" class="form-control" ng-model="formData.orderType" placeholder="Type"> -->
                         </div>
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <input type="text" class="form-control"
-                                       ng-model="formData.txdate" placeholder="Ngày">
-                                <!-- <button class="btn_info">Chi tiết</button> -->
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <input type="text" class="form-control" ng-model="formData.txtime"
-                                       placeholder="Thời gian">
-                            </div>
-                        </div>
+                        <!--<div class="col-sm-3">-->
+                            <!--<div class="form-group">-->
+                                <!--<input type="text" class="form-control"-->
+                                       <!--ng-model="formData.txdate" placeholder="Ngày">-->
+                                <!--&lt;!&ndash; <button class="btn_info">Chi tiết</button> &ndash;&gt;-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-4">-->
+                            <!--<div class="form-group">-->
+                                <!--<input type="text" class="form-control" ng-model="formData.txtime"-->
+                                       <!--placeholder="Thời gian">-->
+                            <!--</div>-->
+                        <!--</div>-->
 
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <input type="text" class="form-control" ng-model="formData.basicprice"
-                                       placeholder="basicprice"> </input>
-                            </div>
-                        </div>
+                        <!--<div class="col-sm-4">-->
+                            <!--<div class="form-group">-->
+                                <!--<input type="text" class="form-control" ng-model="formData.basicprice"-->
+                                       <!--placeholder="basicprice"> </input>-->
+                            <!--</div>-->
+                        <!--</div>-->
 
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <input type="text" class="form-control" ng-model="formData.ceilingprice"
-                                       placeholder="ceilingprice"></input>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <input type="text" class="form-control" ng-model="formData.floorprice"
-                                       placeholder="floorprice"> </input>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <input type="text" class="form-control" ng-model="formData.bidprice1"
-                                       placeholder="bidprice1"></input>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <input type="text" class="form-control" ng-model="formData.bqtty1"
-                                       placeholder="bqtty1"> </input>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <input type="text" class="form-control" ng-model="formData.askprice1"
-                                       placeholder="askprice1"></input>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <input type="text" class="form-control" ng-model="formData.aqtty1"
-                                       placeholder="aqtty1"></input>
-                            </div>
-                        </div>
+                        <!--<div class="col-sm-4">-->
+                            <!--<div class="form-group">-->
+                                <!--<input type="text" class="form-control" ng-model="formData.ceilingprice"-->
+                                       <!--placeholder="ceilingprice"></input>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-4">-->
+                            <!--<div class="form-group">-->
+                                <!--<input type="text" class="form-control" ng-model="formData.floorprice"-->
+                                       <!--placeholder="floorprice"> </input>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-4">-->
+                            <!--<div class="form-group">-->
+                                <!--<input type="text" class="form-control" ng-model="formData.bidprice1"-->
+                                       <!--placeholder="bidprice1"></input>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-4">-->
+                            <!--<div class="form-group">-->
+                                <!--<input type="text" class="form-control" ng-model="formData.bqtty1"-->
+                                       <!--placeholder="bqtty1"> </input>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-4">-->
+                            <!--<div class="form-group">-->
+                                <!--<input type="text" class="form-control" ng-model="formData.askprice1"-->
+                                       <!--placeholder="askprice1"></input>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-4">-->
+                            <!--<div class="form-group">-->
+                                <!--<input type="text" class="form-control" ng-model="formData.aqtty1"-->
+                                       <!--placeholder="aqtty1"></input>-->
+                            <!--</div>-->
+                        <!--</div>-->
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <input type="text" class="form-control" ng-model="formData.lqtty"
-                                       placeholder="lqtty"></input>
+                                       placeholder="Khối lượng cho phép"></input>
                             </div>
                         </div>
                     </div>
@@ -179,7 +179,7 @@
                                    ng-model="chungkhoan.aqtty1" ng-disabled="isDisabled" required=""
                                    ng-value="chungkhoan.aqtty1"></td>
                         <td><input type="text" class="form-control" ng-change="markAsChanged(chungkhoan)"
-                                   ng-model="chungkhoan.lqtty" ng-disabled="isDisabled" required=""
+                                   ng-model="chungkhoan.lqtty" ng-disabled="isDisableds" required=""
                                    ng-value="chungkhoan.lqtty"></td>
                         <td>
                             <div class="ic_active">

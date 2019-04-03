@@ -4,6 +4,7 @@ angular.module('app').controller('chungkhoanCtrl',
             var vm = this;
             $scope.loading = true;
             $scope.isDisabled = true;
+            $scope.isDisableds = true;
             $scope.hidden = true;
             vm.chungkhoan = {};
             data.chungkhoan().then(function (result) {
@@ -58,11 +59,11 @@ angular.module('app').controller('chungkhoanCtrl',
 
             vm.updateSecurity = function () {
 
-                if($scope.isDisabled == false){
-                    $scope.isDisabled = true;
+                if($scope.isDisableds == false){
+                    $scope.isDisableds = true;
                     $scope.hidden = true;
                 } else {
-                    $scope.isDisabled = false;
+                    $scope.isDisableds = false;
                     $scope.hidden = false;
                 }
 
@@ -89,18 +90,31 @@ angular.module('app').controller('chungkhoanCtrl',
                 // todo.vardesc =  vm.thamso[a].vardesc;
                 // todo.en_vardesc =  vm.thamso[a].en_vardesc;
                 data.saveUpdateSecurity(updatedItems[updatedItems.length-1]).then(function (res) {
-                    alert("Cập nhật thành công!")
-                    data.chungkhoan().then(function (result) {
-                        $scope.loading = false;
+                    if (res.status != 200 ){
+                        alert("Cập nhật không thành công");
+                        data.chungkhoan().then(function (result) {
 
-                        vm.chungkhoan = result.data;
-                        console.log(result);
-                    }, function (err) {
-                        console.log(err);
-                    });
+                            $scope.loading = false;
+
+                            vm.chungkhoan = result.data;
+                            console.log(result);
+                        }, function (err) {
+                            console.log(err);
+                        });
+                    } else {
+                        data.chungkhoan().then(function (result) {
+                            alert("Cập nhật thành công")
+                            $scope.loading = false;
+
+                            vm.chungkhoan = result.data;
+                            console.log(result);
+                        }, function (err) {
+                            console.log(err);
+                        });
+                    }
                 }, function (err) {
-                    alert(err);
-                });} else {
+                    alert("Cập nhật không thành công");
+                })} else {
                     alert("Lệnh đã được hủy")
                 }
             }

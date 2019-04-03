@@ -3,7 +3,7 @@ angular.module('app').controller('stockTradingCtrl',
         function (data, modal, $window, $rootScope, $state, $scope, dateFilter, $interval) {
             var todos = {};
             var vm = this;
-
+            $scope.loading = false;
             var stompClient = null;
             //----------------get thong tin chung-----------------
             var getttchung = function () {
@@ -159,13 +159,13 @@ angular.module('app').controller('stockTradingCtrl',
                         todos.price = $scope.formData.price * 1000,
                         todos.orderType = $scope.formData.orderType,
                         todos.expiredDate = $scope.formData.expiredDate
-
+                    $scope.loading = true;
 
                     if ($scope.formData.price === undefined) {
                         if (todos.orderType === 'PLO') {
                             todos.price = todos.m1 * 1000;
                             data.createNormal(todos).then(function (result) {
-
+                                $scope.loading = false;
                                 if (result.data.result == "Order successfully") {
                                     alert("Đặt lệnh thành công");
                                     $scope.formData.command = "";
@@ -178,12 +178,12 @@ angular.module('app').controller('stockTradingCtrl',
                                     vm.seHistory();
                                 } else {
                                     alert(result.data.result);
-                                    $scope.formData.command = "";
-                                    $scope.formData.symbol = "";
-                                    $scope.formData.quantity = "";
-                                    $scope.formData.price = "";
-                                    $scope.formData.orderType = "";
-                                    $scope.formData.expiredDate = "";
+                                    // $scope.formData.command = "";
+                                    // $scope.formData.symbol = "";
+                                    // $scope.formData.quantity = "";
+                                    // $scope.formData.price = "";
+                                    // $scope.formData.orderType = "";
+                                    // $scope.formData.expiredDate = "";
                                 }
                             }, function (err) {
                                 console.log(err);
@@ -191,7 +191,7 @@ angular.module('app').controller('stockTradingCtrl',
                         } else {
                             todos.price = todos.ceM * 1000;
                             data.createNormal(todos).then(function (result) {
-
+                                $scope.loading = false;
                                 if (result.data.result == "Order successfully") {
                                     alert("Đặt lệnh thành công");
                                     $scope.formData.command = "";
@@ -204,12 +204,12 @@ angular.module('app').controller('stockTradingCtrl',
                                     vm.seHistory();
                                 } else {
                                     alert(result.data.result);
-                                    $scope.formData.command = "";
-                                    $scope.formData.symbol = "";
-                                    $scope.formData.quantity = "";
-                                    $scope.formData.price = "";
-                                    $scope.formData.orderType = "";
-                                    $scope.formData.expiredDate = "";
+                                    // $scope.formData.command = "";
+                                    // $scope.formData.symbol = "";
+                                    // $scope.formData.quantity = "";
+                                    // $scope.formData.price = "";
+                                    // $scope.formData.orderType = "";
+                                    // $scope.formData.expiredDate = "";
                                 }
                             }, function (err) {
                                 console.log(err);
@@ -219,7 +219,7 @@ angular.module('app').controller('stockTradingCtrl',
 
                         data.createNormal(todos).then(function (result) {
 
-
+                            $scope.loading = false;
                             if (result.data.result == "Order successfully") {
                                 alert("Đặt lệnh thành công");
                                 $scope.formData.command = "";
@@ -232,12 +232,12 @@ angular.module('app').controller('stockTradingCtrl',
                                 vm.seHistory();
                             } else {
                                 alert(result.data.result);
-                                $scope.formData.command = "";
-                                $scope.formData.symbol = "";
-                                $scope.formData.quantity = "";
-                                $scope.formData.price = "";
-                                $scope.formData.orderType = "";
-                                $scope.formData.expiredDate = "";
+                                // $scope.formData.command = "";
+                                // $scope.formData.symbol = "";
+                                // $scope.formData.quantity = "";
+                                // $scope.formData.price = "";
+                                // $scope.formData.orderType = "";
+                                // $scope.formData.expiredDate = "";
                             }
                         }, function (err) {
                             console.log(err);
