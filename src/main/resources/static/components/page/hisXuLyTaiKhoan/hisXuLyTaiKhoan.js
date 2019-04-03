@@ -31,7 +31,11 @@ angular.module('app').controller('hisXuLyTaiKhoan',
                     data.createNormalBan(todo).then(function (result) {
                         alert(result);
                         data.hisxulytaikhoan($window.localStorage.getItem('idcusid')).then(function (result) {
-
+                            if (result1.data.result == "Order successfully") {
+                                alert("Đặt lệnh thành công");
+                            } else {
+                                alert(result1.data.result);
+                            }
                             vm.history = result.data.rowList
                         })
                     }, function (err) {
