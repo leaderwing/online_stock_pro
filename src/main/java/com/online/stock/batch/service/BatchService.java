@@ -7,8 +7,10 @@ import com.online.stock.dto.BatchDataResponse;
 import com.online.stock.dto.Token;
 import com.online.stock.dto.VTOSObject;
 import com.online.stock.model.AdminUser;
+import com.online.stock.model.ODMast;
 import com.online.stock.model.SecuritiesPractice;
 import com.online.stock.repository.AdminUserRepository;
+import com.online.stock.repository.ODMastRepository;
 import com.online.stock.repository.SecuritiesPracticeRepository;
 import com.online.stock.utils.Constant;
 import netscape.javascript.JSObject;
@@ -44,6 +46,7 @@ import javax.persistence.StoredProcedureQuery;
 import java.sql.Array;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -59,15 +62,17 @@ public class BatchService implements  IBatchService {
     private EntityManager entityManager;
     @Autowired
     private SecuritiesPracticeRepository securitiesPracticeRepository;
+    @Autowired
+    private ODMastRepository odMastRepository;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void getMatchCancelValue() {
+    public void getMatchCancelValue() throws SQLException {
         //AdminUser adminUser = null;
-
         List<BatchDataResponse> dataResponseList = new ArrayList<>();
         List<String> list = new ArrayList<>();
         RestTemplate restTemplate = new RestTemplate();
+        Connection connection = ConnectDB.getInstance().getConnection();
         try {
             String token = System.getProperty("job_token");
             if (StringUtils.isBlank(token)) {
@@ -112,6 +117,15 @@ public class BatchService implements  IBatchService {
                             response.setAvg_price(0);
                             response.setRemain_qtty(obj.getInt("remainingQuantity"));
                             response.setType(2);
+                            JSONArray arr = obj.getJSONArray("orderReports");
+                            if (arr.length() >=2) {
+                                String reqId = arr.getJSONObject(2).getString("id");
+                                ODMast odMast = odMastRepository.findFirstByOrderid(reqId);
+                                if (odMast != null) {
+                                    odMast.setRefOderId(response.getOrderId());
+                                    odMastRepository.save(odMast);
+                                }
+                            }
                             list.add(response.toString());
                         }
                     }
@@ -124,7 +138,6 @@ public class BatchService implements  IBatchService {
                     //String response = list.toString().replace("[", "").replace("]", "");
                     System.out.println("$ match data: " + Arrays.toString(arrStr));
                     if (arrStr.length > 0) {
-                        Connection connection = ConnectDB.getInstance().getConnection();
                         ArrayDescriptor arrDesc =
                                 ArrayDescriptor.createDescriptor("VARCHAR2_ARRAY", connection);
                         Array array = new ARRAY(arrDesc, connection, arrStr);
@@ -133,10 +146,11 @@ public class BatchService implements  IBatchService {
                         stmt.setArray(1, array);
                         stmt.execute();
                         connection.commit();
-                        connection.close();
+                        //connection.close();
                     }
                 } catch (Exception ex) {
                     LOGGER.error("error save data! " + ex.getMessage());
+                    connection.close();
                 }
             }
         } catch (Exception ex) {
@@ -146,12 +160,13 @@ public class BatchService implements  IBatchService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void getPriceValue() {
+    public void getPriceValue() throws SQLException {
         List<SecuritiesPractice> securitiesPractices = securitiesPracticeRepository.findAll();
         Set<String> symbols = securitiesPractices.stream().map(SecuritiesPractice::getSymbol).collect(Collectors.toSet());
         String url = Constant.API_PRICE_DEAL.concat("q=codes:").concat(symbols.toString().replace("[", "").replace("]", "").replaceAll(" ", ""));
         RestTemplate restTemplate = new RestTemplate();
         String data = restTemplate.getForObject(url, String.class);
+        Connection connection = ConnectDB.getInstance().getConnection();
         if (StringUtils.isNotBlank(data)) {
             data = data.substring(2, data.length() - 2).replace("\"", "");
             System.out.println(data);
@@ -159,7 +174,7 @@ public class BatchService implements  IBatchService {
             LOGGER.debug(" price data: {data}", data);
             if (arrayPrice.length > 0) {
                 try {
-                    Connection connection = ConnectDB.getInstance().getConnection();
+                    //connection = ConnectDB.getInstance().getConnection();
                     ArrayDescriptor arrDesc =
                             ArrayDescriptor.createDescriptor("VARCHAR2_ARRAY", connection);
                     Array array = new ARRAY(arrDesc, connection, arrayPrice);
@@ -168,10 +183,15 @@ public class BatchService implements  IBatchService {
                     stmt.setArray(1, array);
                     stmt.execute();
                     connection.commit();
-                    connection.close();
+                    //connection.close();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     LOGGER.error("error save data! " + ex.getMessage());
+                    try {
+                        connection.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }

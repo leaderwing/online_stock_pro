@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import java.sql.SQLException;
+
 @Configuration
 @EnableScheduling
 public class BatchJobConfig {
@@ -14,7 +16,7 @@ public class BatchJobConfig {
     private IBatchService batchService;
 
     @Scheduled(fixedDelay = 5000)
-    public void scheduleGetMatchAndCancelled() {
+    public void scheduleGetMatchAndCancelled() throws SQLException {
         System.out.println(
                 "start get match and cancel data - " + System.currentTimeMillis() / 1000000);
         batchService.getMatchCancelValue();
@@ -29,7 +31,7 @@ public class BatchJobConfig {
     }
 
     @Scheduled(fixedDelay = 10000)
-    public void scheduleGetPriceData() {
+    public void scheduleGetPriceData() throws SQLException {
         System.out.println(
                 "start get price data - " + System.currentTimeMillis() / 1000000);
         batchService.getPriceValue();

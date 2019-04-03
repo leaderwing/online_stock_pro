@@ -2,7 +2,7 @@ angular.module('app').factory('config',
     [
         function () {
             var config = {
-                HOST: 'http://localhost:8080',
+                HOST: 'http://10.176.28.15',
             }
             return config;
         }
