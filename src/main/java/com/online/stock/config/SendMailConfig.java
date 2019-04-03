@@ -30,7 +30,7 @@ public class SendMailConfig {
         mailSender.setPort(587);
 
         mailSender.setUsername(StringUtils.isNotBlank(mail_address) ? mail_address : Constant.MAIL_ADDRESS);
-        mailSender.setPassword(StringUtils.isNotBlank(mail_password) ? mail_address : Constant.MAIL_PASSWORD);
+        mailSender.setPassword(StringUtils.isNotBlank(mail_password) ? mail_password : Constant.MAIL_PASSWORD);
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");

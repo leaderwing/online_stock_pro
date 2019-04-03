@@ -186,6 +186,7 @@ angular.module('app').controller('stockTradingCtrl',
                                     $scope.formData.expiredDate = "";
                                 }
                             }, function (err) {
+                                alert("Đặt lệnh thất bại, vui lòng thử lại!");
                                 console.log(err);
                             })
                         } else {
@@ -212,6 +213,7 @@ angular.module('app').controller('stockTradingCtrl',
                                     $scope.formData.expiredDate = "";
                                 }
                             }, function (err) {
+                                alert("Đặt lệnh thất bại, vui lòng thử lại!");
                                 console.log(err);
                             })
                         }
@@ -240,11 +242,12 @@ angular.module('app').controller('stockTradingCtrl',
                                 $scope.formData.expiredDate = "";
                             }
                         }, function (err) {
+                            alert("Đặt lệnh thất bại, vui lòng thử lại!");
                             console.log(err);
                         })
                     }
                 } else {
-                    alert('Lệnh đã được hủy');
+                    //alert('Lệnh đã được hủy');
                 }
             };
 
@@ -258,7 +261,7 @@ angular.module('app').controller('stockTradingCtrl',
                         console.log(err);
                     });
                 } else {
-                    alert('Lệnh đã được hủy');
+                    //alert('Lệnh đã được hủy');
                 }
             }
 
@@ -289,7 +292,7 @@ angular.module('app').controller('stockTradingCtrl',
 
                     })
                 } else {
-                    alert('Lệnh đã được hủy');
+                    //alert('Lệnh đã được hủy');
                 }
             }
 
