@@ -80,7 +80,8 @@ angular.module('app').controller('thamsoCtrl',
                     // todo.vardesc =  vm.thamso[a].vardesc;
                     // todo.en_vardesc =  vm.thamso[a].en_vardesc;
                     data.saveUpdateSysVar(updatedItems[updatedItems.length - 1]).then(function (res) {
-                        if (res.status != 200) {
+                        if (res.status != null) {
+                            console.log("llllll",res);
                             alert("Cập nhật không thành công");
                             data.thamso().then(function (result) {
                                 $scope.loading = false;

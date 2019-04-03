@@ -2,12 +2,7 @@
 
 <div class="modal-dialog" role="document">
     <div class="modal-content">
-        <div ng-if="vm.status == 200">
-            <div class="alert alert-danger">
-                {{vm.messageStatusEmail}}
-            </div>
-        </div>
-        <div ng-if="vm.status != 200 && vm.status != null">
+        <div ng-if="vm.messageStatusEmail != null">
             <div class="alert alert-danger">
                 {{vm.messageStatusEmail}}
             </div>
