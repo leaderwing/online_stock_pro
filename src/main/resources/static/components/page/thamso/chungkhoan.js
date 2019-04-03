@@ -90,7 +90,7 @@ angular.module('app').controller('chungkhoanCtrl',
                 // todo.vardesc =  vm.thamso[a].vardesc;
                 // todo.en_vardesc =  vm.thamso[a].en_vardesc;
                 data.saveUpdateSecurity(updatedItems[updatedItems.length-1]).then(function (res) {
-                    if (res.status != 200 ){
+                    if (res.status != null ){
                         alert("Cập nhật không thành công");
                         data.chungkhoan().then(function (result) {
 
