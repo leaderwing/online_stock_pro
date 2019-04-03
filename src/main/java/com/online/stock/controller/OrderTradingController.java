@@ -78,8 +78,10 @@ public class OrderTradingController {
                 tradingResponse.setFloor(floor);
                 tradingResponse.setAcctno(loggedUsername);
                 LOGGER.debug(tradingResponse.toString());
-            }catch (JSONException ex) {
+            }catch (Exception ex) {
                 ex.printStackTrace();
+                jsonObject.put("result", "Dữ liệu truyền vào không hợp lệ, vui lòng thử lại!");
+                return new ResponseEntity<>(jsonObject.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
             }
             //save order
             int saveResponse = orderTradingService.saveOrder(tradingResponse.getOrderId(), symbol.toUpperCase(),
@@ -101,12 +103,13 @@ public class OrderTradingController {
         }
     }
     @RequestMapping(value = "/sellNomarl", method = RequestMethod.POST)
-    public ResponseEntity<String> sellStock(@RequestBody SellStockRequest sellStockRequest) {
+    public ResponseEntity<String> sellStock(@RequestBody SellStockRequest sellStockRequest) throws JSONException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String loggedUsername = auth.getName();
         if (StringUtils.isBlank(loggedUsername)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+        JSONObject jsonObject = new JSONObject();
         int quantity = sellStockRequest.getExecqtty() - sellStockRequest.getClosedqtty();
         if (StringUtils.isBlank(sellStockRequest.getSymbol())
                 || StringUtils.isBlank(sellStockRequest.getOrderType())
@@ -119,7 +122,8 @@ public class OrderTradingController {
             thirdPartyService.getAdminAuthen();
             vtos_token = System.getProperty("vtos");
             if (StringUtils.isBlank(vtos_token)) {
-                return new ResponseEntity<>("invalid authen token!", HttpStatus.NOT_FOUND);
+                jsonObject.put("result", "invalid authen token!");
+                return new ResponseEntity<>(jsonObject.toString(), HttpStatus.NOT_FOUND);
             }
         }
         int result = orderTradingService.checkSellOrder(loggedUsername, quantity, sellStockRequest.getPrice(),
@@ -131,7 +135,8 @@ public class OrderTradingController {
                         , sellStockRequest.getPrice(), quantity, sellStockRequest.getSymbol().toUpperCase(),
                         "NS");
                 if(StringUtils.isNotBlank(tradingResponse.getError())) {
-                    return new ResponseEntity<>(tradingResponse.getError(), HttpStatus.BAD_REQUEST);
+                    jsonObject.put("result", tradingResponse.getError());
+                    return new ResponseEntity<>(jsonObject.toString(), HttpStatus.BAD_REQUEST);
                 }
                 tradingResponse.setOderIDM(sellStockRequest.getOderid());
             }catch (JSONException ex) {
@@ -145,16 +150,18 @@ public class OrderTradingController {
                     tradingResponse.getTxTime(), tradingResponse.getTxDate(),sellStockRequest.getFloor());
             if(saveResponse == 1) {
                 //error
-                return new ResponseEntity<>("save failure!", HttpStatus.INTERNAL_SERVER_ERROR);
+                jsonObject.put("result", "save failure!");
+                return new ResponseEntity<>(jsonObject.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
             } else {
                 //update table map_order
                 MapOrder mapOrder = new MapOrder(tradingResponse.getOderIDM(), tradingResponse.getOrderId());
                 mapOrderRepository.save(mapOrder);
-
-                return new ResponseEntity<>("Order successfully", HttpStatus.OK);
+                jsonObject.put("result", "Order successfully");
+                return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
             }
         } else {
-            return new ResponseEntity<>("Invalid Order Checking!", HttpStatus.BAD_REQUEST);
+            jsonObject.put("result", "Invalid Order Checking!");
+            return new ResponseEntity<>(jsonObject.toString(), HttpStatus.BAD_REQUEST);
         }
     }
     @RequestMapping(value = "/ttchung", method = RequestMethod.GET)

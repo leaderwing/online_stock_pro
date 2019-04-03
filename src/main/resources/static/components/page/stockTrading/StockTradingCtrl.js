@@ -161,7 +161,7 @@ angular.module('app').controller('stockTradingCtrl',
                         todos.expiredDate = $scope.formData.expiredDate
                     $scope.loading = true;
 
-                    if ($scope.formData.price === undefined) {
+                    if ($scope.formData.price === undefined || $scope.formData.price == '0') {
                         if (todos.orderType === 'PLO') {
                             todos.price = todos.m1 * 1000;
                             data.createNormal(todos).then(function (result) {
