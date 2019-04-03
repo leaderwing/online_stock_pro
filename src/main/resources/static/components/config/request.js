@@ -71,9 +71,8 @@ angular.module('app').factory('request',
 
                     _defer.resolve(data.data);
                 }, function (err) {
-                    _defer.resolve({
-                        msg: err
-                    });
+                    console.log("ffff",err)
+                    _defer.resolve(err);
                 });
                 return _defer.promise;
             }

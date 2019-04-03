@@ -41,19 +41,22 @@
     <!-- ============================================================== -->
     <!-- Login box.scss -->
     <!-- ============================================================== -->
-    <div class="auth-wrapper d-flex no-block justify-content-center align-items-center bg-dark">
+    <div class="auth-wrapper d-flex no-block justify-content-center align-items-center bg-dark" id="index_page">
         <div class="auth-box bg-dark ">
             <div>
-                <div ng-if="vm.status != 200 && vm.status != null">
+                <!--<div ng-if="vm.status != 200 && vm.status != null">-->
+                    <!--<div class="alert alert-danger">-->
+                       <!--{{vm.messageStatus}}-->
+                    <!--</div>-->
+                <!--</div>-->
+                <div ng-if="vm.messageStatus != null">
                     <div class="alert alert-danger">
-                       {{vm.messageStatus}}
+                        {{vm.messageStatus}}
                     </div>
                 </div>
-                <div ng-if="vm.status == 200 && vm.status == undefined">
-                    <div class="alert alert-danger">
-                        Vui lòng đợi phê duyệt
-                    </div>
-                </div>
+                <p class="text-center" ng-show="loading">
+                    <span class="fa fa-spinner fa-spin fa-3x"></span>
+                </p>
                 <!-- Form -->
                 <form class="form-horizontal m-t-20">
                     <div class="row p-b-30">
@@ -153,11 +156,14 @@
 
                         </div>
                     </div>
-                    <div class="row ">
+                    <div class="row">
                         <div class="col-12">
                             <div class="form-group">
                                 <div class="p-t-20">
-                                    <button class="btn btn-block btn-lg btn-info" ng-click="vm.register()">Sign Up</button>
+                                    <button class="btn btn-warning " ui-sref="login">Quay về đăng nhập</button>
+                                    <a class="btn btn-success float-right" ng-click="vm.register()">Đăng ký</a>
+                                    <!--<a ui-sref="register" class="btn btn-success">Đăng ký </a>-->
+
                                 </div>
                             </div>
                         </div>
@@ -182,6 +188,17 @@
     <!-- Right Sidebar -->
     <!-- ============================================================== -->
 </div>
+<style>
+
+    #index_page {
+        background: url("../../../public/images/login.png");
+        height: 100%;
+        /* Center and scale the image nicely */
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style>
 <!-- ============================================================== -->
 <!-- All Required js -->
 <!-- ============================================================== -->

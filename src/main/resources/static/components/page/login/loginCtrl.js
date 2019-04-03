@@ -35,7 +35,7 @@ angular.module('app')
                         $scope.loading = false;
                         // if the token is not present in the response then the
                         // authentication was not successful. Setting the error message.
-                        $scope.message = 'Authetication Failed !';
+                        $scope.message = 'Không đăng nhập được';
                     }
 
                 }, function (err) {

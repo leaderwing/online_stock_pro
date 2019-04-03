@@ -36,9 +36,21 @@ angular.module('app').controller('usersCtrl',
                 }
 
                 data.userInfoUpdate(datauser).then(function (res) {
-                   alert("Cập nhật thành công")
+                    alert("Cập nhật thành công")
+                    data.userInfo().then(function (res) {
+
+                        vm.user = res.data;
+                    }, function (err) {
+                        console.log(err)
+                    })
+                    data.accNames().then(function (res) {
+
+                        vm.acname = res.data;
+                    }, function (err) {
+                        console.log(err)
+                    })
                 },function (err) {
-                    console.log(err);
+                    alert("Cập nhật không thành công");
                 })
             }
 
