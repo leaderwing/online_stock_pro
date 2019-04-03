@@ -24,10 +24,10 @@ angular.module('app').controller('afTypeCtrl',
                     todo.afType = $scope.formData.afType;
                     todo.tradeRate = $scope.formData.tradeRate;
                     todo.margRate = $scope.formData.margRate;
-                    todo.WarningRate = $scope.formData.WarningRate;
+                    todo.warningRate = $scope.formData.warningRate;
                     todo.processRate = $scope.formData.processRate;
                     todo.depoRate = $scope.formData.depoRate;
-                    todo.MiscRate = $scope.formData.MiscRate;
+                    todo.miscRate = $scope.formData.miscRate;
 
 
                     data.addAfType(todo).then(function (response) {
@@ -40,10 +40,10 @@ angular.module('app').controller('afTypeCtrl',
                             $scope.formData.afType = "";
                             $scope.formData.tradeRate = "";
                             $scope.formData.margRate = "";
-                            $scope.formData.WarningRate = "";
+                            $scope.formData.warningRate = "";
                             $scope.formData.processRate = "";
                             $scope.formData.depoRate = "";
-                            $scope.formData.MiscRate = "";
+                            $scope.formData.miscRate = "";
 
                             alert('Bạn đã thêm thành công')
                         }, function (err) {
