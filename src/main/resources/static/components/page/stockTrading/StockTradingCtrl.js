@@ -168,22 +168,15 @@ angular.module('app').controller('stockTradingCtrl',
                                 $scope.loading = false;
                                 if (result.data.result == "Order successfully") {
                                     alert("Đặt lệnh thành công");
-                                    $scope.formData.command = "";
-                                    $scope.formData.symbol = "";
-                                    $scope.formData.quantity = "";
-                                    $scope.formData.price = "";
-                                    $scope.formData.orderType = "";
-                                    $scope.formData.expiredDate = "";
-                                    //$window.location.href = '/back';
-                                    vm.seHistory();
+                                    $state.go('root.stock-trading');
+                                } else {
+                                if(result.data.result == undefined){
+                                    alert("Đặt lệnh không thành công")
+                                    $state.go('root.stock-trading');
                                 } else {
                                     alert(result.data.result);
-                                    // $scope.formData.command = "";
-                                    // $scope.formData.symbol = "";
-                                    // $scope.formData.quantity = "";
-                                    // $scope.formData.price = "";
-                                    // $scope.formData.orderType = "";
-                                    // $scope.formData.expiredDate = "";
+                                    $state.go('root.stock-trading');
+                                }
                                 }
                             }, function (err) {
                                 alert("Đặt lệnh thất bại, vui lòng thử lại!");
@@ -194,23 +187,16 @@ angular.module('app').controller('stockTradingCtrl',
                             data.createNormal(todos).then(function (result) {
                                 $scope.loading = false;
                                 if (result.data.result == "Order successfully") {
-                                    alert("Đặt lệnh thành công");
-                                    $scope.formData.command = "";
-                                    $scope.formData.symbol = "";
-                                    $scope.formData.quantity = "";
-                                    $scope.formData.price = "";
-                                    $scope.formData.orderType = "";
-                                    $scope.formData.expiredDate = "";
-                                    //$window.location.href = '/back';
-                                    vm.seHistory();
+                                   alert("Đặt lệnh thành công");
+                                   $state.go('root.stock-trading');
                                 } else {
-                                    alert(result.data.result);
-                                    // $scope.formData.command = "";
-                                    // $scope.formData.symbol = "";
-                                    // $scope.formData.quantity = "";
-                                    // $scope.formData.price = "";
-                                    // $scope.formData.orderType = "";
-                                    // $scope.formData.expiredDate = "";
+                                    if(result.data.result == undefined){
+                                     alert("Đặt lệnh không thành công")
+                                     $state.go('root.stock-trading');
+                                    } else {
+                                      alert(result.data.result);
+                                      $state.go('root.stock-trading');
+                                    }
                                 }
                             }, function (err) {
                                 alert("Đặt lệnh thất bại, vui lòng thử lại!");
@@ -224,22 +210,15 @@ angular.module('app').controller('stockTradingCtrl',
                             $scope.loading = false;
                             if (result.data.result == "Order successfully") {
                                 alert("Đặt lệnh thành công");
-                                $scope.formData.command = "";
-                                $scope.formData.symbol = "";
-                                $scope.formData.quantity = "";
-                                $scope.formData.price = "";
-                                $scope.formData.orderType = "";
-                                $scope.formData.expiredDate = "";
-                                // $window.location.href = '/back';
-                                vm.seHistory();
+                                $state.go('root.stock-trading');
                             } else {
-                                alert(result.data.result);
-                                // $scope.formData.command = "";
-                                // $scope.formData.symbol = "";
-                                // $scope.formData.quantity = "";
-                                // $scope.formData.price = "";
-                                // $scope.formData.orderType = "";
-                                // $scope.formData.expiredDate = "";
+                                if(result.data.result == undefined){
+                                  alert("Đặt lệnh không thành công")
+                                  $state.go('root.stock-trading');
+                                } else {
+                                  alert(result.data.result);
+                                  $state.go('root.stock-trading');
+                                }
                             }
                         }, function (err) {
                             alert("Đặt lệnh thất bại, vui lòng thử lại!");

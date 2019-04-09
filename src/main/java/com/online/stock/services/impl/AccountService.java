@@ -91,9 +91,9 @@ public class AccountService implements IAccountService {
         SessionFactory sessionFactory = new Configuration().buildSessionFactory();
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        SQLQuery query = session.createSQLQuery("select c.custId, c.dateofbirth, c.email, c.fullname, c.idcode, c.iddate, c.idplace" +
-                " , c.address, c.phone , c.bankacctno, a.pin " +
-                " from cfmast c , afmast a where c.custId = a.custId and c.custId = "+custId+" ")
+        SQLQuery query = session.createSQLQuery("select c.custId, c.dateofbirth, a.email, c.fullname, c.idcode, c.iddate, c.idplace" +
+                " , c.address, c.phone , c.bankacctno, a.pin, b.typename, c.sex, a.description " +
+                " from cfmast c , afmast a , aftype b where c.custId = a.custId and a.actype = b.actype and c.custId = "+custId+" ")
                 .addScalar("custId", new StringType())
                 .addScalar("dateofbirth", new DateType())
                 .addScalar("email", new StringType())
@@ -104,7 +104,10 @@ public class AccountService implements IAccountService {
                 .addScalar("address", new StringType())
                 .addScalar("phone",  new StringType())
                 .addScalar("bankacctno", new StringType())
-                .addScalar("pin", new StringType());
+                .addScalar("pin", new StringType())
+                .addScalar("typename", new StringType())
+                .addScalar("sex", new StringType())
+                .addScalar("description", new StringType());
         List<Object[]> rows = query.list();
         if ( rows.size() > 0) {
             Object [] row = rows.get(0);
@@ -119,6 +122,9 @@ public class AccountService implements IAccountService {
            res.setPhone(row[8] == null ? null : row[8].toString());
            res.setBankacctno(row[9] == null ? null : row[9].toString());
            res.setPin(row[10] == null ? null : row[10].toString());
+           res.setTypeName(row[11] == null ? null : row[11].toString());
+           res.setSex(row[12] == null ? null : row[12].toString());
+           res.setBankname(row[13] == null ? null : row[13].toString());
         }
         transaction.commit();
         session.close();

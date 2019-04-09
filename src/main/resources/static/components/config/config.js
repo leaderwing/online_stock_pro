@@ -2,7 +2,7 @@ angular.module('app').factory('config',
     [
         function () {
             var config = {
-                HOST: 'http://localhost:8080',
+                HOST: 'http://stock88.com.vn',
             }
             return config;
         }

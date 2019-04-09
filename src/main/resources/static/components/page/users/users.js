@@ -7,6 +7,7 @@ angular.module('app').controller('usersCtrl',
             data.userInfo().then(function (res) {
 
                 vm.user = res.data;
+
             }, function (err) {
                 console.log(err)
             })

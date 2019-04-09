@@ -24,6 +24,7 @@ public class RegisterRequest {
     private String bankacctno;
     private String bankname;
     private String accType;
+    private String typeName;
     @NotBlank
     private String email;
     private String pin;

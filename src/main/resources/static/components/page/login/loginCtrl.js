@@ -18,7 +18,10 @@ angular.module('app')
                 todos.password = $scope.password;
                 data.login(todos).then(function (res) {
                     $scope.password = null;
-
+                    if(res.status == 401){
+                        $scope.loading = false;
+                        $scope.message = 'Không đăng nhập được';
+                    }
                     // checking if the token is available in the response
                     if (res.data.token) {
 
@@ -30,7 +33,8 @@ angular.module('app')
                         document.cookie = res.data.token + "$" + res.data.user.isStaft + "$" + res.data.user.username;
                         $rootScope.$broadcast('LoginSuccessful');
                         // going to the home page
-                        $state.go('root.stock-trading');
+//                        $state.go('root.stock-trading');
+                        $window.location.href = '/'
                     } else {
                         $scope.loading = false;
                         // if the token is not present in the response then the
@@ -71,9 +75,11 @@ angular.module('app')
 
                     $scope.loadingEmail = false;
                     vm.status = res.status;
-                    if(res.data.result == null){
-                        vm.messageStatusEmail = "Bạn chưa nhập email";
-                    }else {
+                    if(res.status == 500){
+                        vm.messageStatusEmail = "Không gửi được email! Vui lòng thử lại";
+                    } if(res.status == 400){
+                        vm.messageStatusEmail = "Email không đúng định dạng";
+                    } else {
                         vm.messageStatusEmail = res.data.result;
                         $scope.email = '';
                     }

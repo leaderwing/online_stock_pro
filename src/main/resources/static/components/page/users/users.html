@@ -119,8 +119,8 @@
                                     <label class="col-sm-3 text-right control-label col-form-label">Loại hình</label>
                                     <div class="col-sm-9">
                                         <select class="form-control" id="accType"  name="accType" ng-model="accType" autofocus>
-                                            <option value="">{{vm.user.accType}}</option>
-                                            <option ng-repeat="accnames in vm.acname">{{accnames.typeName}}</option>
+                                            <option value="">{{vm.user.typeName}}</option>
+                                            <option ng-repeat="accnames in vm.acname" value="{{accnames.acType}}">{{accnames.typeName}}</option>
                                         </select>
                                     </div>
                                 </div>

@@ -44,7 +44,7 @@ angular.module('app')
                     vm.messageStatus = 'Gửi mail thành công! Vui lòng đợi phê duyệt';
                 } else if(res.status == 500){
                     $scope.loading = false;
-                    vm.messageStatus = 'Không gửi được mail'
+                    vm.messageStatus = 'Không gửi được mail! Vui lòng chọn chức năng quên mật khẩu để gửi lại email'
                 } else {
                     $scope.loading = false;
                     vm.status = res.status;
