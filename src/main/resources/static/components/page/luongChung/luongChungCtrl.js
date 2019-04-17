@@ -15,7 +15,7 @@ angular.module('app').controller('luongChungCtrl',
                         console.log(err);
                     });
                 } else {
-                    alert('Lệnh đã được hủy');
+
                 }
             }
             return;

@@ -18,6 +18,7 @@ angular.module('app').controller('duyetNopCtrl',
                         id              : todo.id
                     }
                 data.duyetNop(datas).then(function (response) {
+                    console.log(response)
                     alert("Duyệt thành công");
                     data.getDuyetNop().then(function (response1) {
                         vm.duyetnop = response1.data;
@@ -28,7 +29,7 @@ angular.module('app').controller('duyetNopCtrl',
                     console.log(err);
                 })
             } else {
-                alert('Lệnh đã được hủy')
+
             }
             };
 

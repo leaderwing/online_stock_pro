@@ -42,10 +42,10 @@ public class AccountService implements IAccountService {
         ProcedureCall call = session.createStoredProcedureCall("PKG_OPEN_CONTRACTS.prc_create_contracts");
         call.registerParameter(1, String.class, ParameterMode.IN).bindValue(rq.getAcctno());
         call.registerParameter(2, String.class, ParameterMode.IN).bindValue(rq.getFullname());
-        call.registerParameter(3, Date.class, ParameterMode.IN).bindValue(DateUtils.convertDate(rq.getDateofbirth()));
+        call.registerParameter(3, String.class, ParameterMode.IN).bindValue(rq.getDateofbirth());
         call.registerParameter(4, String.class, ParameterMode.IN).bindValue(rq.getSex());
         call.registerParameter(5, String.class, ParameterMode.IN).bindValue(rq.getIdcode());
-        call.registerParameter(6, Date.class, ParameterMode.IN).bindValue(DateUtils.convertDate(rq.getIddate()));
+        call.registerParameter(6, String.class, ParameterMode.IN).bindValue(rq.getIddate());
         call.registerParameter(7, String.class, ParameterMode.IN).bindValue(StringUtils.isBlank(rq.getIdplace())?"" : rq.getIdplace());
         call.registerParameter(8, String.class, ParameterMode.IN).bindValue(StringUtils.isBlank(rq.getAddress())?"" : rq.getAddress());
         call.registerParameter(9, String.class, ParameterMode.IN).bindValue(StringUtils.isBlank(rq.getPhone())?"" : rq.getPhone());
@@ -139,11 +139,11 @@ public class AccountService implements IAccountService {
         call.registerParameter(1, String.class, ParameterMode.IN).bindValue(rq.getAcctno());
         call.registerParameter(2, String.class, ParameterMode.IN).bindValue(StringUtils.trimToEmpty(rq.getFullname()));
         call.registerParameter(3, String.class, ParameterMode.IN).bindValue(StringUtils.trimToEmpty(rq.getFullname()));
-        call.registerParameter(4, String.class, ParameterMode.IN).bindValue(DateUtils.convertDateToDDMMYYYY(StringUtils.trimToEmpty(rq.getDateofbirth())));
+        call.registerParameter(4, String.class, ParameterMode.IN).bindValue(rq.getDateofbirth());
         call.registerParameter(5, String.class, ParameterMode.IN).bindValue(StringUtils.trimToEmpty(rq.getSex()));
         call.registerParameter(6, String.class, ParameterMode.IN).bindValue("001");
         call.registerParameter(7, String.class, ParameterMode.IN).bindValue(StringUtils.trimToEmpty(rq.getIdcode()));
-        call.registerParameter(8, String.class, ParameterMode.IN).bindValue(DateUtils.convertDateToDDMMYYYY(StringUtils.trimToEmpty(rq.getIddate())));
+        call.registerParameter(8, String.class, ParameterMode.IN).bindValue(rq.getIddate());
         call.registerParameter(9, String.class, ParameterMode.IN).bindValue(StringUtils.trimToEmpty(rq.getIdplace()));
         call.registerParameter(10, String.class, ParameterMode.IN).bindValue("VNM");
         call.registerParameter(11, String.class, ParameterMode.IN).bindValue(StringUtils.trimToEmpty(rq.getAddress()));

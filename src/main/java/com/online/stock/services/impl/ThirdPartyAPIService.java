@@ -88,7 +88,11 @@ public class ThirdPartyAPIService implements IThirdPartyService {
             json = responseOrder.getBody();
         } catch (HttpClientErrorException ex) {
             ex.printStackTrace();
-            response.setError("Dữ liệu truyền vào không hợp lệ!");
+//            System.out.println(ex.getStatusCode());
+//            System.out.println(ex.getResponseBodyAsString());
+            JSONObject jsonObject = new JSONObject(ex.getResponseBodyAsString());
+            String message =  jsonObject.getString("message");
+            response.setError(message);
             return  response;
         }
         JSONObject jsonObject = new JSONObject(json);

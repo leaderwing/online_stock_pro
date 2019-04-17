@@ -25,10 +25,10 @@ angular.module('app')
             var registerData = {
                 acctno: $scope.acctno == undefined ? $scope.account : $scope.acctno,
                 fullname: $scope.fullname,
-                dateofbirth: $scope.dateofbirth,
+                dateofbirth: $scope.dateofbirth == undefined || $scope.dateofbirth == null ? vm.user.dateofbirth : moment($scope.dateofbirth).format("DDMMYYYY"),
                 sex: $scope.sex,
                 idcode: $scope.idcode,
-                iddate: $scope.iddate,
+                iddate: $scope.iddate == undefined || $scope.iddate == null ? vm.user.iddate : moment($scope.iddate).format("DDMMYYYY"),
                 idplace: $scope.idplace,
                 address: $scope.address,
                 phone: $scope.phone,

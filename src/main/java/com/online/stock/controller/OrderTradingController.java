@@ -73,7 +73,8 @@ public class OrderTradingController {
                  tradingResponse = thirdPartyService.sendOderTrading(vtos_token, orderType, price
                          , quantity, symbol.toUpperCase(),"NB");
                 if(StringUtils.isNotBlank(tradingResponse.getError())) {
-                    return new ResponseEntity<>(tradingResponse.getError(), HttpStatus.BAD_REQUEST);
+                    jsonObject.put("result", tradingResponse.getError());
+                    return new ResponseEntity<>(jsonObject.toString(), HttpStatus.BAD_REQUEST);
                 }
                 tradingResponse.setFloor(floor);
                 tradingResponse.setAcctno(loggedUsername);

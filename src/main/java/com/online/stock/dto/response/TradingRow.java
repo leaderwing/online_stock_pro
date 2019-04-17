@@ -32,6 +32,8 @@ public class TradingRow {
 
     private String feeamt;
 
+    private String feeamt1;
+
     private String txtime;
 
     private int feeacr;

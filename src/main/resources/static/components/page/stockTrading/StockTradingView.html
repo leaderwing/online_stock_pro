@@ -29,6 +29,9 @@
 
                                         <div class="items col-sm-7">Dư nợ thực tế</div>
                                         <div class="col-sm-5 text-right">{{ttchung.du_no_thuc_te}}</div>
+
+                                        <div class="items col-sm-7">Tiền gọi bổ sung</div>
+                                        <div class="col-sm-5 text-right">{{ttchung.suc_mua}}</div>
                                     </div>
                                 </div>
 
@@ -208,25 +211,25 @@
                                 <div class="row">
                                     <div class="col-sm-3">
                                         <div class="form-group">
-                                            <label for="exampleFormControlInput1">Từ ngày</label>
+                                            <label >Từ ngày</label>
                                             <input type="date" class="form-control" ng-change="vm.seHistory()" ng-model="THAMSO_NGAY1">
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
-                                            <label for="exampleFormControlInput1">Đến ngày</label>
+                                            <label >Đến ngày</label>
                                             <input type="date" class="form-control" ng-change="vm.seHistory()" ng-model="dateString">
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
-                                            <label for="exampleFormControlInput1">Mã CK</label>
+                                            <label >Mã CK</label>
                                             <input type="text" class="form-control" ng-change="vm.seHistory()" ng-model="THAMSO_SYMBOL">
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Loại giao dịch</label>
+                                            <label >Loại giao dịch</label>
                                             <select class="form-control" ng-change="vm.seHistory()" ng-model="THAMSO_EXECTYPE">
                                                 <option value="">Tất cả</option>
                                                 <option value="Mua">GD Mua</option>
@@ -247,11 +250,16 @@
                                 <th>Loại giá</th>
                                 <th>KL đặt</th>
                                 <th>Giá đặt</th>
+                                <th>Tổng tiền mua</th>
+                                <th>Tổng tiền bán</th>
                                 <th>KL Khớp</th>
                                 <th>Giá khớp TB</th>
                                 <th>KL hủy</th>
                                 <th>Trạng thái</th>
                                 <th>Giá hiện tại</th>
+                                <th>Phí giao dịch</th>
+                                <th>Phí bán</th>
+                                <th>Số ngày vay</th>
                                 <th>Phí vay</th>
                                 <th>Lãi/Lỗ</th>
                                 <th>Thời gian</th>
@@ -266,11 +274,16 @@
                                 <td>{{historys.pricetype}}</td>
                                 <td>{{historys.orderqtty}}</td>
                                 <td>{{historys.quoteprice}}</td>
+                                <td>{{historys.execqtty}} * {{historys.openprice}}</td>
+                                <td>{{historys.closedqtty}} * {{historys.closeprice}}</td>
                                 <td>{{historys.execqtty}}</td>
                                 <td>{{historys.openprice}}</td>
                                 <td>{{historys.cancelqtty}}</td>
                                 <td>{{historys.orstatus}}</td>
                                 <td>{{historys.basicPrice}}</td>
+                                <td>{{historys.feeamt}}</td>
+                                <td>{{historys.feeamt1}}</td>
+                                <td></td>
                                 <td>{{historys.feeacr}}</td>
                                 <td>{{historys.profit}}</td>
                                 <td>{{historys.txtime}}</td>
@@ -285,7 +298,7 @@
                                                 </div>
                                                 <div ng-if="historys.floor === 'HNX' && historys.codeid === 'ATC'">
                                                     <div ng-if="vm.hour >= '14:30:00' && vm.hour <= '14:45:00'">
-                                                        <i class="fas fa-trash-alt" ng-click="vm.deleteTodo(historys)"></i>
+                                                        <!--<i class="fas fa-trash-alt" ng-click="vm.deleteTodo(historys)"></i>-->
                                                     </div>
                                                 </div>
                                                 <div ng-if="historys.floor === 'HNX' && historys.codeid === 'PLO'">
@@ -300,7 +313,7 @@
                                                 </div>
                                                 <div ng-if="historys.floor === 'HOSE' && historys.codeid === 'ATC'">
                                                     <div ng-if="vm.hour >= '14:30:00' && vm.hour <= '14:45:00'">
-                                                        <i class="fas fa-trash-alt" ng-click="vm.deleteTodo(historys)"></i>
+                                                        <!--<i class="fas fa-trash-alt" ng-click="vm.deleteTodo(historys)"></i>-->
                                                     </div>
                                                 </div>
                                                 <div ng-if="historys.floor === 'HOSE' && historys.codeid != 'ATC' && historys.codeid != 'ATO' ">

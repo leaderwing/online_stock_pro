@@ -34,7 +34,7 @@ angular.module('app').controller('nopTienCtrl',
                         console.log(err);
                     })
                 } else {
-                    alert('Lệnh đã được hủy');
+
                 }
             };
             return;

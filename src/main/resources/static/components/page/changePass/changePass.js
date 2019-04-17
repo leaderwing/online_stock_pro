@@ -7,7 +7,6 @@ angular.module('app').controller('changePassCtrl',
 
 
             vm.changePass = function () {
-                console.log("dsadas",$scope.newPassword)
                 if($scope.newPassword == $scope.checkNewPassword){
                     var dataUser = {
                         oldPassword : $scope.oldPassword,
@@ -16,12 +15,17 @@ angular.module('app').controller('changePassCtrl',
                     }
 
                     data.changePass(dataUser).then(function (res) {
-                        $state.go("login");
+                        if(res.status == 404){
+                            vm.messageChangePass = "Dữ liệu nhập chưa đúng"
+                        }else {
+                            vm.messageChangePass = "Mật khẩu đã được thay đổi"
+                            $state.go("login");
+                        }
                     },function (err) {
                         console.log(err);
                     })
                 } else {
-                    console.log("Không")
+
                 }
 
             }

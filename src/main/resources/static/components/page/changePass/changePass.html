@@ -31,35 +31,43 @@
                 <div class="card">
                     <form class="form-horizontal">
                         <div class="card-body">
-
+                            <div ng-if="vm.messageChangePass">
+                                <div class="alert alert-danger">
+                                    {{vm.messageChangePass}}
+                                </div>
+                            </div>
                             <div class="form-group row">
                                 <label class="col-sm-3 text-right control-label col-form-label">Mật khẩu cũ</label>
                                 <div class="col-sm-9">
-                                    <input type="password" class="form-control" ng-model="oldPassword"  placeholder="Mật khẩu cũ">
+                                    <input type="password" class="form-control" ng-model="oldPassword"
+                                           placeholder="Mật khẩu cũ">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label  class="col-sm-3 text-right control-label col-form-label">Mật khẩu mới</label>
+                                <label class="col-sm-3 text-right control-label col-form-label">Mật khẩu mới</label>
                                 <div class="col-sm-9">
-                                    <input type="password" class="form-control" ng-model="newPassword" placeholder="Mật khẩu mới">
+                                    <input type="password" class="form-control" ng-model="newPassword"
+                                           placeholder="Mật khẩu mới">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-3 text-right control-label col-form-label">Nhập lại mật khẩu mới</label>
+                                <label class="col-sm-3 text-right control-label col-form-label">Nhập lại mật khẩu
+                                    mới</label>
                                 <div class="col-sm-9">
-                                    <input type="password" class="form-control" ng-model="checkNewPassword" placeholder="Nhập lại mật khẩu mới">
+                                    <input type="password" class="form-control" ng-model="checkNewPassword"
+                                           placeholder="Nhập lại mật khẩu mới">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="p-t-20" style="text-align: center">
-                                <button class="btn btn-primary btn-lg btn-info" type="submit" ng-click="vm.changePass()">Cập nhật</button>
+                                <button class="btn btn-primary btn-lg btn-info" type="submit"
+                                        ng-click="vm.changePass()">Cập nhật
+                                </button>
                             </div>
                         </div>
                     </form>
                 </div>
-
-
 
 
             </div>

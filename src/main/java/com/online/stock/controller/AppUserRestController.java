@@ -88,15 +88,16 @@ public class AppUserRestController {
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/users/update", method = RequestMethod.PUT)
-    public ResponseEntity<Void> createUser(@RequestBody RegisterRequest  request) {
+    public ResponseEntity<String> createUser(@RequestBody RegisterRequest  request) throws JSONException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String loggedUsername = auth.getName();
         if (!loggedUsername.equals(request.getAcctno())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        JSONObject jsonObject = new JSONObject();
         String result = accountService.updateUserInfo(request);
-        System.out.print(result);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        jsonObject.put("result", result);
+        return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
     }
 
 }

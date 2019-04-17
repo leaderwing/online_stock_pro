@@ -38,6 +38,8 @@ public class ODMast {
     private int cancelqtty;
     @Column(name = "FEEAMT")
     private String feeamt;
+    @Column(name = "FEEAMT1")
+    private String feeamt1;
     @Column(name = "TXTIME")
     private String txtime;
     @Column(name = "FEEACR")
