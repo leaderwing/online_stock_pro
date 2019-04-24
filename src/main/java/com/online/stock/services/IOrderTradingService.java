@@ -10,7 +10,7 @@ public interface IOrderTradingService {
     int checkSellOrder(String accTno, int quantity, double price, String symbol, String orderType);
 
     int saveOrder(String orderId, String symbol, String accTno, String action, String orderType,
-                  double price, int quantity, String txTime, int txDate, String floor);
+                  double price, int quantity, String txTime, int txDate, String floor, int loanDates);
 
     List<RateInfoRes> getRateInfo (String custId);
 }

@@ -45,7 +45,7 @@ public class OrderTradingService implements IOrderTradingService {
     }
 
     @Override
-    public int saveOrder(String orderId, String symbol, String accTno, String action, String orderType, double price, int quantity, String txTime, int txDate, String floor) {
+    public int saveOrder(String orderId, String symbol, String accTno, String action, String orderType, double price, int quantity, String txTime, int txDate, String floor,int loanDates) {
         LOGGER.debug("start save order!");
         int p_out = 0;
         Session session = entityManager.unwrap(Session.class);
@@ -60,9 +60,10 @@ public class OrderTradingService implements IOrderTradingService {
         call.registerParameter(8, String.class, ParameterMode.IN).bindValue(txTime);
         call.registerParameter(9, Integer.class, ParameterMode.IN).bindValue(txDate);
         call.registerParameter(10, String.class, ParameterMode.IN).bindValue(floor);
-        call.registerParameter(11, Integer.class, ParameterMode.OUT);
+        call.registerParameter(11, Integer.class, ParameterMode.IN).bindValue(loanDates);
+        call.registerParameter(12, Integer.class, ParameterMode.OUT);
 
-        p_out = (Integer) call.getOutputs().getOutputParameterValue(11);
+        p_out = (Integer) call.getOutputs().getOutputParameterValue(12);
         LOGGER.debug("result save order :" + p_out);
         return p_out;
     }

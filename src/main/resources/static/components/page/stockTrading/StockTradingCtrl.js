@@ -2,6 +2,7 @@ angular.module('app').controller('stockTradingCtrl',
     ['data', 'modal', '$window', '$rootScope', '$state', '$scope', 'dateFilter', '$interval',
         function (data, modal, $window, $rootScope, $state, $scope, dateFilter, $interval) {
             var todos = {};
+            var todoBan = {};
             var vm = this;
             $scope.loading = false;
             var stompClient = null;
@@ -54,7 +55,11 @@ angular.module('app').controller('stockTradingCtrl',
                         console.log("$$ update realtime trading");
                         var data = JSON.parse(result.body);
                         $scope.$apply(function () {
-                            vm.history = data.filter(isOwnerData);
+                            if ((moment($scope.THAMSO_NGAY1).format("YYYYMMDD") === moment(new Date()).format("YYYYMMDD")) &&
+                            (moment($scope.dateString).format("YYYYMMDD") >= moment(new Date()).format("YYYYMMDD")))
+                            {
+                            vm.history = data.filter(isOwnerDataFilter);
+                            }
                         })
                     });
                     stompClient.subscribe('/topic/ttchung', function (result) {
@@ -75,8 +80,15 @@ angular.module('app').controller('stockTradingCtrl',
             }
 
             function isOwnerData(value) {
-                return value.afacctno === document.cookie.split('$')[2];
+                return value.afacctno === document.cookie.split('$')[2] ;
+
             }
+            function isOwnerDataFilter(value) {
+                            return value.afacctno === document.cookie.split('$')[2] &&
+                            (value.txdate >= moment($scope.THAMSO_NGAY1).format("YYYYMMDD")) && (value.txdate <= moment($scope.dateString).format("YYYYMMDD")) &&
+                            ($scope.THAMSO_SYMBOL === "" || $scope.THAMSO_SYMBOL == undefined || value.codeid === $scope.THAMSO_SYMBOL) &&
+                            ($scope.THAMSO_EXECTYPE === "" || $scope.THAMSO_EXECTYPE == undefined || value.exectype === $scope.THAMSO_EXECTYPE);
+             }
 
             vm.conn = function () {
                 stompClient.send('/app/db', {}, null);
@@ -102,7 +114,6 @@ angular.module('app').controller('stockTradingCtrl',
                     ngay2: moment($scope.dateString).format("YYYYMMDD"),
                     exectype: ($scope.THAMSO_EXECTYPE) ? $scope.THAMSO_EXECTYPE : "",
                     symbol: ($scope.THAMSO_SYMBOL) ? $scope.THAMSO_SYMBOL : ""
-
                 }
                 data.history(todoo).then(function (result) {
                     vm.history = result.data.rowList
@@ -145,6 +156,8 @@ angular.module('app').controller('stockTradingCtrl',
 
                 });
             };
+
+
 
 
             //----------------dat lenh mua-----------------------
@@ -262,35 +275,138 @@ angular.module('app').controller('stockTradingCtrl',
                 }
             }
 
+            //--------------------Before close lenh----------
+            vm.createNormalBanBefore = function (todo) {
+             vm.symbolBan = todo.codeid;
+
+             todos.symbolBan = todo.codeid;
+             todos.txdate    = todo.txdate;
+             todoBan.oderid = todo.orderid;
+
+             var todo = {
+                    symbol: todos.symbolBan
+                   }
+                             console.log(todo)
+                             data.floorName(todo.symbol).then(function (result) {
+
+
+                                 todoBan.floor = result.data.floorCode;
+                                 todos.ceMBan = result.data.ceil / 1000;
+
+                                 vm.floorNamessBan = result.data;
+
+                             }).catch(function (err) {
+
+                             })
+                             data.priceView(todo.symbol).then(function (result) {
+
+                                 vm.priceViewBan = result.data;
+                                 todos.m1Ban = result.data.m1;
+
+                             });
+            }
+
+
             //-------Closed lenh-------------------
-            vm.createNormalBan = function (todo) {
+            vm.createNormalBan = function () {
                 var t = confirm('Bạn có chắc chắn muốn thực hiện');
-                if (t === true) {
-                    var request = {
-                        execqtty: todo.execqtty,
-                        closedqtty: todo.closedqtty,
-                        oderid: todo.orderid,
-                        price: 0,
-                        symbol: todo.codeid,
-                        orderType: todo.pricetype
-                    }
+                                if (t === true) {
 
-                    data.createNormalBan(request).then(function (result1) {
-                        if (result1.data.result == "Order successfully") {
-                            alert("Đặt lệnh thành công");
-                        } else {
-                            alert(result1.data.result);
-                        }
-                        vm.seHistory();
-                    }, function (err) {
-                        console.log(err)
-                    }).catch(function (callback) {
-                        console.log(callback);
+                                    todoBan.command = $scope.formData.commandBan,
+                                    todoBan.symbol = todos.symbolBan,
+                                        todoBan.quantity = $scope.formData.quantityBan,
+                                        todoBan.price = $scope.formData.priceBan * 1000,
+                                        todoBan.orderType = $scope.formData.orderTypeBan,
+                                        todoBan.expiredDate = $scope.formData.expiredDateBan,
+                                        todoBan.buyDate = todos.txdate
+                                    $scope.loading = true;
 
-                    })
-                } else {
-                    //alert('Lệnh đã được hủy');
-                }
+                                    if ($scope.formData.priceBan === undefined || $scope.formData.priceBan == '0') {
+                                        if (todoBan.orderType === 'PLO') {
+                                            todoBan.price = todos.m1Ban * 1000;
+                                            data.createNormalBan(todoBan).then(function (result) {
+                                                $scope.loading = false;
+                                                if (result.data.result == "Order successfully") {
+                                                    alert("Đặt lệnh thành công");
+                                                    $scope.formData.commandBan = ""
+
+                                                    $scope.formData.quantityBan = ""
+                                                    $scope.formData.priceBan = 0
+                                                    $scope.formData.orderTypeBan = ""
+                                                    $scope.formData.expiredDateBan = ""
+                                                    $state.go('root.stock-trading');
+                                                } else {
+                                                    if (result.data.result == undefined) {
+                                                        alert("Đặt lệnh không thành công")
+                                                        $state.go('root.stock-trading');
+                                                    } else {
+                                                        alert(result.data.result);
+                                                        $state.go('root.stock-trading');
+                                                    }
+                                                }
+                                            }, function (err) {
+                                                alert("Đặt lệnh thất bại, vui lòng thử lại!");
+                                                console.log(err);
+                                            })
+                                        } else {
+
+                                            todoBan.price = todos.ceMBan * 1000;
+                                            data.createNormalBan(todoBan).then(function (result) {
+                                                $scope.loading = false;
+                                                if (result.data.result == "Order successfully") {
+                                                    alert("Đặt lệnh thành công");
+                                                    $scope.formData.commandBan = ""
+
+                                                    $scope.formData.quantityBan = ""
+                                                    $scope.formData.priceBan = 0
+                                                    $scope.formData.orderTypeBan = ""
+                                                    $scope.formData.expiredDateBan = ""
+                                                    $state.go('root.stock-trading');
+                                                } else {
+                                                    if (result.data.result == undefined) {
+                                                        alert("Đặt lệnh không thành công")
+                                                        $state.go('root.stock-trading');
+                                                    } else {
+                                                        alert(result.data.result);
+                                                        $state.go('root.stock-trading');
+                                                    }
+                                                }
+                                            }, function (err) {
+                                                alert("Đặt lệnh thất bại, vui lòng thử lại!");
+                                                console.log(err);
+                                            })
+                                        }
+                                    } else {
+
+                                        data.createNormalBan(todoBan).then(function (result) {
+
+                                            $scope.loading = false;
+                                            if (result.data.result == "Order successfully") {
+                                                alert("Đặt lệnh thành công");
+                                                $scope.formData.commandBan = ""
+
+                                                $scope.formData.quantityBan = ""
+                                                $scope.formData.priceBan = 0
+                                                $scope.formData.orderTypeBan = ""
+                                                $scope.formData.expiredDateBan = ""
+                                                $state.go('root.stock-trading');
+                                            } else {
+                                                if (result.data.result == undefined) {
+                                                    alert("Đặt lệnh không thành công")
+                                                    $state.go('root.stock-trading');
+                                                } else {
+                                                    alert(result.data.result);
+                                                    $state.go('root.stock-trading');
+                                                }
+                                            }
+                                        }, function (err) {
+                                            alert("Đặt lệnh thất bại, vui lòng thử lại!");
+                                            console.log(err);
+                                        })
+                                    }
+                                } else {
+                                    //alert('Lệnh đã được hủy');
+                                }
             }
 
             $scope.date = new Date();

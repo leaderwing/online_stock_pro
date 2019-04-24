@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Table(name = "MAP_ORDER")
 public class MapOrder {
     @Id
-    @Column(name = "ORDERID")
+    @Column(name = "ODERID")
     private String orderId;
     @Column(name = "CLOSEDORDERID")
     private String closedOrderId;

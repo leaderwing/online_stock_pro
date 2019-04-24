@@ -1,4 +1,172 @@
+<div class="modal fade" id="Modal2Ban" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-sm-4">
+                    <div class="collapse-right">
 
+
+                        <!--<div class="group-tabs">-->
+                            <!--&lt;!&ndash; Nav tabs &ndash;&gt;-->
+                            <!--<ul class="nav nav-tabs" role="tablist">-->
+                                <!--<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"-->
+                                                                          <!--data-toggle="tab">Tài sản</a></li>-->
+
+                            <!--</ul>-->
+
+                            <!--&lt;!&ndash; Tab panes &ndash;&gt;-->
+                            <!--<div class="tab-content">-->
+                                <!--<div role="tabpanel" class="tab-pane active" id="home">-->
+                                    <!--<div class="row" ng-repeat="ttchung in vm.ttchung">-->
+                                        <!--<div class="items col-sm-7 t-blue">Tài sản ròng</div>-->
+                                        <!--<div class="items col-sm-5 text-right"><b>{{ttchung.tai_san_rong | number}}</b></div>-->
+
+                                        <!--<div class="items col-sm-7 t-blue">Tỷ lệ ký quỹ</div>-->
+                                        <!--<div class="col-sm-5 text-right"><b>{{ttchung.ty_le_ky_quy | number}}</b></div>-->
+
+                                        <!--<div class="items col-sm-7">Sức mua</div>-->
+                                        <!--<div class="col-sm-5 text-right">{{ttchung.suc_mua | number}}</div>-->
+
+                                        <!--<div class="items col-sm-7">Dư nợ thực tế</div>-->
+                                        <!--<div class="col-sm-5 text-right">{{ttchung.du_no_thuc_te | number}}</div>-->
+
+                                        <!--<div class="items col-sm-7">Tiền gọi bổ sung</div>-->
+                                        <!--<div class="col-sm-5 text-right">{{ttchung.suc_mua | number}}</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+
+                            <!--</div>-->
+                        <!--</div>-->
+
+
+                    </div>
+                </div>
+                <div class="col-sm-2">
+
+                </div>
+                <!--<div class="col-sm-4">-->
+                    <!--<div class="collapse-right">-->
+
+
+                        <!--<div class="group-tabs">-->
+                            <!--&lt;!&ndash; Nav tabs &ndash;&gt;-->
+                            <!--<ul class="nav nav-tabs" role="tablist">-->
+                                <!--<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"-->
+                                                                          <!--data-toggle="tab">Danh sách chứng khoán</a></li>-->
+
+                            <!--</ul>-->
+
+                            <!--&lt;!&ndash; Tab panes &ndash;&gt;-->
+                            <!--<div class="tab-content">-->
+                                <!--<div role="tabpanel" class="tab-pane active" id="home">-->
+                                    <!--<table class="table">-->
+                                        <!--<thead>-->
+                                        <!--<tr>-->
+                                            <!--<th>Mã</th>-->
+                                            <!--<th>Số dư</th>-->
+                                            <!--<th>T0</th>-->
+                                            <!--<th>T1</th>-->
+                                            <!--<th>T2</th>-->
+                                        <!--</tr>-->
+                                        <!--</thead>-->
+                                        <!--<tbody>-->
+                                        <!--<tr ng-repeat="tttyle in vm.tttyle">-->
+                                            <!--<td>{{tttyle.codeid}}</td>-->
+                                            <!--<td>{{tttyle.so_du | number}}</td>-->
+                                            <!--<td>{{tttyle.t0 | number}}</td>-->
+                                            <!--<td>{{tttyle.t1 | number}}</td>-->
+                                            <!--<td>{{tttyle.t2 | number}}</td>-->
+                                        <!--</tr>-->
+                                        <!--</tbody>-->
+                                    <!--</table>-->
+                                <!--</div>-->
+
+                            <!--</div>-->
+                        <!--</div>-->
+
+
+                    <!--</div>-->
+                <!--</div>-->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form class="form-horizontal m-t-20" ng-submit="vm.createNormalBan()">
+                <div class="modal-body">
+                    <p class="text-center" ng-show="loading">
+                        <span class="fa fa-spinner fa-spin fa-3x"></span>
+                    </p>
+                    <div class="col-sm-10 right">
+                        <div class="row" ng-if="vm.floorNamessBan != null">
+
+                            <div class="col-sm-1">
+                                <div class="items text-blue">{{vm.floorNamessBan.floor/1000}}</div>
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="items text-red">{{vm.floorNamessBan.basic/1000}}</div>
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="items text-blue">{{vm.floorNamessBan.ceil/1000}}</div>
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="items text-red"><span>MT</span>{{vm.priceViewBan.m1}}</div>
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="items"><span>KLT</span>{{vm.priceViewBan.kl1}}</div>
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="items text-red"><span>BT</span>{{vm.priceViewBan.b1}}</div>
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="items"><span>KML</span>{{vm.priceViewBan.kl2}}</div>
+                            </div>
+                            <div class="col-sm-5">
+                                <div class="dl-header-right" ng-model="formData.floorhhh">
+                                    Tỷ lệ vay: Sàn {{vm.floorNamessBan.floorCode}}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    </br>
+                    <div class="col-sm-10 right">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" style="text-transform: uppercase;"
+                                           ng-model="formData.symbolBan" ng-value="vm.symbolBan" disabled>
+                                    <!-- <button class="btn_info">Chi tiết</button> -->
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control" ng-model="formData.quantityBan"
+                                       placeholder="KL">
+                            </div>
+                            <div class="col-sm-3">
+                                <select class="form-control" ng-model="formData.orderTypeBan">
+                                    <option value="">--Mời chọn loại giá--</option>
+                                    <option>LO</option>
+                                    <option>MP</option>
+                                    <option>ATO</option>
+                                    <option>ATC</option>
+                                    <option>PLO</option>
+                                </select>
+                                <!-- <input type="text" class="form-control" ng-model="formData.orderType" placeholder="Type"> -->
+                            </div>
+                            <div class="col-sm-3" ng-if="formData.orderTypeBan == 'LO'">
+                                <input type="text" class="form-control" ng-model="formData.priceBan" placeholder="Giá">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ</button>
+                    <button class="btn btn-danger" type="submit">Bán</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <div class="page-wrapper">
     <p class="text-center" ng-show="loading">
         <span class="fa fa-spinner fa-spin fa-3x"></span>
@@ -68,7 +236,7 @@
                             <!--</form>-->
                         <!--</div>-->
                     </div>
-                    <table class="table">
+                    <table class="table table-responsive text-nowrap table-striped">
                         <thead>
                         <tr>
                             <th>Ngày</th>
@@ -77,11 +245,16 @@
                             <th>Loại giá</th>
                             <th>KL đặt</th>
                             <th>Giá đặt</th>
+                            <th>Tổng tiền mua</th>
+                            <th>Tổng tiền bán</th>
                             <th>KL Khớp</th>
                             <th>Giá khớp TB</th>
                             <th>KL hủy</th>
-                            <th>Trạng thái</th>
+                            <!--<th>Trạng thái</th>-->
                             <th>Giá hiện tại</th>
+                            <th>Phí giao dịch</th>
+                            <th>Phí bán</th>
+                            <th>Số ngày vay</th>
                             <th>Phí vay</th>
                             <th>Lãi/Lỗ</th>
                             <th>Thời gian</th>
@@ -94,15 +267,20 @@
                             <td>{{historys.codeid}}</td>
                             <td>{{historys.exectype}}</td>
                             <td>{{historys.pricetype}}</td>
-                            <td>{{historys.orderqtty}}</td>
-                            <td>{{historys.quoteprice}}</td>
-                            <td>{{historys.execqtty}}</td>
-                            <td>{{historys.openprice}}</td>
-                            <td>{{historys.cancelqtty}}</td>
-                            <td>{{historys.orstatus}}</td>
-                            <td>{{historys.basicPrice}}</td>
-                            <td>{{historys.feeacr}}</td>
-                            <td>{{historys.profit}}</td>
+                            <td>{{historys.orderqtty | number}}</td>
+                            <td>{{historys.quoteprice | number}}</td>
+                            <td>{{historys.execqtty * historys.openprice | number}}</td>
+                            <td>{{historys.closedqtty * historys.closeprice | number}}</td>
+                            <td>{{historys.execqtty | number}}</td>
+                            <td>{{historys.openprice | number}}</td>
+                            <td>{{historys.cancelqtty | number}}</td>
+                            <!--<td>{{historys.orstatus}}</td>-->
+                            <td>{{historys.basicPrice | number}}</td>
+                            <td>{{historys.feeamt | number}}</td>
+                            <td>{{historys.feeamt1 | number}}</td>
+                            <td></td>
+                            <td>{{historys.feeacr | number}}</td>
+                            <td>{{historys.profit | number}}</td>
                             <td>{{historys.txtime}}</td>
                             <td>
                                 <div class="ic_active">
@@ -111,7 +289,8 @@
                                     <!-- <img src="public/images/ic_delete2.png" alt="" ng-click="vm.deleteTodo(historys)"> -->
                                     <!-- </div> -->
                                     <div ng-if="historys.clearday <= 0 && historys.clearday != null">
-                                        <img src="public/images/ic_khoa.png" ng-click="vm.createNormalBan(historys)" alt="">
+                                        <img src="public/images/ic_khoa.png" ng-click="vm.createNormalBanBefore(historys)"
+                                             data-toggle="modal" data-target="#Modal2Ban" alt="">
                                     </div>
                                 </div>
                             </td>

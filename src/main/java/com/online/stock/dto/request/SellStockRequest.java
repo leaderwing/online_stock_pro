@@ -8,6 +8,7 @@ import javax.validation.constraints.Size;
 @Data
 public class SellStockRequest {
     private int execqtty;
+    private int quantity;
     private int closedqtty;
     @NotBlank
     private String oderid;
@@ -18,4 +19,5 @@ public class SellStockRequest {
     private String orderType;
     @NotBlank
     private String floor;
+    private int buyDate;
 }

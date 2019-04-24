@@ -131,6 +131,8 @@ public class BatchService implements  IBatchService {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    connection.close();
+                    return;
                 }
                 //save database
                 try {
@@ -151,10 +153,15 @@ public class BatchService implements  IBatchService {
                 } catch (Exception ex) {
                     LOGGER.error("error save data! " + ex.getMessage());
                     connection.close();
+                } finally {
+                    connection.close();
                 }
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
             System.out.print(" error when get api data: " + ex.getMessage());
+        } finally {
+            connection.close();
         }
     }
 
@@ -166,8 +173,8 @@ public class BatchService implements  IBatchService {
         String url = Constant.API_PRICE_DEAL.concat("q=codes:").concat(symbols.toString().replace("[", "").replace("]", "").replaceAll(" ", ""));
         RestTemplate restTemplate = new RestTemplate();
         String data = restTemplate.getForObject(url, String.class);
-        Connection connection = ConnectDB.getInstance().getConnection();
         if (StringUtils.isNotBlank(data)) {
+            Connection connection = ConnectDB.getInstance().getConnection();
             data = data.substring(2, data.length() - 2).replace("\"", "");
             System.out.println(data);
             String[] arrayPrice = data.split(",");
@@ -187,13 +194,11 @@ public class BatchService implements  IBatchService {
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     LOGGER.error("error save data! " + ex.getMessage());
-                    try {
-                        connection.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                } finally {
+                    connection.close();
                 }
             }
+            connection.close();
         }
     }
 

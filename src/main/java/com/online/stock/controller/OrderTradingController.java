@@ -88,7 +88,7 @@ public class OrderTradingController {
             int saveResponse = orderTradingService.saveOrder(tradingResponse.getOrderId(), symbol.toUpperCase(),
                     loggedUsername,"Mua",tradingResponse.getOrderType(),
                     tradingResponse.getPrice(),tradingResponse.getQuantity(),
-                    tradingResponse.getTxTime(), tradingResponse.getTxDate(),floor);
+                    tradingResponse.getTxTime(), tradingResponse.getTxDate(),floor,0);
             if(saveResponse == 1) {
                 //error
                 jsonObject.put("result", "save failure!");
@@ -133,7 +133,7 @@ public class OrderTradingController {
             OrderTradingResponse tradingResponse  = new OrderTradingResponse();
             try {
                 tradingResponse = thirdPartyService.sendOderTrading(vtos_token, sellStockRequest.getOrderType()
-                        , sellStockRequest.getPrice(), quantity, sellStockRequest.getSymbol().toUpperCase(),
+                        , sellStockRequest.getPrice(), sellStockRequest.getQuantity(), sellStockRequest.getSymbol().toUpperCase(),
                         "NS");
                 if(StringUtils.isNotBlank(tradingResponse.getError())) {
                     jsonObject.put("result", tradingResponse.getError());
@@ -144,11 +144,13 @@ public class OrderTradingController {
                 ex.printStackTrace();
             }
             // save sell order
+            //get loan date number
+            int loanDates = Math.max(0,tradingResponse.getTxDate() - sellStockRequest.getBuyDate());
             int saveResponse = orderTradingService.saveOrder(tradingResponse.getOrderId(),
                     sellStockRequest.getSymbol().toUpperCase(),
                     loggedUsername,"Ban",tradingResponse.getOrderType(),
                     tradingResponse.getPrice(),tradingResponse.getQuantity(),
-                    tradingResponse.getTxTime(), tradingResponse.getTxDate(),sellStockRequest.getFloor());
+                    tradingResponse.getTxTime(), tradingResponse.getTxDate(),sellStockRequest.getFloor(),loanDates);
             if(saveResponse == 1) {
                 //error
                 jsonObject.put("result", "save failure!");

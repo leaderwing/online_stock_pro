@@ -52,4 +52,6 @@ public class TradingRow {
 
     private float basicPrice;
 
+    private int loanDates;
+
 }
