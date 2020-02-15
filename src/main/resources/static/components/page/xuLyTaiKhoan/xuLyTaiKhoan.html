@@ -42,9 +42,14 @@
                         <thead>
                             <tr>
                                 <th rowspan="2">Số tài khoản</th>
-                                <th rowspan="2">Tỷ lệ</th>
-                                <th rowspan="2">Tài sản dòng</th>
+                                <th rowspan="2"><a href="" ng-click="sortBy('real_MARGRATE')">Tỷ lệ</a>
+                                                <span class="sortorder" ng-show="propertyName === 'real_MARGRATE'" ng-class="{reverse: reverse}"></span>
+                                </th>
+
+                                <th rowspan="2"><a href="" ng-click="sortBy('tsr')">Tài sản dòng</a>
+                                    <span class="sortorder" ng-show="propertyName === 'tsr'" ng-class="{reverse: reverse}"></span></th>
                                 <th rowspan="2">Trạng thái</th>
+                                <th rowspan="2">xử lý tự động</th>
                             </tr>
                         </thead>
                         <tbody id="accordion">
@@ -66,6 +71,9 @@
                                         <!-- <a href="#"><img src="public/images/ic_khoa.png" alt="dong lenh" title="dong lenh"></a> -->
                                     </div>
                                 </td>
+                                <td><div class="ic_active" ng-if="luongchungse.real_MARGRATE <= 0.12">
+                                    <a href="" ng-click="vm.closedAccount(luongchungse.custid)"><i class="fas fa-times-circle"></i></a>
+                                </div></td>
                             </tr>
                         </tbody>
                     </table>

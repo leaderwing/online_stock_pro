@@ -8,7 +8,7 @@ import lombok.Data;
 public class OrderRequest {
     private boolean forcedSell;
     private String orderType;
-    private double price;
+    private String price;
     private int quantity;
     private String side;
     private String symbol;

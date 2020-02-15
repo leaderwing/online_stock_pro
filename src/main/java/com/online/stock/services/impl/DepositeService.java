@@ -75,6 +75,7 @@ public class DepositeService implements IDepositService {
         }
         transaction.commit();
         session.close();
+        sessionFactory.close();
         return resList;
     }
 

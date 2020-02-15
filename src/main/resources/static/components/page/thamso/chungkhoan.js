@@ -1,7 +1,9 @@
 angular.module('app').controller('chungkhoanCtrl',
-    ['data', 'modal', '$window', '$rootScope', '$state', '$scope', 'dateFilter',
-        function (data, modal, $window, $rootScope, $state, $scope, dateFilter) {
+    ['data', 'modal', '$window', '$rootScope', '$state', '$scope', 'dateFilter', 'orderByFilter',
+        function (data, modal, $window, $rootScope, $state, $scope, dateFilter, orderBy) {
             var vm = this;
+            $scope.propertyName = 'symbol';
+            $scope.reverse = false;
             $scope.loading = true;
             $scope.isDisabled = true;
             $scope.isDisableds = true;
@@ -9,7 +11,7 @@ angular.module('app').controller('chungkhoanCtrl',
             vm.chungkhoan = {};
             data.chungkhoan().then(function (result) {
                 $scope.loading = false;
-                vm.chungkhoan = result.data;
+                vm.chungkhoan = orderBy(result.data, $scope.propertyName, $scope.reverse);
             }, function (err) {
                 console.log(err);
             });
@@ -34,7 +36,7 @@ angular.module('app').controller('chungkhoanCtrl',
                     data.chungkhoan().then(function (result) {
                         $scope.loading = false;
 
-                        vm.chungkhoan = result.data;
+                       vm.chungkhoan = orderBy(result.data, $scope.propertyName, $scope.reverse);
                         $scope.formData.symbol = "";
                         $scope.formData.txdate = "";
                         $scope.formData.txtime = "";
@@ -96,7 +98,7 @@ angular.module('app').controller('chungkhoanCtrl',
 
                             $scope.loading = false;
 
-                            vm.chungkhoan = result.data;
+                            vm.chungkhoan = orderBy(result.data, $scope.propertyName, $scope.reverse);
                             console.log(result);
                         }, function (err) {
                             console.log(err);
@@ -106,7 +108,7 @@ angular.module('app').controller('chungkhoanCtrl',
                             alert("Cập nhật thành công")
                             $scope.loading = false;
 
-                            vm.chungkhoan = result.data;
+                            vm.chungkhoan = orderBy(result.data, $scope.propertyName, $scope.reverse);
                             console.log(result);
                         }, function (err) {
                             console.log(err);
@@ -131,7 +133,7 @@ angular.module('app').controller('chungkhoanCtrl',
                     data.chungkhoan().then(function (result) {
                         $scope.loading = false;
 
-                        vm.chungkhoan = result.data;
+                        vm.chungkhoan = orderBy(result.data, $scope.propertyName, $scope.reverse);
                         console.log(result);
                     }, function (err) {
                         console.log(err);

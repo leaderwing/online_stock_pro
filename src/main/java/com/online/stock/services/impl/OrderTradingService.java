@@ -35,17 +35,17 @@ public class OrderTradingService implements IOrderTradingService {
     private EntityManager entityManager;
 
     @Override
-    public int checkOrder(String accTno, int quantity, double price, String symbol, String order) {
+    public int checkOrder(String accTno, int quantity, String price, String symbol, String order) {
         return checkOrder(accTno, "Mua", quantity, price, symbol);
     }
 
     @Override
-    public int checkSellOrder(String accTno, int quantity, double price, String symbol, String orderType) {
+    public int checkSellOrder(String accTno, int quantity, String price, String symbol, String orderType) {
         return checkOrder(accTno, "Ban", quantity, price, symbol);
     }
 
     @Override
-    public int saveOrder(String orderId, String symbol, String accTno, String action, String orderType, double price, int quantity, String txTime, int txDate, String floor,int loanDates) {
+    public int saveOrder(String orderId, String symbol, String accTno, String action, String orderType, String price, int quantity, String txTime, int txDate, String floor,int loanDates) {
         LOGGER.debug("start save order!");
         int p_out = 0;
         Session session = entityManager.unwrap(Session.class);
@@ -55,7 +55,7 @@ public class OrderTradingService implements IOrderTradingService {
         call.registerParameter(3, String.class, ParameterMode.IN).bindValue(accTno);
         call.registerParameter(4, String.class, ParameterMode.IN).bindValue(action);
         call.registerParameter(5, String.class, ParameterMode.IN).bindValue(orderType);
-        call.registerParameter(6, Double.class, ParameterMode.IN).bindValue(price);
+        call.registerParameter(6, String.class, ParameterMode.IN).bindValue(price);
         call.registerParameter(7, Integer.class, ParameterMode.IN).bindValue(quantity);
         call.registerParameter(8, String.class, ParameterMode.IN).bindValue(txTime);
         call.registerParameter(9, Integer.class, ParameterMode.IN).bindValue(txDate);
@@ -64,6 +64,22 @@ public class OrderTradingService implements IOrderTradingService {
         call.registerParameter(12, Integer.class, ParameterMode.OUT);
 
         p_out = (Integer) call.getOutputs().getOutputParameterValue(12);
+        LOGGER.debug("result save order :" + p_out);
+        return p_out;
+    }
+
+    @Override
+    public int checkCloseOder(int pqtty, int poriginalqtty, String poriginalorderi) {
+        LOGGER.debug("start save order!");
+        int p_out = 0;
+        Session session = entityManager.unwrap(Session.class);
+        ProcedureCall call = session.createStoredProcedureCall("PKG_ORDER_TRADING.PRC_CHECK_CLOSE_ORDER");
+        call.registerParameter(1, Integer.class, ParameterMode.IN).bindValue(pqtty);
+        call.registerParameter(2, Integer.class, ParameterMode.IN).bindValue(poriginalqtty);
+        call.registerParameter(3, String.class, ParameterMode.IN).bindValue(poriginalorderi);
+        call.registerParameter(4, Integer.class, ParameterMode.OUT);
+
+        p_out = (Integer) call.getOutputs().getOutputParameterValue(4);
         LOGGER.debug("result save order :" + p_out);
         return p_out;
     }
@@ -104,10 +120,11 @@ public class OrderTradingService implements IOrderTradingService {
         }
         transaction.commit();
         session.close();
+        sessionFactory.close();
         return resList;
     }
 
-    private int checkOrder(String accTno, String action, int quantity, double price, String symbol) {
+    private int checkOrder(String accTno, String action, int quantity, String price, String symbol) {
         int p_out = 0;
         Session session = entityManager.unwrap(Session.class);
         ProcedureCall call = session.createStoredProcedureCall("PKG_ORDER_TRADING.PRC_CHECK_CREATE_ORDER");
@@ -115,7 +132,7 @@ public class OrderTradingService implements IOrderTradingService {
         call.registerParameter(2, String.class, ParameterMode.IN).bindValue(action);
         call.registerParameter(3, String.class, ParameterMode.IN).bindValue(symbol);
         call.registerParameter(4, Integer.class, ParameterMode.IN).bindValue(quantity);
-        call.registerParameter(5, Double.class, ParameterMode.IN).bindValue(price);
+        call.registerParameter(5, String.class, ParameterMode.IN).bindValue(price);
         call.registerParameter(6, Integer.class, ParameterMode.OUT);
 
         p_out = (Integer) call.getOutputs().getOutputParameterValue(6);

@@ -5,6 +5,6 @@ import org.json.JSONException;
 
 public interface IThirdPartyService {
     void getAdminAuthen();
-    OrderTradingResponse sendOderTrading(String token, String orderType, Double price,
+    OrderTradingResponse sendOderTrading(String token, String orderType, String price,
                                          Integer quantity, String symbol, String side) throws JSONException;
 }

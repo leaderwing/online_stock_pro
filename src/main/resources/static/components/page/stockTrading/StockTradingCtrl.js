@@ -3,6 +3,7 @@ angular.module('app').controller('stockTradingCtrl',
         function (data, modal, $window, $rootScope, $state, $scope, dateFilter, $interval) {
             var todos = {};
             var todoBan = {};
+            var todoMua = {};
             var vm = this;
             $scope.loading = false;
             var stompClient = null;
@@ -139,22 +140,25 @@ angular.module('app').controller('stockTradingCtrl',
                 console.log(todo)
                 data.floorName(todo.symbol).then(function (result) {
                     console.log(result)
-
+                    if (!result.data.floorCode) {
+                    alert('Mã cổ phiếu không thuộc danh mục')
+                    }else
+                    {
                     todos.floor = result.data.floorCode;
                     todos.ceM = result.data.ceil / 1000;
 
                     vm.floorNamess = result.data;
 
+                    data.priceView(todo.symbol).then(function (result) {
+                                        vm.priceView = result.data;
+                                        todos.m1 = result.data.m1;
+
+                    });
+                    }
+
                 }).catch(function (err) {
                     console.log(err);
-                    console.log(err);
                 })
-                data.priceView(todo.symbol).then(function (result) {
-
-                    vm.priceView = result.data;
-                    todos.m1 = result.data.m1;
-
-                });
             };
 
 
@@ -170,7 +174,7 @@ angular.module('app').controller('stockTradingCtrl',
                         todos.symbol = $scope.formData.symbol,
                         todos.quantity = $scope.formData.quantity,
                         todos.price = $scope.formData.price * 1000,
-                        todos.orderType = $scope.formData.orderType,
+                        todos.orderType = $scope.formData.orderType ? $scope.formData.orderType : 'LO',
                         todos.expiredDate = $scope.formData.expiredDate
                     $scope.loading = true;
 
@@ -282,7 +286,8 @@ angular.module('app').controller('stockTradingCtrl',
              todos.symbolBan = todo.codeid;
              todos.txdate    = todo.txdate;
              todoBan.oderid = todo.orderid;
-
+             todoBan.execqtty = todo.execqtty;
+             todoBan.orderid = todo.orderid;
              var todo = {
                     symbol: todos.symbolBan
                    }
@@ -307,6 +312,39 @@ angular.module('app').controller('stockTradingCtrl',
             }
 
 
+          //--------------------Before close lenh----------
+                         vm.createNormalMuaBefore = function (todo) {
+                                     vm.symbolMua = todo.codeid;
+todos.symbolMua = todo.codeid;
+             todos.txdate    = todo.txdate;
+             todoMua.oderid = todo.orderid;
+todoMua.execqtty = todo.execqtty;
+todoMua.orderid = todo.orderid;
+
+             var todo = {
+                    symbol: todo.codeid
+                   }
+                             console.log(todo)
+                             data.floorName(todo.symbol).then(function (result) {
+
+
+                                 todoMua.floor = result.data.floorCode;
+                                 todos.ceMMua = result.data.ceil / 1000;
+
+                                 vm.floorNamessMua = result.data;
+
+                             }).catch(function (err) {
+
+                             })
+                             data.priceView(todo.symbol).then(function (result) {
+
+                                 vm.priceViewMua = result.data;
+                                 todos.m1Mua = result.data.m1;
+
+                             });
+
+                                    }
+
             //-------Closed lenh-------------------
             vm.createNormalBan = function () {
                 var t = confirm('Bạn có chắc chắn muốn thực hiện');
@@ -316,7 +354,7 @@ angular.module('app').controller('stockTradingCtrl',
                                     todoBan.symbol = todos.symbolBan,
                                         todoBan.quantity = $scope.formData.quantityBan,
                                         todoBan.price = $scope.formData.priceBan * 1000,
-                                        todoBan.orderType = $scope.formData.orderTypeBan,
+                                        todoBan.orderType = $scope.formData.orderTypeBan ? $scope.formData.orderTypeBan : 'LO',
                                         todoBan.expiredDate = $scope.formData.expiredDateBan,
                                         todoBan.buyDate = todos.txdate
                                     $scope.loading = true;
@@ -408,6 +446,107 @@ angular.module('app').controller('stockTradingCtrl',
                                     //alert('Lệnh đã được hủy');
                                 }
             }
+
+            vm.createNormalMua = function () {
+                            var t = confirm('Bạn có chắc chắn muốn thực hiện');
+                                            if (t === true) {
+
+                                                todoMua.command = $scope.formData.commandMua,
+                                                todoMua.symbol = todos.symbolMua,
+                                                    todoMua.quantity = $scope.formData.quantityMua,
+                                                    todoMua.price = $scope.formData.priceMua * 1000,
+                                                    todoMua.orderType = $scope.formData.orderTypeMua ? $scope.formData.orderTypeMua : 'LO',
+                                                    todoMua.expiredDate = $scope.formData.expiredDateMua,
+                                                    todoMua.buyDate = todos.txdate
+                                                $scope.loading = true;
+
+                                                if ($scope.formData.priceMua === undefined || $scope.formData.priceMua == '0') {
+                                                    if (todoMua.orderType === 'PLO') {
+                                                        todoMua.price = todos.m1Mua * 1000;
+                                                        data.createNormal(todoMua).then(function (result) {
+                                                            $scope.loading = false;
+                                                            if (result.data.result == "Order successfully") {
+                                                                alert("Đặt lệnh thành công");
+                                                                $scope.formData.commandMua = ""
+
+                                                                $scope.formData.quantityMua = ""
+                                                                $scope.formData.priceMua = 0
+                                                                $scope.formData.orderTypeMua = ""
+                                                                $scope.formData.expiredDateMua = ""
+                                                                $state.go('root.stock-trading');
+                                                            } else {
+                                                                if (result.data.result == undefined) {
+                                                                    alert("Đặt lệnh không thành công")
+                                                                    $state.go('root.stock-trading');
+                                                                } else {
+                                                                    alert(result.data.result);
+                                                                    $state.go('root.stock-trading');
+                                                                }
+                                                            }
+                                                        }, function (err) {
+                                                            alert("Đặt lệnh thất bại, vui lòng thử lại!");
+                                                            console.log(err);
+                                                        })
+                                                    } else {
+
+                                                        todoMua.price = todos.ceMMua * 1000;
+                                                        data.createNormal(todoBan).then(function (result) {
+                                                            $scope.loading = false;
+                                                            if (result.data.result == "Order successfully") {
+                                                                alert("Đặt lệnh thành công");
+                                                                $scope.formData.commandMua = ""
+
+                                                                $scope.formData.quantityMua = ""
+                                                                $scope.formData.priceMua = 0
+                                                                $scope.formData.orderTypeMua = ""
+                                                                $scope.formData.expiredDateMua = ""
+                                                                $state.go('root.stock-trading');
+                                                            } else {
+                                                                if (result.data.result == undefined) {
+                                                                    alert("Đặt lệnh không thành công")
+                                                                    $state.go('root.stock-trading');
+                                                                } else {
+                                                                    alert(result.data.result);
+                                                                    $state.go('root.stock-trading');
+                                                                }
+                                                            }
+                                                        }, function (err) {
+                                                            alert("Đặt lệnh thất bại, vui lòng thử lại!");
+                                                            console.log(err);
+                                                        })
+                                                    }
+                                                } else {
+
+                                                    data.createNormal(todoMua).then(function (result) {
+
+                                                        $scope.loading = false;
+                                                        if (result.data.result == "Order successfully") {
+                                                            alert("Đặt lệnh thành công");
+                                                            $scope.formData.commandMua = ""
+
+                                                            $scope.formData.quantityMua = ""
+                                                            $scope.formData.priceMua = 0
+                                                            $scope.formData.orderTypeMua = ""
+                                                            $scope.formData.expiredDateMua = ""
+                                                            $state.go('root.stock-trading');
+                                                        } else {
+                                                            if (result.data.result == undefined) {
+                                                                alert("Đặt lệnh không thành công")
+                                                                $state.go('root.stock-trading');
+                                                            } else {
+                                                                alert(result.data.result);
+                                                                $state.go('root.stock-trading');
+                                                            }
+                                                        }
+                                                    }, function (err) {
+                                                        alert("Đặt lệnh thất bại, vui lòng thử lại!");
+                                                        console.log(err);
+                                                    })
+                                                }
+                                            } else {
+                                                //alert('Lệnh đã được hủy');
+                                            }
+                        }
 
             $scope.date = new Date();
             $scope.$watch('date', function (date) {

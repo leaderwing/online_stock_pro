@@ -13,7 +13,7 @@ public class OrderTradingResponse {
     private String orderType;
     private int quantity;
     private String txTime;
-    private double price;
+    private String price;
     private int txDate;
     private String error;
     private String oderIDM;

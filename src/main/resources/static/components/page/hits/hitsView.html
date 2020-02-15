@@ -81,10 +81,11 @@
                             <th>Tổng tiền bán</th>
                             <th>KL Khớp</th>
                             <th>Giá khớp TB</th>
+                            <th>Khối lượng đóng</th>
                             <th>KL hủy</th>
                             <!--<th>Trạng thái</th>-->
                             <th>Giá hiện tại</th>
-                            <th>Phí giao dịch</th>
+                            <th>Phí mua</th>
                             <th>Phí bán</th>
                             <th>Số ngày vay</th>
                             <th>Phí vay</th>
@@ -105,6 +106,7 @@
                             <td>{{historys.closedqtty * historys.closeprice | number}}</td>
                             <td>{{historys.execqtty | number}}</td>
                             <td>{{historys.openprice | number}}</td>
+                            <td>{{historys.closedqtty | number}}</td>
                             <td>{{historys.cancelqtty | number}}</td>
                             <!--<td>{{historys.orstatus}}</td>-->
                             <td>{{historys.basicPrice | number}}</td>

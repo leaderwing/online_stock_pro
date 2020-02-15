@@ -8,4 +8,5 @@ public class HandleAccResponse {
     private String CUSTID;
     private String REAL_MARGRATE;
     private String TSR;
+    private  String TEMPPROFIT;
 }

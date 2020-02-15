@@ -25,12 +25,14 @@ public class VGeneralInfo {
     private long tsr;
     @Column(name = "TOTAL_LOAN")
     private long totalLoad;
-
+    @Column(name= "TEMPPROFIT")
+    private float tempprofit;
     public HandleAccResponse convertData() {
         HandleAccResponse response = new HandleAccResponse();
         response.setCUSTID(this.custId);
         response.setREAL_MARGRATE(String.valueOf(this.realMargrate));
         response.setTSR(String.valueOf(this.tsr));
+        response.setTEMPPROFIT(String.valueOf(this.tempprofit));
         return  response;
     }
 }

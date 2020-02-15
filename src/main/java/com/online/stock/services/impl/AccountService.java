@@ -82,6 +82,7 @@ public class AccountService implements IAccountService {
         }
         transaction.commit();
         session.close();
+        sessionFactory.close();
         return resList;
     }
 
@@ -128,6 +129,7 @@ public class AccountService implements IAccountService {
         }
         transaction.commit();
         session.close();
+        sessionFactory.close();
         return res;
     }
 
@@ -166,13 +168,14 @@ public class AccountService implements IAccountService {
         String result = "";
         SessionFactory sessionFactory = new Configuration().buildSessionFactory();
         Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
         SQLQuery query = session.createSQLQuery(
                         "SELECT PKG_OPEN_CONTRACTS.fnc_get_acctno_available('"+branchCode+"') FROM DUAL");
         List<String> rows = query.list();
         if ( rows.size() > 0) {
             result = rows.get(0);
         }
+        session.close();
+        sessionFactory.close();
         return  result;
     }
 }

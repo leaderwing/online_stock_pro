@@ -15,9 +15,9 @@ public class Constant {
 
     public static final String API_URL_CANCEL_ORDER = "https://trade-api.vndirect.com.vn/accounts/0001623688/orders/";
 
-    public static final String MAIL_ADDRESS = "quyict.hut@gmail.com";
+    public static final String MAIL_ADDRESS = "stock88.com.vn@gmail.com";
 
-    public static final String MAIL_PASSWORD = "quy93ndltt";
+    public static final String MAIL_PASSWORD = "a20919961234";
 
     public static final String API_MATCH_CANCEL_DEAL = "https://trade-api.vndirect.com.vn/accounts/0001623688/orders?index=0&offset=1000&t=1543722228131";
 

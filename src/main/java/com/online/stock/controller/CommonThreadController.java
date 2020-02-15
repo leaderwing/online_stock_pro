@@ -3,6 +3,8 @@ package com.online.stock.controller;
 import com.online.stock.utils.DateUtils;
 import org.hibernate.Session;
 import org.hibernate.procedure.ProcedureCall;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +23,17 @@ public class CommonThreadController {
     private EntityManager entityManager;
     @PreAuthorize("hasAnyRole('ROLE_ADMIN_1','ROLE_ADMIN_2', 'ROLE_SADMIN')")
     @RequestMapping(value = "/endDate", method = RequestMethod.POST)
-    public ResponseEntity<Void> runEndDate() {
+    public ResponseEntity<String> runEndDate() throws JSONException {
+        JSONObject jsonObject = new JSONObject();
         int runDate = DateUtils.convertDate_YYYYMMDD(new Date());
+        int p_out;
         Session session = entityManager.unwrap(Session.class);
         ProcedureCall call = session.createStoredProcedureCall("PKG_ORDER_TRADING.PRC_BATCH");
         call.registerParameter(1, Integer.class, ParameterMode.IN).bindValue(runDate);
-        call.getOutputs();
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        call.registerParameter(2, Integer.class, ParameterMode.OUT);
+        p_out = (Integer) call.getOutputs().getOutputParameterValue(2);
+        jsonObject.put("result", p_out);
+//        call.getOutputs();
+        return new ResponseEntity<>(jsonObject.toString(),HttpStatus.OK);
     }
 }

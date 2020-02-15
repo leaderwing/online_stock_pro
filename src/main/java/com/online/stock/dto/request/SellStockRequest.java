@@ -9,10 +9,11 @@ import javax.validation.constraints.Size;
 public class SellStockRequest {
     private int execqtty;
     private int quantity;
+    private String idcusid;
     private int closedqtty;
     @NotBlank
     private String oderid;
-    private double price;
+    private String price;
     @NotBlank
     private String symbol;
     @NotBlank

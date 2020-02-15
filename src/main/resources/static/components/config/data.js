@@ -23,6 +23,18 @@ angular.module('app').factory('data', ['config', 'request',
             return request.post(url, todoData);
         }
 
+        methods.closedAll = function (todoData) {
+        //api đây anh nhé..............<3
+            var url = config.HOST + '/order/closeAll';
+            return request.put(url, todoData);
+        }
+
+         methods.closedAccount = function (account) {
+         console.log('osssoo',account)
+            var url = config.HOST + '/closedaccount';
+            return request.post(url, account);
+         }
+
         methods.login = function (todoData) {
             var url = config.HOST + '/login';
             return request.post(url, todoData);

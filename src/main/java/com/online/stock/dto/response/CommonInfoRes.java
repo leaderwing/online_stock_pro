@@ -13,4 +13,6 @@ public class CommonInfoRes {
     private long suc_mua;
 
     private long du_no_thuc_te;
+
+    private float lai_lo_tam_tinh;
 }

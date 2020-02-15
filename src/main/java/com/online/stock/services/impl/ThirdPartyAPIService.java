@@ -71,7 +71,7 @@ public class ThirdPartyAPIService implements IThirdPartyService {
         }
     }
 
-    public  OrderTradingResponse sendOderTrading(String token, String orderType, Double price,
+    public  OrderTradingResponse sendOderTrading(String token, String orderType, String price,
             Integer quantity, String symbol, String side) throws JSONException {
         OrderTradingResponse response = new OrderTradingResponse();
         OrderRequest request = new OrderRequest(false,orderType,price,quantity,side,symbol.toUpperCase(),"T");
@@ -107,7 +107,7 @@ public class ThirdPartyAPIService implements IThirdPartyService {
         response.setSymbol(jsonArray.getJSONObject(0).getString("symbol"));
         response.setOrderType(jsonArray.getJSONObject(0).getString("orderType"));
         response.setQuantity(jsonArray.getJSONObject(0).getInt("quantity"));
-        response.setPrice((Double)jsonArray.getJSONObject(0).get("price"));
+        response.setPrice(jsonArray.getJSONObject(0).getString("price"));
         // set txtime , txdate
         response.setTxDate(DateUtils.getDateYYYYMMDD(createdTime));
         response.setTxTime(DateUtils.getHHMMSS(createdTime));

@@ -2,6 +2,7 @@
 package com.online.stock.batch.service;
 
 import com.online.stock.batch.config.ConnectDB;
+import com.online.stock.batch.config.ConnectDBPrice;
 import com.online.stock.controller.OrderTradingController;
 import com.online.stock.dto.BatchDataResponse;
 import com.online.stock.dto.Token;
@@ -147,8 +148,7 @@ public class BatchService implements  IBatchService {
                                 connection.prepareCall("BEGIN PKG_ORDER_TRADING.PRC_GET_TRADING_RESULT(?); END;");
                         stmt.setArray(1, array);
                         stmt.execute();
-                        connection.commit();
-                        //connection.close();
+                        stmt.close();
                     }
                 } catch (Exception ex) {
                     LOGGER.error("error save data! " + ex.getMessage());
@@ -174,7 +174,7 @@ public class BatchService implements  IBatchService {
         RestTemplate restTemplate = new RestTemplate();
         String data = restTemplate.getForObject(url, String.class);
         if (StringUtils.isNotBlank(data)) {
-            Connection connection = ConnectDB.getInstance().getConnection();
+            Connection connection = ConnectDBPrice.getInstance().getConnection();
             data = data.substring(2, data.length() - 2).replace("\"", "");
             System.out.println(data);
             String[] arrayPrice = data.split(",");
@@ -189,8 +189,7 @@ public class BatchService implements  IBatchService {
                             connection.prepareCall("BEGIN PKG_ORDER_TRADING.PRC_UPDATE_TRADING_DATA(?); END;");
                     stmt.setArray(1, array);
                     stmt.execute();
-                    connection.commit();
-                    //connection.close();
+                    stmt.close();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     LOGGER.error("error save data! " + ex.getMessage());

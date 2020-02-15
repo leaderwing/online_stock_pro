@@ -3,10 +3,7 @@ package com.online.stock.model;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "SECURITIES_BESTPRICE")
@@ -37,4 +34,8 @@ public class SecuritiesPractice {
     private String aqtty1;
     @Column(name = "lqtty")
     private String lqtty;
+    @Column(name = "curprice")
+    private String curprice;
+    @Transient
+    private Integer usedqtty = 0;
 }

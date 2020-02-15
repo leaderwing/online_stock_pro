@@ -9,7 +9,15 @@ angular.module('app').controller('luongChungCtrl',
                 if (t === true) {
                     data.cuoingay().then(function (result) {
                         $scope.loading = false;
-                        alert('Bạn đã chạy thành công');
+                        if(result.data.result == 0){
+                        alert('Bạn đã chạy thành công!');
+                        }
+                        if(result.data.result == 1){
+                        alert('Bạn đã chạy thất bại!');
+                        }
+                        if(result.data.result == 2){
+                        alert('Bạn đã chạy rồi!');
+                        }
                         $state.go("root.luong-chung");
                     }, function (err) {
                         console.log(err);
